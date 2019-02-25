@@ -25,7 +25,9 @@
                 <van-button size="small">查询</van-button>        
             </van-col>
             <van-col span="6">
-                <van-button size="small">新增</van-button>        
+                <router-link to="/problemReport/problemSubmit">
+                    <van-button size="small">新增</van-button>  
+                </router-link>      
             </van-col>
             <van-col span="6">
                 <van-button size="small">提交</van-button>        

@@ -1,6 +1,6 @@
 # newline
 
-> A Vue.js project
+> 基于vantUI的 Vue.js project
 
 ## Build Setup
 

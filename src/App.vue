@@ -51,7 +51,7 @@ a{
   margin: 0 auto;
   color: #fff;
 }
-
+/* 数据表格 */
 .table{
   border-top: 1px solid #ddd;
   border-left: 1px solid #ddd;
@@ -77,5 +77,22 @@ a{
   flex: 1;
   padding: 5px;
 }
-
+/* 详情表格 */
+.detailTr{
+  border-top: 1px solid #ddd;
+  border-left: 1px solid #ddd;
+  border-right: 1px solid #ddd;
+  text-align: center;
+}
+.detailTr:last-child{
+  border-bottom: 1px solid #ddd;
+}
+.detailTh{
+  border-right: 1px solid #ddd;
+  padding: 10px 5px;
+}
+.detailTd{
+  padding: 10px 5px;
+  color: #1bbc9a;
+}
 </style>
