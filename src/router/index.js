@@ -19,35 +19,35 @@ export default new Router({
       path: '/',
       redirect: '/problemReport'
     },
-    {
+    {//登录
       path: '/login',
       component: Login
     },
-    {
+    {//登录验证
       path: '/login/loginCheck',
       component: LoginCheck
     },
-    {
+    {//问题提报列表
       path: '/problemReport',
       component: ProblemReport
     },
-    {
+    {//问题提报详情
       path: '/problemReport/problemDetail',
       component: ProblemReportDetail
     },
-    {
+    {//问题提报
       path: '/problemReport/problemSubmit',
       component: ProblemReportSubmit
     },
-    {
+    {//问题追踪反馈列表
       path: '/ProblemFeedback',
       component: ProblemFeedback
     },
-    {
+    {//问题反馈详情
       path: '/ProblemFeedback/feedbackDetail',
       component: ProblemFeedbackDetail
     },
-    {
+    {//问题反馈
       path: '/ProblemFeedback/feedbackSubmit',
       component: ProblemFeedbackSubmit
     }

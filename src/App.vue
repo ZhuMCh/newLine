@@ -24,6 +24,12 @@ export default {
 .van-nav-bar .van-icon, .van-nav-bar__text, .van-tab--active{
   color: #1bbc9a;
 }
+.van-nav-bar{
+  background-color: #F2F2F2;
+}
+.loginBox .van-field__label{
+    color: #1bbc9a;
+}
 a{
   color: #000;
 }
@@ -83,6 +89,7 @@ a{
   border-left: 1px solid #ddd;
   border-right: 1px solid #ddd;
   text-align: center;
+  display: flex;
 }
 .detailTr:last-child{
   border-bottom: 1px solid #ddd;
