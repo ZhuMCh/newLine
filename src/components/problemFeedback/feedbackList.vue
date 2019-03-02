@@ -25,7 +25,9 @@
                 <van-button size="small">查询</van-button>        
             </van-col>
             <van-col span="6">
-                <van-button size="small">反馈</van-button>        
+                <router-link to="/problemFeedback/feedbackSubmit">
+                    <van-button size="small">反馈</van-button>
+                </router-link>         
             </van-col>
             <van-col span="6">
                 <van-button size="small">提交</van-button>        
@@ -41,7 +43,7 @@
                 <van-col class="th">提报人</van-col>
                 <van-col class="th">提报日期</van-col>
             </van-row>
-            <router-link to="/problemReport/problemDetail">
+            <router-link to="/problemFeedback/feedbackDetail">
                 <van-row class="tr">
                     <van-col class="td">2018110201</van-col>
                     <van-col class="td">XXXX</van-col>
@@ -51,7 +53,7 @@
                     <van-col class="td">2019-02-25</van-col>
                 </van-row>
             </router-link>
-            <router-link to="/problemReport/problemDetail">
+            <router-link to="/problemFeedback/feedbackDetail">
                 <van-row class="tr">
                     <van-col class="td">2018110201</van-col>
                     <van-col class="td">XXXX</van-col>

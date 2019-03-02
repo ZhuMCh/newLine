@@ -31,7 +31,7 @@
 
         <van-row class="sureBtn">
             <van-col span="8" offset="16">
-                <van-button>&nbsp;&nbsp;确认&nbsp;&nbsp;</van-button>
+                <van-button @click="loginInto">&nbsp;&nbsp;确认&nbsp;&nbsp;</van-button>
             </van-col>
         </van-row>
         
@@ -45,6 +45,11 @@ export default {
             username:'',
             password:'',
             passwordSure:''
+        }
+    },
+    methods:{
+        loginInto(){
+            this.$router.push({path:'/problemReport'});
         }
     }
 }

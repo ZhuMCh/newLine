@@ -30,7 +30,7 @@
         </van-row>
         <van-row gutter="10">
             <van-col span="12">
-                <van-button>&nbsp;&nbsp;&nbsp;账号登录&nbsp;&nbsp;&nbsp;</van-button>
+                <van-button @click="loginForAccount">&nbsp;&nbsp;&nbsp;账号登录&nbsp;&nbsp;&nbsp;</van-button>
             </van-col>
             <van-col span="12">
                 <van-button>企业微信登录</van-button>
@@ -47,6 +47,11 @@ export default {
             username:'',
             password:'',
             checked: false
+        }
+    },
+    methods:{
+        loginForAccount(){
+            this.$router.push({path:'/login/logincheck'});
         }
     }
 }
