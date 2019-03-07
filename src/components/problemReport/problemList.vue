@@ -25,7 +25,7 @@
                 <van-button size="small">查询</van-button>        
             </van-col>
             <van-col span="6">
-                <router-link to="/problemReport/problemSubmit">
+                <router-link to="/problemReport/problemForm">
                     <van-button size="small">新增</van-button>  
                 </router-link>      
             </van-col>
@@ -46,7 +46,7 @@
                 <van-col class="th">提报日期</van-col>
                 <van-col class="th">审批状态</van-col>
             </van-row>
-            <router-link to="/problemReport/problemDetail">
+            <router-link to="/problemReport/problemForm">
                 <van-row class="tr">
                     <van-col class="td">2018110201</van-col>
                     <van-col class="td">XXXX</van-col>
@@ -56,7 +56,7 @@
                     <van-col class="td">未提交</van-col>
                 </van-row>
             </router-link>
-            <router-link to="/problemReport/problemDetail">
+            <router-link to="/problemReport/problemForm">
                 <van-row class="tr">
                     <van-col class="td">2018110201</van-col>
                     <van-col class="td">XXXX</van-col>

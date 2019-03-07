@@ -4,8 +4,9 @@ import Router from 'vue-router'
 import Login from '@/components/login/login'
 import LoginCheck from '@/components/login/loginCheck'
 import ProblemReport from '@/components/problemReport/problemList'
-import ProblemReportDetail from '@/components/problemReport/problemDetail'
-import ProblemReportSubmit from '@/components/problemReport/problemSubmit'
+import ProblemForm from '@/components/problemReport/problemForm'
+// import ProblemReportDetail from '@/components/problemReport/problemDetail'
+// import ProblemReportSubmit from '@/components/problemReport/problemSubmit'
 import ProblemFeedback from '@/components/problemFeedback/feedbackList'
 import ProblemFeedbackDetail from '@/components/problemFeedback/feedbackDetail'
 import ProblemFeedbackSubmit from '@/components/problemFeedback/feedbackSubmit'
@@ -31,14 +32,18 @@ export default new Router({
       path: '/problemReport',
       component: ProblemReport
     },
-    {//问题提报详情
-      path: '/problemReport/problemDetail',
-      component: ProblemReportDetail
+    {//问题提报-详情/提交
+      path:/problemReport/problemForm,
+      component: ProblemForm
     },
-    {//问题提报
-      path: '/problemReport/problemSubmit',
-      component: ProblemReportSubmit
-    },
+    // {//问题提报详情
+    //   path: '/problemReport/problemDetail',
+    //   component: ProblemReportDetail
+    // },
+    // {//问题提报
+    //   path: '/problemReport/problemSubmit',
+    //   component: ProblemReportSubmit
+    // },
     {//问题追踪反馈列表
       path: '/problemFeedback',
       component: ProblemFeedback
