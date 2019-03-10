@@ -46,7 +46,18 @@
 </div>
 </template>
 <script>
+import { } from '@/api/http'
 export default {
-    
+    data(){
+        return {
+
+        }
+    },
+    created(){
+       
+    },
+    methods:{
+
+    }
 }
 </script>

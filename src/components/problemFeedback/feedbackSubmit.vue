@@ -5,19 +5,19 @@
         <van-row class="detailTr">
             <van-col span="10" class="detailTh">问题编号</van-col>
             <van-col span="14" class="detailTd">
-                <van-field placeholder="WT20190225001" />
+                <van-field placeholder="WT20190225001" value="problemId" v-model="problemId"/>
             </van-col>
         </van-row>
         <van-row  class="detailTr">
             <van-col span="10" class="detailTh">跟踪日期</van-col>
             <van-col span="14" class="detailTd">
-                <van-field placeholder="2019-02-25" />
+                <van-field placeholder="2019-02-25" value="feedbackTime"/>
             </van-col>
         </van-row>
         <van-row  class="detailTr">
             <van-col span="10" class="detailTh">资料附件</van-col>
             <van-col span="14" class="detailTd uploaderBox">
-                <img :src="imgPath" alt="">
+                <img :src="failPath" alt="">
                 <van-uploader :after-read="onRead" class="uploader">
                     <van-icon name="plus" class="addIcon"/>
                 </van-uploader>
@@ -26,20 +26,20 @@
         <van-row  class="detailTr">
             <van-col span="10" class="detailTh">跟踪记录</van-col>
             <van-col span="14" class="detailTd">
-                <van-field type="textarea" rows="3" autosize placeholder="日常跟踪检查" />
+                <van-field type="textarea" rows="3" autosize placeholder="日常跟踪检查" value="recordDesc" v-model="recordDesc"/>
             </van-col>
         </van-row>
     </div>
     <div class="btnBox">
         <van-row gutter="20">
             <van-col span="8">
-                <van-button size="large">提交</van-button>        
+                <van-button size="large" @click="feedbackSubmitFunc">提交</van-button>        
             </van-col>
             <van-col span="8">
-                <van-button size="large">保存</van-button>     
+                <van-button size="large" @click="feedbackSubmitFunc">保存</van-button>     
             </van-col>
             <van-col span="8">
-                <van-button size="large">取消</van-button>        
+                <van-button size="large" @click="()=>{this.$router.go(-1)}">取消</van-button>        
             </van-col>
         </van-row>
     </div>
@@ -47,16 +47,41 @@
 </div>
 </template>
 <script>
+import { feedbackSubmitDetail,feedbackSubmit } from '@/api/http'
 export default {
     data(){
         return {
-            imgPath:''
+            problemId:'',
+            feedbackTime:'',
+            failPath:'',
+            recordDesc:'',
         }
     },
+    created(){
+        // 详情
+        feedbackSubmitDetail(this.$route.query.id).then(res=>{
+            console.log(res)
+            if(res.data.code==200){
+                
+            }else{
+                this.$toast.fail(res.data.message);
+            }
+        })
+    },
     methods: {
+        feedbackSubmitFunc(){//提交
+            feedbackSubmit(this.problemId,this.failPath,this.recordDesc).then(res=>{
+                console.log(res);
+                if(res.data.code==200){
+                    this.$toast.success('提交成功');
+                }else{
+                    this.$toast.fail(res.data.message);
+                }
+            })
+        },
         onRead(file) {
             console.log(file)
-            this.imgPath=file.content
+            this.failPath=file.content
         }
     }
 }

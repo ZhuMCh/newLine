@@ -5,24 +5,24 @@
         <van-row gutter="10">
             <van-col span="5" class="inputLabel">问题描述</van-col>
             <van-col span="8">
-                <van-field clearable class="inputBox"/>
+                <van-field clearable class="inputBox" v-model="problemDesc"/>
             </van-col>
             <van-col span="3" class="inputLabel">线路</van-col>
             <van-col span="8">
-                <van-field clearable class="inputBox"/>
+                <van-field clearable class="inputBox" v-model="line"/>
             </van-col>
         </van-row>
         <br>
         <van-row gutter="10">
             <van-col span="5" class="inputLabel">责任部门</van-col>
             <van-col span="8">
-                <van-field clearable class="inputBox"/>
+                <van-field clearable class="inputBox" v-model="dutyDept"/>
             </van-col>
         </van-row>
         <br>
         <van-row gutter="20">
             <van-col span="6">
-                <van-button size="small">查询</van-button>        
+                <van-button size="small" @click="getProblemListData">查询</van-button>        
             </van-col>
             <van-col span="6">
                 <router-link to="/problemReport/problemForm">
@@ -46,7 +46,10 @@
                 <van-col class="th">提报日期</van-col>
                 <van-col class="th">审批状态</van-col>
             </van-row>
-            <router-link to="/problemReport/problemForm">
+            <van-row class="tr" v-if="problemList.length==0">
+                <van-col class="td">暂无数据</van-col>
+            </van-row>
+            <router-link :to="{path:'/problemReport/problemForm',query:{id:item.id}}" v-for="(item,index) in problemList" :key="index">
                 <van-row class="tr">
                     <van-col class="td">2018110201</van-col>
                     <van-col class="td">XXXX</van-col>
@@ -56,24 +59,50 @@
                     <van-col class="td">未提交</van-col>
                 </van-row>
             </router-link>
-            <router-link to="/problemReport/problemForm">
-                <van-row class="tr">
-                    <van-col class="td">2018110201</van-col>
-                    <van-col class="td">XXXX</van-col>
-                    <van-col class="td">车辆部</van-col>
-                    <van-col class="td">张三</van-col>
-                    <van-col class="td">2019-02-24</van-col>
-                    <van-col class="td">审批中</van-col>
-                </van-row>
-            </router-link>
         </div>
     </div>
     
 </div>
 </template>
 <script>
+import { problemList,homeSubmitProblem } from '@/api/http'
 export default {
-    
+    data(){
+        return {
+            pageNo:1,
+            pageSize:10,
+            problemDesc:'',
+            line:'',
+            dutyDept:'',
+            ids:[],
+            problemList:[]
+        }
+    },
+    created(){
+        this.getProblemListData()
+    },
+    methods:{
+        getProblemListData(){//问题列表
+            problemList(this.pageNo,this.pageSize,this.problemDesc,this.line,this.dutyDept).then(res=>{
+                console.log(res)
+                if(res.data.code==200){
+                    
+                }else{
+                    this.$toast.fail(res.data.message);
+                }
+            })
+        },
+        homeSubmitProblem(){//提交
+            homeSubmitProblem(this.ids).then(res=>{
+                console.log(res)
+                if(res.data.code==200){
+                    this.$toast.success('提交成功');
+                }else{
+                    this.$toast.fail(res.data.message);
+                }
+            })
+        }
+    }
 }
 </script>
 <style scoped>

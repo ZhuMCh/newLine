@@ -18,7 +18,7 @@ export default new Router({
   routes: [
     {
       path: '/',
-      redirect: '/login'
+      redirect: '/problemFeedback'
     },
     {//登录
       path: '/login',
@@ -33,7 +33,7 @@ export default new Router({
       component: ProblemReport
     },
     {//问题提报-详情/提交
-      path:/problemReport/problemForm,
+      path:'/problemReport/problemForm',
       component: ProblemForm
     },
     // {//问题提报详情
