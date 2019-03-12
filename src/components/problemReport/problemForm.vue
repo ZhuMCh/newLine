@@ -5,73 +5,73 @@
         <van-row class="detailTr">
             <van-col span="10" class="detailTh">问题流水号</van-col>
             <van-col span="14" class="detailTd">
-                <van-field placeholder="201902251234" value="problemNum" v-model="problemNum"/>
+                <van-field value="problemNum" v-model="problemNum"/>
             </van-col>
         </van-row>
         <van-row  class="detailTr">
             <van-col span="10" class="detailTh">线路</van-col>
             <van-col span="14" class="detailTd">
-                <van-field placeholder="2" value="line" v-model="line"/>
+                <van-field value="line" v-model="line"/>
             </van-col>
         </van-row>
         <van-row  class="detailTr">
             <van-col span="10" class="detailTh">发现阶段</van-col>
             <van-col span="14" class="detailTd">
-                <van-field placeholder="工可" value="problemStage" v-model="problemStage"/>
+                <van-field value="problemStage" v-model="problemStage"/>
             </van-col>
         </van-row>
         <van-row  class="detailTr">
             <van-col span="10" class="detailTh">文档名称</van-col>
             <van-col span="14" class="detailTd">
-                <van-field placeholder="XXX图纸" value="documentName" v-model="documentName" />
+                <van-field value="documentName" v-model="documentName" />
             </van-col>
         </van-row>
         <van-row  class="detailTr">
             <van-col span="10" class="detailTh">文件名称/问题部位</van-col>
             <van-col span="14" class="detailTd">
-                <van-field placeholder="XXX.doc" value="fileName" v-model="fileName" />
+                <van-field value="fileName" v-model="fileName" />
             </van-col>
         </van-row>
         <van-row  class="detailTr">
             <van-col span="10" class="detailTh">源文件内容/问题描述</van-col>
             <van-col span="14" class="detailTd">
-                <van-field placeholder="XXXXXXXX(文件内容)" value="fileContent" v-model="fileContent"/>
+                <van-field value="fileContent" v-model="fileContent"/>
             </van-col>
         </van-row>
         <van-row  class="detailTr">
             <van-col span="10" class="detailTh">问题地点</van-col>
             <van-col span="14" class="detailTd">
-                <van-field placeholder="XXX地点" value="problemAddr" v-model="problemAddr"/>
+                <van-field value="problemAddr" v-model="problemAddr"/>
             </van-col>
         </van-row>
         <van-row  class="detailTr">
             <van-col span="10" class="detailTh">等级</van-col>
             <van-col span="14" class="detailTd">
-                <van-field placeholder="C级" value="rank" v-model="rank"/>
+                <van-field value="rank" v-model="rank"/>
             </van-col>
         </van-row>
         <van-row  class="detailTr">
             <van-col span="10" class="detailTh">问题影响</van-col>
             <van-col span="14" class="detailTd">
-                <van-field placeholder="2" value="problemEffeck" v-model="problemEffeck"/>
+                <van-field value="problemEffeck" v-model="problemEffeck"/>
             </van-col>
         </van-row>
         <van-row  class="detailTr">
             <van-col span="10" class="detailTh">运营整改意见</van-col>
             <van-col span="14" class="detailTd">
-                <van-field placeholder="需要整改" value="idea" v-model="idea"/>
+                <van-field value="idea" v-model="idea"/>
             </van-col>
         </van-row>
         <van-row class="detailTr">
             <van-col span="10" class="detailTh">发现部门</van-col>
             <van-col span="14" class="detailTd">
-                <van-field placeholder="机电部" value="findDept" v-model="findDept"/>
+                <van-field value="findDept" v-model="findDept"/>
             </van-col>
         </van-row>
         <van-row  class="detailTr">
             <van-col span="10" class="detailTh">发现人</van-col>
             <van-col span="14" class="detailTd">
-                <van-field placeholder="张三" value="findPerson" v-model="findPerson"/>
+                <van-field value="findPerson" v-model="findPerson"/>
             </van-col>
         </van-row>
         <van-row  class="detailTr">
@@ -88,7 +88,7 @@
         <van-row  class="detailTr">
             <van-col span="10" class="detailTh">提报人</van-col>
             <van-col span="14" class="detailTd">
-                <van-field placeholder="李四" value="reportPerson" v-model="reportPerson"/>
+                <van-field value="reportPerson" v-model="reportPerson"/>
             </van-col>
         </van-row>
         <van-row  class="detailTr">
@@ -111,25 +111,25 @@
         <van-row  class="detailTr">
             <van-col span="10" class="detailTh">责任部门</van-col>
             <van-col span="14" class="detailTd">
-                <van-field placeholder="机电" value="dutyDept" v-model="dutyDept"/>
+                <van-field value="dutyDept" v-model="dutyDept"/>
             </van-col>
         </van-row>
         <van-row  class="detailTr">
             <van-col span="10" class="detailTh">联络员</van-col>
             <van-col span="14" class="detailTd">
-                <van-field placeholder="王五" value="liaisonPerson" v-model="liaisonPerson"/>
+                <van-field value="liaisonPerson" v-model="liaisonPerson"/>
             </van-col>
         </van-row>
         <van-row  class="detailTr">
             <van-col span="10" class="detailTh">审批状态</van-col>
             <van-col span="14" class="detailTd">
-                <van-field placeholder="待提交" value="approveStatus" v-model="approveStatus"/>
+                <van-field value="approveStatus" v-model="approveStatus"/>
             </van-col>
         </van-row>
         <van-row  class="detailTr">
             <van-col span="10" class="detailTh">审核时限(天)</van-col>
             <van-col span="14" class="detailTd">
-                <van-field placeholder="2" value="approveTime" v-model="approveTime"/>
+                <van-field value="approveTime" v-model="approveTime"/>
             </van-col>
         </van-row>
         <van-row  class="detailTr">
@@ -192,15 +192,18 @@ export default {
     },
     created(){
         // 查看详情
-        console.log(this.$route.query.id);
-        seeDetail(this.$route.query.id).then(res=>{
-            console.log(res);
-            if(res.data.code==200){
+        if(this.$route.query.id){
+            console.log(this.$route.query.id);
+            seeDetail(this.$route.query.id).then(res=>{
+                console.log(res);
+                if(res.data.code==200){
 
-            }else{
-                this.$toast.fail(res.data.message); 
-            }
-        })
+                }else{
+                    this.$toast.fail(res.data.message); 
+                }
+            })
+        }
+        
     },
     methods: {
         addProblemFunc(){//新增问题

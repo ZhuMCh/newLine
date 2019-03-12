@@ -18,7 +18,7 @@ export default new Router({
   routes: [
     {
       path: '/',
-      redirect: '/problemFeedback'
+      redirect: '/problemReport'
     },
     {//登录
       path: '/login',
