@@ -49,16 +49,18 @@
             <van-row class="tr" v-if="problemList.length==0">
                 <van-col class="td">暂无数据</van-col>
             </van-row>
-            <router-link :to="{path:'/problemReport/problemForm',query:{id:item.id}}" v-for="(item,index) in problemList" :key="index">
-                <van-row class="tr">
-                    <van-col class="td">2018110201</van-col>
-                    <van-col class="td">XXXX</van-col>
-                    <van-col class="td">车辆部</van-col>
-                    <van-col class="td">张三</van-col>
-                    <van-col class="td">2019-02-24</van-col>
-                    <van-col class="td">未提交</van-col>
-                </van-row>
-            </router-link>
+            <van-list v-model="loading" :finished="finished" finished-text="没有更多了" @load="onLoad">
+                <router-link :to="{path:'/problemReport/problemForm',query:{id:item.id}}" v-for="(item,index) in problemList" :key="index">
+                    <van-row class="tr">
+                        <van-col class="td">{{item.serialNumber}}</van-col>
+                        <van-col class="td">{{item.description}}</van-col>
+                        <van-col class="td">{{item.dutyDeptLike}}</van-col>
+                        <van-col class="td">{{item.reportEmployee}}</van-col>
+                        <van-col class="td">{{item.reportDate}}</van-col>
+                        <van-col class="td">{{item.processStatus}}</van-col>
+                    </van-row>
+                </router-link>
+            </van-list>
         </div>
     </div>
     
@@ -75,11 +77,28 @@ export default {
             line:'',
             dutyDept:'',
             ids:[],
-            problemList:[]
+            problemList:[
+                {serialNumber:'201903121234',description:'XX问题',dutyDeptLike:'车辆部',reportEmployee:'张三',reportDate:'2019-03-12 10:30',processStatus:'未提交'},
+                {serialNumber:'201903121234',description:'XX问题',dutyDeptLike:'车辆部',reportEmployee:'张三',reportDate:'2019-03-12 10:30',processStatus:'未提交'},
+                {serialNumber:'201903121234',description:'XX问题',dutyDeptLike:'车辆部',reportEmployee:'张三',reportDate:'2019-03-12 10:30',processStatus:'未提交'},
+                {serialNumber:'201903121234',description:'XX问题',dutyDeptLike:'车辆部',reportEmployee:'张三',reportDate:'2019-03-12 10:30',processStatus:'未提交'},
+                {serialNumber:'201903121234',description:'XX问题',dutyDeptLike:'车辆部',reportEmployee:'张三',reportDate:'2019-03-12 10:30',processStatus:'未提交'},
+                {serialNumber:'201903121234',description:'XX问题',dutyDeptLike:'车辆部',reportEmployee:'张三',reportDate:'2019-03-12 10:30',processStatus:'未提交'},
+                {serialNumber:'201903121234',description:'XX问题',dutyDeptLike:'车辆部',reportEmployee:'张三',reportDate:'2019-03-12 10:30',processStatus:'未提交'},
+                {serialNumber:'201903121234',description:'XX问题',dutyDeptLike:'车辆部',reportEmployee:'张三',reportDate:'2019-03-12 10:30',processStatus:'未提交'},
+                {serialNumber:'201903121234',description:'XX问题',dutyDeptLike:'车辆部',reportEmployee:'张三',reportDate:'2019-03-12 10:30',processStatus:'未提交'},
+                {serialNumber:'201903121234',description:'XX问题',dutyDeptLike:'车辆部',reportEmployee:'张三',reportDate:'2019-03-12 10:30',processStatus:'未提交'},
+                {serialNumber:'201903121234',description:'XX问题',dutyDeptLike:'车辆部',reportEmployee:'张三',reportDate:'2019-03-12 10:30',processStatus:'未提交'},
+                {serialNumber:'201903121234',description:'XX问题',dutyDeptLike:'车辆部',reportEmployee:'张三',reportDate:'2019-03-12 10:30',processStatus:'未提交'}
+            ],
+            list: [],
+            loading: false,
+            finished: false
         }
     },
     created(){
-        this.getProblemListData()
+        this.getProblemListData();
+        // window.addEventListener('scroll', this.onScroll);
     },
     methods:{
         getProblemListData(){//问题列表
@@ -101,7 +120,38 @@ export default {
                     this.$toast.fail(res.data.message);
                 }
             })
-        }
+        },
+        onScroll() {
+            //可滚动容器的高度
+            let innerHeight = document.querySelector('.container').clientHeight;
+            //屏幕尺寸高度
+            let outerHeight = document.documentElement.clientHeight;
+            //可滚动容器超出当前窗口显示范围的高度
+            let scrollTop = document.documentElement.scrollTop;
+            //scrollTop在页面为滚动时为0，开始滚动后，慢慢增加，滚动到页面底部时，出现innerHeight < (outerHeight + scrollTop)的情况，严格来讲，是接近底部。
+            console.log(innerHeight + " " + outerHeight + " " + scrollTop);
+            if (innerHeight < (outerHeight + scrollTop)) {
+                //加载更多操作
+                this.$toast.loading({
+                    message: '加载中...',
+                    duration:3000
+                });
+            }
+        },
+        onLoad() {
+            // 异步更新数据
+            setTimeout(() => {
+                for (let i = 0; i < 10; i++) {
+                    this.list.push(this.list.length + 1);
+                }
+                // 加载状态结束
+                this.loading = false;
+                // 数据全部加载完成
+                if (this.list.length >= 40) {
+                    this.finished = true;
+                }
+            }, 2000);
+        },
     }
 }
 </script>
@@ -109,5 +159,14 @@ export default {
 van-button{
     background-color:#52B8D6;
 }
+.table{
+    border-left: none;
+    border-right: none;
+}
+.tr{
+    border-left: 1px solid #ddd;
+    border-right: 1px solid #ddd;
+}
+
 </style>
 
