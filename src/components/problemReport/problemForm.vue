@@ -159,7 +159,7 @@
 </div>
 </template>
 <script>
-import { seeDetail,addProblem,homeSubmitProblem } from '@/api/http'
+import { seeDetail,addProblem,addSubmitProblem,updateProblem } from '@/api/http'
 export default {
     data(){
         return {
@@ -232,7 +232,7 @@ export default {
             ).then(res=>{
                 console.log(res)
                 if(res.data.code==200){
-
+                    this.$toast.success('保存成功');
                 }else{
                     this.$toast.fail(res.data.message);
                 }
@@ -270,6 +270,39 @@ export default {
                 }
             })
 
+        },
+        updataProblemFunc(){//修改
+            updateProblem(
+                this.$route.query.id,
+                this.problemNum,
+                this.line,
+                this.problemStage,
+                this.documentName,
+                this.fileName,
+                this.fileContent,
+                this.problemAddr,
+                this.rank,
+                this.problemEffeck,
+                this.idea,
+                this.findDept,
+                this.findPerson,
+                this.findTime,
+                this.reportPerson,
+                this.reportTime,
+                this.endTime,
+                this.dutyDept,
+                this.liaisonPerson,
+                this.approveStatus,
+                this.approveTime,
+                this.accessory
+            ).then(res=>{
+                console.log(res)
+                if(res.data.code==200){
+                    this.$toast.success('修改成功');
+                }else{
+                    this.$toast.fail(res.data.message);
+                }
+            })
         },
         onRead(file) {//上传附件
             console.log(file)

@@ -46,16 +46,18 @@
             <van-row class="tr" v-if="feedbackList.length==0">
                 <van-col class="td">暂无数据</van-col>
             </van-row>
-            <router-link :to="{path:'/problemFeedback/feedbackDetail',query:{id:item.id}}" v-for="(item,index) in feedbackList" :key="index">
-                <van-row class="tr">
-                    <van-col class="td">2018110201</van-col>
-                    <van-col class="td">XXXX</van-col>
-                    <van-col class="td">XXXX</van-col>
-                    <van-col class="td">车辆部</van-col>
-                    <van-col class="td">张三</van-col>
-                    <van-col class="td">2019-02-25</van-col>
-                </van-row>
-            </router-link>
+            <van-list v-model="loading" :finished="finished" finished-text="没有更多了" @load="loadMore" :offset="5">
+                <router-link :to="{path:'/problemFeedback/feedbackDetail',query:{id:item.id}}" v-for="(item,index) in feedbackList" :key="index">
+                    <van-row class="tr">
+                        <van-col class="td">{{item.id}}</van-col>
+                        <van-col class="td">{{item.address}}]</van-col>
+                        <van-col class="td">{{item.description}}</van-col>
+                        <van-col class="td">{{item.dutyDepartment}}</van-col>
+                        <van-col class="td">{{item.reportEmployee}}</van-col>
+                        <van-col class="td">{{item.reportDate}}</van-col>
+                    </van-row>
+                </router-link>
+            </van-list>
         </div>
     </div>
     
@@ -66,13 +68,26 @@ import { feedbackList } from '@/api/http'
 export default {
     data(){
         return {
-            feedbackList:[],
             pageNo:1,
             pageSize:10,
             type:1,//1,2
             description:'',
             lineId:'',
-            deptName:''
+            deptName:'',
+            feedbackList:[
+                {id:'201903121234',address:'XXX点',description:'XXX问题',dutyDepartment:'测量部',reportEmployee:'张三',reportDate:'2019-03-12 10:30'},
+                {id:'201903121234',address:'XXX点',description:'XXX问题',dutyDepartment:'测量部',reportEmployee:'张三',reportDate:'2019-03-12 10:30'},
+                {id:'201903121234',address:'XXX点',description:'XXX问题',dutyDepartment:'测量部',reportEmployee:'张三',reportDate:'2019-03-12 10:30'},
+                {id:'201903121234',address:'XXX点',description:'XXX问题',dutyDepartment:'测量部',reportEmployee:'张三',reportDate:'2019-03-12 10:30'},
+                {id:'201903121234',address:'XXX点',description:'XXX问题',dutyDepartment:'测量部',reportEmployee:'张三',reportDate:'2019-03-12 10:30'},
+                {id:'201903121234',address:'XXX点',description:'XXX问题',dutyDepartment:'测量部',reportEmployee:'张三',reportDate:'2019-03-12 10:30'},
+                {id:'201903121234',address:'XXX点',description:'XXX问题',dutyDepartment:'测量部',reportEmployee:'张三',reportDate:'2019-03-12 10:30'},
+                {id:'201903121234',address:'XXX点',description:'XXX问题',dutyDepartment:'测量部',reportEmployee:'张三',reportDate:'2019-03-12 10:30'},
+                {id:'201903121234',address:'XXX点',description:'XXX问题',dutyDepartment:'测量部',reportEmployee:'张三',reportDate:'2019-03-12 10:30'}
+            ],
+
+            loading: false,
+            finished: false
         }
     },
     created(){
@@ -88,13 +103,36 @@ export default {
                     this.$toast.fail(res.data.message);
                 }
             })
-        }
+        },
+        loadMore() {
+            console.log('开始加载')
+            // 异步更新数据
+            setTimeout(() => {
+                for (let i = 0; i < 10; i++) {
+                    this.feedbackList.push({id:'201903121234',address:'XXX点',description:'XXX问题',dutyDepartment:'测量部',reportEmployee:'张'+i,reportDate:'2019-03-12 10:30'});
+                }
+                // 加载状态结束
+                this.loading = false;
+                // 数据全部加载完成
+                if (this.feedbackList.length >= 40) {
+                    this.finished = true;
+                }
+            }, 2000);
+        },
     }
 }
 </script>
 <style scoped>
 van-button{
     background-color:#52B8D6;
+}
+.table{
+    border-left: none;
+    border-right: none;
+}
+.tr{
+    border-left: 1px solid #ddd;
+    border-right: 1px solid #ddd;
 }
 </style>
 

@@ -49,7 +49,7 @@
             <van-row class="tr" v-if="problemList.length==0">
                 <van-col class="td">暂无数据</van-col>
             </van-row>
-            <van-list v-model="loading" :finished="finished" finished-text="没有更多了" @load="onLoad">
+            <van-list v-model="loading" :finished="finished" finished-text="没有更多了" @load="loadMore" :offset="5">
                 <router-link :to="{path:'/problemReport/problemForm',query:{id:item.id}}" v-for="(item,index) in problemList" :key="index">
                     <van-row class="tr">
                         <van-col class="td">{{item.serialNumber}}</van-col>
@@ -87,11 +87,8 @@ export default {
                 {serialNumber:'201903121234',description:'XX问题',dutyDeptLike:'车辆部',reportEmployee:'张三',reportDate:'2019-03-12 10:30',processStatus:'未提交'},
                 {serialNumber:'201903121234',description:'XX问题',dutyDeptLike:'车辆部',reportEmployee:'张三',reportDate:'2019-03-12 10:30',processStatus:'未提交'},
                 {serialNumber:'201903121234',description:'XX问题',dutyDeptLike:'车辆部',reportEmployee:'张三',reportDate:'2019-03-12 10:30',processStatus:'未提交'},
-                {serialNumber:'201903121234',description:'XX问题',dutyDeptLike:'车辆部',reportEmployee:'张三',reportDate:'2019-03-12 10:30',processStatus:'未提交'},
-                {serialNumber:'201903121234',description:'XX问题',dutyDeptLike:'车辆部',reportEmployee:'张三',reportDate:'2019-03-12 10:30',processStatus:'未提交'},
                 {serialNumber:'201903121234',description:'XX问题',dutyDeptLike:'车辆部',reportEmployee:'张三',reportDate:'2019-03-12 10:30',processStatus:'未提交'}
             ],
-            list: [],
             loading: false,
             finished: false
         }
@@ -121,33 +118,17 @@ export default {
                 }
             })
         },
-        onScroll() {
-            //可滚动容器的高度
-            let innerHeight = document.querySelector('.container').clientHeight;
-            //屏幕尺寸高度
-            let outerHeight = document.documentElement.clientHeight;
-            //可滚动容器超出当前窗口显示范围的高度
-            let scrollTop = document.documentElement.scrollTop;
-            //scrollTop在页面为滚动时为0，开始滚动后，慢慢增加，滚动到页面底部时，出现innerHeight < (outerHeight + scrollTop)的情况，严格来讲，是接近底部。
-            console.log(innerHeight + " " + outerHeight + " " + scrollTop);
-            if (innerHeight < (outerHeight + scrollTop)) {
-                //加载更多操作
-                this.$toast.loading({
-                    message: '加载中...',
-                    duration:3000
-                });
-            }
-        },
-        onLoad() {
+        loadMore() {
+            console.log('开始加载')
             // 异步更新数据
             setTimeout(() => {
                 for (let i = 0; i < 10; i++) {
-                    this.list.push(this.list.length + 1);
+                    this.problemList.push({serialNumber:'201903121234',description:'XX问题',dutyDeptLike:'车辆部',reportEmployee:'张'+i,reportDate:'2019-03-12 10:30',processStatus:'未提交'});
                 }
                 // 加载状态结束
                 this.loading = false;
                 // 数据全部加载完成
-                if (this.list.length >= 40) {
+                if (this.problemList.length >= 40) {
                     this.finished = true;
                 }
             }, 2000);

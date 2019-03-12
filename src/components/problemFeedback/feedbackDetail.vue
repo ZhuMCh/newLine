@@ -85,7 +85,7 @@
         <van-row class="detailTr">
             <van-col span="10" class="detailTh">添加附件</van-col>
             <van-col span="14" class="detailTd uploaderBox">
-                <img :src="imgPath" alt="">
+                <img :src="accessory" alt="">
                 <van-uploader :after-read="onRead" class="uploader">
                     <van-icon name="plus" class="addIcon"/>
                 </van-uploader>
@@ -99,7 +99,7 @@ import { feedbackDetail } from '@/api/http'
 export default {
     data(){
         return {
-            imgPath:''
+            accessory:''
         }
     },
     created(){
