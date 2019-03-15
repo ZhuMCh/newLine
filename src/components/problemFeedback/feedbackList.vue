@@ -126,13 +126,5 @@ export default {
 van-button{
     background-color:#52B8D6;
 }
-.table{
-    border-left: none;
-    border-right: none;
-}
-.tr{
-    border-left: 1px solid #ddd;
-    border-right: 1px solid #ddd;
-}
 </style>
 

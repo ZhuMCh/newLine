@@ -80,11 +80,6 @@
                 <van-field placeholder="选择时间" value="findTime" v-model="findTime" readonly="readonly" icon="notes-o" @click="findTimePop = true;"/>
             </van-col>
         </van-row>
-        <!-- 发现时间选择器 -->
-        <van-popup v-model="findTimePop" position="bottom" :overlay="true">
-            <van-datetime-picker v-model="currentDate" type="datetime" @cancel="cancelPopup" @confirm="confirmPopup"/>
-        </van-popup>
-
         <van-row  class="detailTr">
             <van-col span="10" class="detailTh">提报人</van-col>
             <van-col span="14" class="detailTd">
@@ -103,11 +98,6 @@
                 <van-field placeholder="选择时间" value="endTime" v-model="endTime" readonly="readonly" icon="notes-o" @click="endTimePop = true;"/>
             </van-col>
         </van-row>
-        <!-- 整改完成时限选择器 -->
-        <van-popup v-model="endTimePop" position="bottom" :overlay="true">
-            <van-datetime-picker v-model="currentDate" type="date" @cancel="cancelPopup" @confirm="confirmPopup"/>
-        </van-popup>
-
         <van-row  class="detailTr">
             <van-col span="10" class="detailTh">责任部门</van-col>
             <van-col span="14" class="detailTd">
@@ -142,6 +132,15 @@
             </van-col>
         </van-row>
     </div>
+    <!-- 发现时间选择器 -->
+    <van-popup v-model="findTimePop" position="bottom" :overlay="true">
+        <van-datetime-picker v-model="currentDate" type="datetime" @cancel="cancelPopup" @confirm="confirmPopup"/>
+    </van-popup>
+    <!-- 整改完成时限选择器 -->
+    <van-popup v-model="endTimePop" position="bottom" :overlay="true">
+        <van-datetime-picker v-model="currentDate" type="date" @cancel="cancelPopup" @confirm="confirmPopup"/>
+    </van-popup>
+    
     <div class="btnBox">
         <van-row gutter="20">
             <van-col span="8">
@@ -333,9 +332,6 @@ export default {
 <style scoped>
 .detailTd{
     padding: 0;
-}
-.detailTh{
-    color: #1bbc9a;
 }
 .uploaderBox{
     padding: 5px 10px;
