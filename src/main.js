@@ -8,8 +8,11 @@ import 'vant/lib/index.css'
 import 'amfe-flexible'
 import formatDate from './assets/js/util'
 
+require('./assets/js/mock')
+
 Vue.use(Vant)
 Vue.use(formatDate)
+
 Vue.config.productionTip = false
 
 /* eslint-disable no-new */

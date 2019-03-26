@@ -30,10 +30,10 @@
                 </router-link>      
             </van-col>
             <van-col span="6">
-                <van-button size="small">提交</van-button>        
+                <van-button size="small" @click="homeSubmitProblem">提交</van-button>        
             </van-col>
             <van-col span="6">
-                <van-button size="small">查看</van-button>        
+                <van-button size="small" @click="handleDelete">删除</van-button>        
             </van-col>
         </van-row>
         <br>
@@ -67,7 +67,7 @@
 </div>
 </template>
 <script>
-import { problemList,homeSubmitProblem } from '@/api/http'
+import { problemList,homeSubmitProblem,delProblem } from '@/api/http'
 export default {
     data(){
         return {
@@ -77,32 +77,20 @@ export default {
             line:'',
             dutyDept:'',
             ids:[],
-            problemList:[
-                {serialNumber:'201903121234',description:'XX问题',dutyDeptLike:'车辆部',reportEmployee:'张三',reportDate:'2019-03-12 10:30',processStatus:'未提交'},
-                {serialNumber:'201903121234',description:'XX问题',dutyDeptLike:'车辆部',reportEmployee:'张三',reportDate:'2019-03-12 10:30',processStatus:'未提交'},
-                {serialNumber:'201903121234',description:'XX问题',dutyDeptLike:'车辆部',reportEmployee:'张三',reportDate:'2019-03-12 10:30',processStatus:'未提交'},
-                {serialNumber:'201903121234',description:'XX问题',dutyDeptLike:'车辆部',reportEmployee:'张三',reportDate:'2019-03-12 10:30',processStatus:'未提交'},
-                {serialNumber:'201903121234',description:'XX问题',dutyDeptLike:'车辆部',reportEmployee:'张三',reportDate:'2019-03-12 10:30',processStatus:'未提交'},
-                {serialNumber:'201903121234',description:'XX问题',dutyDeptLike:'车辆部',reportEmployee:'张三',reportDate:'2019-03-12 10:30',processStatus:'未提交'},
-                {serialNumber:'201903121234',description:'XX问题',dutyDeptLike:'车辆部',reportEmployee:'张三',reportDate:'2019-03-12 10:30',processStatus:'未提交'},
-                {serialNumber:'201903121234',description:'XX问题',dutyDeptLike:'车辆部',reportEmployee:'张三',reportDate:'2019-03-12 10:30',processStatus:'未提交'},
-                {serialNumber:'201903121234',description:'XX问题',dutyDeptLike:'车辆部',reportEmployee:'张三',reportDate:'2019-03-12 10:30',processStatus:'未提交'},
-                {serialNumber:'201903121234',description:'XX问题',dutyDeptLike:'车辆部',reportEmployee:'张三',reportDate:'2019-03-12 10:30',processStatus:'未提交'}
-            ],
+            problemList:[],
             loading: false,
             finished: false
         }
     },
     created(){
         this.getProblemListData();
-        // window.addEventListener('scroll', this.onScroll);
     },
     methods:{
         getProblemListData(){//问题列表
             problemList(this.pageNo,this.pageSize,this.problemDesc,this.line,this.dutyDept).then(res=>{
-                console.log(res)
                 if(res.data.code==200){
-                    
+                    console.log(res);
+                    this.problemList=this.problemList.concat(res.data.problemList)
                 }else{
                     this.$toast.fail(res.data.message);
                 }
@@ -118,13 +106,20 @@ export default {
                 }
             })
         },
+        handleDelete(){//批量删除
+            delProblem(this.ids).then(res=>{
+                if(res.data.code==200){
+                    this.$toast.success('删除成功');
+                }else{
+                    this.$toast.fail(res.data.message);
+                }
+            })
+        },
         loadMore() {
             console.log('开始加载')
             // 异步更新数据
             setTimeout(() => {
-                for (let i = 0; i < 10; i++) {
-                    this.problemList.push({serialNumber:'201903121234',description:'XX问题',dutyDeptLike:'车辆部',reportEmployee:'张'+i,reportDate:'2019-03-12 10:30',processStatus:'未提交'});
-                }
+                this.getProblemListData();
                 // 加载状态结束
                 this.loading = false;
                 // 数据全部加载完成
