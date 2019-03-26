@@ -191,12 +191,33 @@ export default {
     },
     created(){
         // 查看详情
-        if(this.$route.query.id){
+        if(this.$route.query.id!=undefined){
             console.log(this.$route.query.id);
+            this.$route.query.id=''//测试用
             seeDetail(this.$route.query.id).then(res=>{
                 console.log(res);
                 if(res.data.code==200){
-
+                    this.problemNum=res.data.detail.problemNum;
+                    this.line=res.data.detail.line;
+                    this.problemStage=res.data.detail.problemStage
+                    this.documentName=res.data.detail.documentName
+                    this.fileName=res.data.detail.fileName
+                    this.fileContent=res.data.detail.fileContent
+                    this.problemAddr=res.data.detail.problemAddr
+                    this.rank=res.data.detail.rank
+                    this.problemEffeck=res.data.detail.problemEffeck
+                    this.idea=res.data.detail.idea
+                    this.findDept=res.data.detail.findDept
+                    this.findPerson=res.data.detail.findPerson
+                    this.findTime=res.data.detail.findTime
+                    this.reportPerson=res.data.detail.reportPerson
+                    this.reportTime=res.data.detail.reportTime
+                    this.endTime=res.data.detail.endTime
+                    this.dutyDept=res.data.detail.dutyDept
+                    this.liaisonPerson=res.data.detail.liaisonPerson
+                    this.approveStatus=res.data.detail.approveStatus
+                    this.approveTime=res.data.detail.approveTime
+                    this.accessory=res.data.detail.accessory
                 }else{
                     this.$toast.fail(res.data.message); 
                 }

@@ -27,6 +27,7 @@ export default {
   border: none;
   border-bottom: 1px solid #999;
 }
+.van-field__control{font-size:16px !important;}
 .van-nav-bar .van-icon, .van-nav-bar__text, .van-tab--active{
   color: #1bbc9a;
 }
@@ -90,7 +91,7 @@ a{
 .table .tr .td{
   border-right: 1px solid #ddd;
   flex: 1;
-  padding: 5px;
+  padding: 10px 5px;
   display:flex;
   align-items:center;
   justify-content: center;
