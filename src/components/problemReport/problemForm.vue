@@ -146,8 +146,11 @@
             <van-col span="8">
                 <van-button size="large" @click="addSubmitProblemFunc">提交</van-button>        
             </van-col>
-            <van-col span="8">
+            <van-col span="8" v-if="isAdd">
                 <van-button size="large" @click="addProblemFunc">保存</van-button>     
+            </van-col>
+            <van-col span="8" v-else>
+                <van-button size="large" @click="updataProblemFunc">修改</van-button>     
             </van-col>
             <van-col span="8">
                 <van-button size="large" @click="()=>{this.$router.go(-1)}">取消</van-button>        
@@ -165,6 +168,7 @@ export default {
             currentDate: new Date(),
             findTimePop:false,
             endTimePop:false,
+            isAdd:false,
 
             problemNum:'',//问题流水号
             line:'',//线路
@@ -190,12 +194,10 @@ export default {
         }
     },
     created(){
-        // 查看详情
-        if(this.$route.query.id!=undefined){
-            console.log(this.$route.query.id);
+        if(this.$route.query.id!=undefined){// 查看详情
+            this.isAdd=false;
             this.$route.query.id=''//测试用
             seeDetail(this.$route.query.id).then(res=>{
-                console.log(res);
                 if(res.data.code==200){
                     this.problemNum=res.data.detail.problemNum;
                     this.line=res.data.detail.line;
@@ -222,11 +224,13 @@ export default {
                     this.$toast.fail(res.data.message); 
                 }
             })
+        }else{//新增
+            this.isAdd=true
         }
         
     },
     methods: {
-        addProblemFunc(){//新增问题
+        addProblemFunc(){//新增问题-保存
             addProblem(
                 this.problemNum,
                 this.line,
@@ -250,7 +254,6 @@ export default {
                 this.approveTime,
                 this.accessory
             ).then(res=>{
-                console.log(res)
                 if(res.data.code==200){
                     this.$toast.success('保存成功');
                 }else{
@@ -258,7 +261,7 @@ export default {
                 }
             })
         },
-        addSubmitProblemFunc(){//保存提交
+        addSubmitProblemFunc(){//提交
             addSubmitProblem(
                 this.problemNum,
                 this.line,
@@ -282,9 +285,8 @@ export default {
                 this.approveTime,
                 this.accessory
             ).then(res=>{
-                consoel.log(res)
                 if(res.data.code==200){
-
+                    this.$toast.success('提交成功');
                 }else{
                    this.$toast.fail(res.data.message); 
                 }
@@ -316,7 +318,6 @@ export default {
                 this.approveTime,
                 this.accessory
             ).then(res=>{
-                console.log(res)
                 if(res.data.code==200){
                     this.$toast.success('修改成功');
                 }else{

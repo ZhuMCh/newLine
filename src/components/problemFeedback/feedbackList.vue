@@ -50,7 +50,7 @@
                 <router-link :to="{path:'/problemFeedback/feedbackDetail',query:{id:item.id}}" v-for="(item,index) in feedbackList" :key="index">
                     <van-row class="tr">
                         <van-col class="td">{{item.id}}</van-col>
-                        <van-col class="td">{{item.address}}]</van-col>
+                        <van-col class="td">{{item.address}}</van-col>
                         <van-col class="td">{{item.description}}</van-col>
                         <van-col class="td">{{item.dutyDepartment}}</van-col>
                         <van-col class="td">{{item.reportEmployee}}</van-col>
@@ -74,17 +74,7 @@ export default {
             description:'',
             lineId:'',
             deptName:'',
-            feedbackList:[
-                {id:'201903121234',address:'XXX点',description:'XXX问题',dutyDepartment:'测量部',reportEmployee:'张三',reportDate:'2019-03-12 10:30'},
-                {id:'201903121234',address:'XXX点',description:'XXX问题',dutyDepartment:'测量部',reportEmployee:'张三',reportDate:'2019-03-12 10:30'},
-                {id:'201903121234',address:'XXX点',description:'XXX问题',dutyDepartment:'测量部',reportEmployee:'张三',reportDate:'2019-03-12 10:30'},
-                {id:'201903121234',address:'XXX点',description:'XXX问题',dutyDepartment:'测量部',reportEmployee:'张三',reportDate:'2019-03-12 10:30'},
-                {id:'201903121234',address:'XXX点',description:'XXX问题',dutyDepartment:'测量部',reportEmployee:'张三',reportDate:'2019-03-12 10:30'},
-                {id:'201903121234',address:'XXX点',description:'XXX问题',dutyDepartment:'测量部',reportEmployee:'张三',reportDate:'2019-03-12 10:30'},
-                {id:'201903121234',address:'XXX点',description:'XXX问题',dutyDepartment:'测量部',reportEmployee:'张三',reportDate:'2019-03-12 10:30'},
-                {id:'201903121234',address:'XXX点',description:'XXX问题',dutyDepartment:'测量部',reportEmployee:'张三',reportDate:'2019-03-12 10:30'},
-                {id:'201903121234',address:'XXX点',description:'XXX问题',dutyDepartment:'测量部',reportEmployee:'张三',reportDate:'2019-03-12 10:30'}
-            ],
+            feedbackList:[],
 
             loading: false,
             finished: false
@@ -96,9 +86,8 @@ export default {
     methods:{
         getFeedbackListData(){//获取问题反馈列表数据
             feedbackList(this.pageNo,this.pageSize,this.type,this.description,this.lineId,this.deptName).then(res=>{
-                console.log(res)
                 if(res.data.code==200){
-
+                    this.feedbackList=this.feedbackList.concat(res.data.problemfeedback)
                 }else{
                     this.$toast.fail(res.data.message);
                 }
@@ -108,9 +97,7 @@ export default {
             console.log('开始加载')
             // 异步更新数据
             setTimeout(() => {
-                for (let i = 0; i < 10; i++) {
-                    this.feedbackList.push({id:'201903121234',address:'XXX点',description:'XXX问题',dutyDepartment:'测量部',reportEmployee:'张'+i,reportDate:'2019-03-12 10:30'});
-                }
+                this.getFeedbackListData()
                 // 加载状态结束
                 this.loading = false;
                 // 数据全部加载完成

@@ -46,7 +46,7 @@ export function addProblem(serialNumber,line,problemStage,seekOpinion,name,descr
 }
 //问题提报-修改
 export function updateProblem(id,serialNumber,line,problemStage,seekOpinion,name,description,address,rank,effect,changeOpinion,findDepartment,findEmployee,findTime,reportEmployee,reportDate,endTime,dutyDepartment,liaisonEmployee,processStatus,approvalTime,file){
-    return http.fetchPost('/newline/mobile/addProblem',{
+    return http.fetchPost('/newline/mobile/updateProblem',{
         id,
         serialNumber,
         line,

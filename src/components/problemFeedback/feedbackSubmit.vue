@@ -5,13 +5,13 @@
         <van-row class="detailTr">
             <van-col span="10" class="detailTh">问题编号</van-col>
             <van-col span="14" class="detailTd">
-                <van-field placeholder="WT20190225001" value="problemId" v-model="problemId"/>
+                <van-field placeholder="WT20190225001" v-model="problemId"/>
             </van-col>
         </van-row>
         <van-row  class="detailTr">
             <van-col span="10" class="detailTh">跟踪日期</van-col>
             <van-col span="14" class="detailTd">
-                <van-field placeholder="2019-02-25" value="feedbackTime"/>
+                <van-field placeholder="2019-02-25" v-model="feedbackTime"/>
             </van-col>
         </van-row>
         <van-row  class="detailTr">
@@ -26,7 +26,7 @@
         <van-row  class="detailTr">
             <van-col span="10" class="detailTh">跟踪记录</van-col>
             <van-col span="14" class="detailTd">
-                <van-field type="textarea" rows="3" autosize placeholder="日常跟踪检查" value="recordDesc" v-model="recordDesc"/>
+                <van-field type="textarea" rows="3" autosize placeholder="日常跟踪检查" v-model="recordDesc"/>
             </van-col>
         </van-row>
     </div>
@@ -35,10 +35,7 @@
             <van-col span="8">
                 <van-button size="large" @click="feedbackSubmitFunc">提交</van-button>        
             </van-col>
-            <van-col span="8">
-                <van-button size="large" @click="feedbackSubmitFunc">保存</van-button>     
-            </van-col>
-            <van-col span="8">
+            <van-col span="8" offset="8">
                 <van-button size="large" @click="()=>{this.$router.go(-1)}">取消</van-button>        
             </van-col>
         </van-row>
@@ -59,17 +56,20 @@ export default {
     },
     created(){
         // 详情
-        feedbackSubmitDetail(this.$route.query.id).then(res=>{
+        feedbackSubmitDetail('').then(res=>{
             console.log(res)
             if(res.data.code==200){
-                
+                this.problemId=res.data.detail.problemId;
+                this.feedbackTime=res.data.detail.date;
+                this.failPath=res.data.detail.docAttachmentName;
+                this.recordDesc=res.data.detail.recordDescription;
             }else{
                 this.$toast.fail(res.data.message);
             }
         })
     },
     methods: {
-        feedbackSubmitFunc(){//提交
+        feedbackSubmitFunc(){//反馈
             feedbackSubmit(this.problemId,this.failPath,this.recordDesc).then(res=>{
                 console.log(res);
                 if(res.data.code==200){
