@@ -155,9 +155,9 @@ export default {
                 // 加载状态结束
                 this.loading = false;
                 // 数据全部加载完成
-                if (this.problemList.length >= 40) {
+                // if (this.problemList.length >= 40) {
                     this.finished = true;
-                }
+                // }
             }, 2000);
         },
     }
