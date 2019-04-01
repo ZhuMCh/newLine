@@ -41,6 +41,7 @@
 </div>
 </template>
 <script>
+import http from '@/api/axios'
 export default {
     data(){
         return {
@@ -48,6 +49,12 @@ export default {
             password:'',
             checked: false
         }
+    },
+    created(){
+        // 测试
+        http.fetchGet('https://www.easy-mock.com/mock/5c9dd9de87293c40d6146ddc/newLine/mobile/ProblemList').then(res=>{
+            console.log(res)
+        })
     },
     methods:{
         loginForAccount(){
