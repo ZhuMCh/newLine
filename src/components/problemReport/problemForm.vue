@@ -89,13 +89,13 @@
         <van-row  class="detailTr">
             <van-col span="10" class="detailTh">提报日期</van-col>
             <van-col span="14" class="detailTd">
-                <van-field placeholder="2019-02-25" value="reportTime" v-model="reportTime"/>
+                <van-field placeholder="2019-02-25" readonly value="reportTime" v-model="reportTime"/>
             </van-col>
         </van-row>
         <van-row  class="detailTr">
             <van-col span="10" class="detailTh">需要整改完成时限</van-col>
             <van-col span="14" class="detailTd">
-                <van-field placeholder="选择时间" value="endTime" v-model="endTime" readonly="readonly" icon="notes-o" @click="endTimePop = true;"/>
+                <van-field placeholder="选择时间" value="endTime" v-model="endTime" readonly icon="notes-o" @click="endTimePop = true;"/>
             </van-col>
         </van-row>
         <van-row  class="detailTr">

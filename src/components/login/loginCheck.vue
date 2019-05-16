@@ -49,7 +49,7 @@ export default {
     },
     methods:{
         loginInto(){
-            this.$router.push({path:'/problemReport'});
+            this.$router.push({path:'/home'});
         }
     }
 }

@@ -3,8 +3,8 @@ import qs from 'qs'
 
 axios.defaults.timeout = 5000;                        //响应时间
 axios.defaults.headers.post['Content-Type'] = 'application/x-www-form-urlencoded;charset=UTF-8';        //配置请求头
-// axios.defaults.baseURL = process.env.API_PATH_DEV;   //配置接口地址
-// axios.defaults.baseURL ='/api'
+// axios.defaults.baseURL = process.env.API_PATH_PROD;   //配置接口地址
+axios.defaults.baseURL ='/api'
 //POST传参序列化(添加请求拦截器)
 axios.interceptors.request.use((config) => {
     //在发送请求之前做某件事

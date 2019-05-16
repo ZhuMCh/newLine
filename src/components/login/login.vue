@@ -33,7 +33,7 @@
                 <van-button @click="loginForAccount">&nbsp;&nbsp;&nbsp;账号登录&nbsp;&nbsp;&nbsp;</van-button>
             </van-col>
             <van-col span="12">
-                <van-button>企业微信登录</van-button>
+                <van-button @click="loginForAccount">企业微信登录</van-button>
             </van-col>
         </van-row>
         

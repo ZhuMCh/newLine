@@ -3,6 +3,7 @@ import Router from 'vue-router'
 
 import Login from '@/components/login/login'
 import LoginCheck from '@/components/login/loginCheck'
+import Home from '@/components/home'
 import ProblemReport from '@/components/problemReport/problemList'
 import ProblemForm from '@/components/problemReport/problemForm'
 import ProblemFeedback from '@/components/problemFeedback/feedbackList'
@@ -16,7 +17,7 @@ export default new Router({
   routes: [
     {
       path: '/',
-      redirect: '/problemReport'
+      redirect: '/login'
     },
     {//登录
       path: '/login',
@@ -25,6 +26,10 @@ export default new Router({
     {//登录验证
       path: '/login/loginCheck',
       component: LoginCheck
+    },
+    {
+      path: '/home',
+      component: Home
     },
     {//问题提报列表
       path: '/problemReport',

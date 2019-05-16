@@ -58,8 +58,8 @@ a{
   line-height: 34px;
 }
 .van-button{
-  background-color: #1bbc9a;
-  border: 1px solid #1bbc9a;
+  background-color: #1bbc9a !important;
+  border: 1px solid #1bbc9a !important;
   display: block;
   margin: 0 auto;
   color: #fff;
