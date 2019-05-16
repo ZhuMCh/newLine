@@ -30,10 +30,10 @@
         </van-row>
         <van-row gutter="10">
             <van-col span="12">
-                <van-button @click="loginForAccount">&nbsp;&nbsp;&nbsp;账号登录&nbsp;&nbsp;&nbsp;</van-button>
+                <van-button @click="loginForAccount(1)">&nbsp;&nbsp;&nbsp;账号登录&nbsp;&nbsp;&nbsp;</van-button>
             </van-col>
             <van-col span="12">
-                <van-button @click="loginForAccount">企业微信登录</van-button>
+                <van-button @click="loginForAccount(2)">企业微信登录</van-button>
             </van-col>
         </van-row>
         
@@ -51,14 +51,15 @@ export default {
         }
     },
     created(){
-        // 测试
-        http.fetchGet('https://www.easy-mock.com/mock/5c9dd9de87293c40d6146ddc/newLine/mobile/ProblemList').then(res=>{
-            console.log(res)
-        })
+        
     },
     methods:{
-        loginForAccount(){
-            this.$router.push({path:'/login/logincheck'});
+        loginForAccount(e){
+            if(e==1){
+                this.$router.push({path:'/login/logincheck'});
+            }else if(e==2){
+                this.$router.push({path:'/home'});
+            }
         }
     }
 }

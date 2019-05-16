@@ -60,9 +60,9 @@ a{
 .van-button{
   background-color: #1bbc9a !important;
   border: 1px solid #1bbc9a !important;
-  display: block;
+  display: block !important;
   margin: 0 auto;
-  color: #fff;
+  color: #fff !important;
 }
 /* 数据表格 */
 .table{

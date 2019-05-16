@@ -98,6 +98,7 @@ export default {
     methods:{
         getProblemListData(){//问题列表
             problemList(this.pageNo,this.pageSize,this.problemDesc,this.line,this.dutyDept).then(res=>{
+                console.log(res);
                 if(res.data.code==200){
                     console.log(res);
                     this.problemList=this.problemList.concat(res.data.problemList)
@@ -107,7 +108,6 @@ export default {
             })
         },
         homeSubmitProblem(){//提交
-            this.ids=[]//测试用
             homeSubmitProblem(this.ids).then(res=>{
                 console.log(res)
                 if(res.data.code==200){
@@ -118,7 +118,6 @@ export default {
             })
         },
         handleDelete(){//批量删除
-            this.ids=[]//测试用
             delProblem(this.ids).then(res=>{
                 console.log(res)
                 if(res.data.code==200){
@@ -138,6 +137,7 @@ export default {
             } else {
                 this.ids = []
             }
+            console.log(this.ids)
         },
         checkOne(id){//单选
             let idIndex = this.ids.indexOf(id)
@@ -146,6 +146,7 @@ export default {
             } else {//如果没有包含就添加
                 this.ids.push(id)
             }
+            console.log(this.ids)
         },
         loadMore() {
             console.log('开始加载')
