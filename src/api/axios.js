@@ -8,9 +8,10 @@ axios.defaults.baseURL ='/api'
 //POST传参序列化(添加请求拦截器)
 axios.interceptors.request.use((config) => {
     //在发送请求之前做某件事
-    if(config.method  === 'post'){
-        config.data = qs.stringify(config.data);
-    }
+    // if(config.method  === 'get'){
+    //     config.data = qs.stringify(config.data);
+    // }
+    config.data=config.data
     return config;
 },(error) =>{
     console.log('错误的传参')

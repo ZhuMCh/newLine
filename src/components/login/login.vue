@@ -41,7 +41,7 @@
 </div>
 </template>
 <script>
-import http from '@/api/axios'
+import {loginForWx } from '@/api/http'
 export default {
     data(){
         return {
@@ -58,7 +58,14 @@ export default {
             if(e==1){
                 this.$router.push({path:'/login/logincheck'});
             }else if(e==2){
-                this.$router.push({path:'/home'});
+                loginForWx().then(res=>{
+                    console.log(JSON.parse(res.data))
+                    if(JSON.parse(res.data).code==200){
+                        // this.$router.push({path:'/home'});
+                    }else{
+                        this.$toast.fail(res.data.message);
+                    }
+                })
             }
         }
     }

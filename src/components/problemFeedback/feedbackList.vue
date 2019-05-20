@@ -77,7 +77,8 @@ export default {
             feedbackList:[],
 
             loading: false,
-            finished: false
+            finished: false,
+            totalRows:0
         }
     },
     created(){
@@ -86,23 +87,26 @@ export default {
     methods:{
         getFeedbackListData(){//获取问题反馈列表数据
             feedbackList(this.pageNo,this.pageSize,this.type,this.description,this.lineId,this.deptName).then(res=>{
-                if(res.data.code==200){
-                    this.feedbackList=this.feedbackList.concat(res.data.problemfeedback)
+                console.log(res)
+                if(res.data.code==0){
+                    this.feedbackList=res.data.data.content;
+                    this.totalRows=res.data.data.totalPages;
                 }else{
                     this.$toast.fail(res.data.message);
                 }
             })
         },
-        loadMore() {
-            console.log('开始加载')
+        loadMore() {//加载更多
             // 异步更新数据
             setTimeout(() => {
-                this.getFeedbackListData()
                 // 加载状态结束
                 this.loading = false;
-                // 数据全部加载完成
-                if (this.feedbackList.length >= 40) {
+                if (this.totalRows<= this.pageSize) {
+                    // 数据全部加载完成
                     this.finished = true;
+                }else{
+                    this.pageSize+=10;
+                    this.getFeedbackListData()
                 }
             }, 2000);
         },

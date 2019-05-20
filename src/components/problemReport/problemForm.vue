@@ -194,6 +194,7 @@ export default {
         }
     },
     created(){
+        console.log(this.$route.query.id)
         if(this.$route.query.id!=undefined){// 查看详情
             this.isAdd=false;
             this.$route.query.id=''//测试用

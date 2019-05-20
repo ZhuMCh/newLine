@@ -62,9 +62,9 @@
                             <van-row class="tr" style="border-bottom:none;border-right:none;">
                                 <van-col class="td">{{item.serialNumber}}</van-col>
                                 <van-col class="td">{{item.description}}</van-col>
-                                <van-col class="td">{{item.dutyDeptLike}}</van-col>
-                                <van-col class="td">{{item.reportEmployee}}</van-col>
-                                <van-col class="td">{{item.reportDate}}</van-col>
+                                <van-col class="td">{{item.dutyDepartment.deptName}}</van-col>
+                                <van-col class="td">{{item.reportEmployee.empName}}</van-col>
+                                <van-col class="td">{{new Date(item.reportDate).Format('yyyy-MM-dd hh:mm:ss')}}</van-col>
                                 <van-col class="td">{{item.processStatus}}</van-col>
                             </van-row>
                         </router-link>
@@ -90,6 +90,7 @@ export default {
             problemList:[],
             loading: false,
             finished: false,
+            totalRows:0
         }
     },
     created(){
@@ -98,10 +99,9 @@ export default {
     methods:{
         getProblemListData(){//问题列表
             problemList(this.pageNo,this.pageSize,this.problemDesc,this.line,this.dutyDept).then(res=>{
-                console.log(res);
-                if(res.data.code==200){
-                    console.log(res);
-                    this.problemList=this.problemList.concat(res.data.problemList)
+                if(res.data.code==0){
+                    this.problemList=res.data.data.content;
+                    this.totalRows=res.data.data.totalPages;
                 }else{
                     this.$toast.fail(res.data.message);
                 }
@@ -148,17 +148,18 @@ export default {
             }
             console.log(this.ids)
         },
-        loadMore() {
-            console.log('开始加载')
+        loadMore() {//加载更多
             // 异步更新数据
             setTimeout(() => {
-                this.getProblemListData();
                 // 加载状态结束
                 this.loading = false;
-                // 数据全部加载完成
-                // if (this.problemList.length >= 40) {
+                if (this.totalRows<= this.pageSize) {
+                    // 数据全部加载完成
                     this.finished = true;
-                // }
+                }else{
+                    this.pageSize+=10;
+                    this.getProblemListData()
+                }
             }, 2000);
         },
     }

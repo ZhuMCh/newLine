@@ -1,18 +1,24 @@
 import http from './axios'
-
+//登录
+export function loginForWx(){
+    return http.fetchGet('/newline/mobile/user/login')
+}
+export function loginFowPwd(){
+    return http.fetchPost('/newline/mobile/user')
+}
 // 问题提报-列表
 export function problemList(page,size,description,lineLike,dutyDeptLike){
     return http.fetchPost('/newline/mobile/ProblemList',{
-        page,
-        size,
-        description,
-        lineLike,
-        dutyDeptLike
+        "page":page,
+        "size":size,
+        "description":description,
+        "lineLike":lineLike,
+        "dutyDeptLike":dutyDeptLike
     })
 }
 //问题提报-查看详情
 export function seeDetail(id){
-    return http.fetchGet('/newline/mobile/Problem',{id})
+    return http.fetchGet('/newline/mobile/Problem',{"id":id})
 }
 //问题提报-批量删除
 export function delProblem(ids){
@@ -106,12 +112,12 @@ export function addSubmitProblem(serialNumber,line,problemStage,seekOpinion,name
 //问题反馈-列表
 export function feedbackList(page,size,type,description,lineId,deptName){
     return http.fetchPost('/newline/mobile/problemFollowFeedbackList',{
-        page,
-        size,
-        type,
-        description,
-        lineId,
-        deptName
+        "page":page,
+        "size":size,
+        "type":type,
+        "description":description,
+        "lineId":lineId,
+        "deptName":deptName
     })
 }
 //问题反馈-反馈
