@@ -8,15 +8,15 @@
         </van-row>
         <van-row class="detailTr">
             <van-col span="10" class="detailTh">线路</van-col>
-            <van-col span="14" class="detailTd">{{detailData.line}}</van-col>
+            <van-col span="14" class="detailTd">{{detailData.line.name}}</van-col>
         </van-row>
         <van-row class="detailTr">
             <van-col span="10" class="detailTh">发现阶段</van-col>
-            <van-col span="14" class="detailTd">{{detailData.problemStage}}</van-col>
+            <van-col span="14" class="detailTd">{{detailData.problemStage.name}}</van-col>
         </van-row>
         <van-row class="detailTr">
             <van-col span="10" class="detailTh">文档名称</van-col>
-            <van-col span="14" class="detailTd">{{detailData.seekOpinion}}</van-col>
+            <van-col span="14" class="detailTd">{{detailData.seekOpinion?detailData.seekOpinion.fileName:''}}</van-col>
         </van-row>
         <van-row class="detailTr">
             <van-col span="10" class="detailTh">文件名称/问题部位</van-col>
@@ -44,7 +44,7 @@
         </van-row>
         <van-row class="detailTr">
             <van-col span="10" class="detailTh">发现部门</van-col>
-            <van-col span="14" class="detailTd">{{detailData.findDepartment}}</van-col>
+            <van-col span="14" class="detailTd">{{detailData.findDepartment.deptName}}</van-col>
         </van-row>
         <van-row class="detailTr">
             <van-col span="10" class="detailTh">发现人</van-col>
@@ -52,35 +52,31 @@
         </van-row>
         <van-row class="detailTr">
             <van-col span="10" class="detailTh">发现时间</van-col>
-            <van-col span="14" class="detailTd">{{detailData.findTime}}</van-col>
+            <van-col span="14" class="detailTd">{{new Date(detailData.findTime).Format('yyyy-MM-dd hh:mm:ss')}}</van-col>
         </van-row>
         <van-row class="detailTr">
             <van-col span="10" class="detailTh">提报人</van-col>
-            <van-col span="14" class="detailTd">{{detailData.reportEmployee}}</van-col>
+            <van-col span="14" class="detailTd">{{detailData.reportEmployee.empName}}</van-col>
         </van-row>
         <van-row class="detailTr">
             <van-col span="10" class="detailTh">提报日期</van-col>
-            <van-col span="14" class="detailTd">{{detailData.reportDate}}</van-col>
+            <van-col span="14" class="detailTd">{{new Date(detailData.reportDate).Format('yyyy-MM-dd hh:mm:ss')}}</van-col>
         </van-row>
         <van-row class="detailTr">
             <van-col span="10" class="detailTh">需要整改完成时限</van-col>
-            <van-col span="14" class="detailTd">{{detailData.endTime}}</van-col>
+            <van-col span="14" class="detailTd">{{new Date(detailData.endTime).Format('yyyy-MM-dd hh:mm:ss')}}</van-col>
         </van-row>
         <van-row class="detailTr">
             <van-col span="10" class="detailTh">责任部门</van-col>
-            <van-col span="14" class="detailTd">{{detailData.dutyDepartment}}</van-col>
+            <van-col span="14" class="detailTd">{{detailData.dutyDepartment.deptName}}</van-col>
         </van-row>
         <van-row class="detailTr">
             <van-col span="10" class="detailTh">联络员</van-col>
-            <van-col span="14" class="detailTd">{{detailData.liaisonEmployee}}</van-col>
+            <van-col span="14" class="detailTd">{{detailData.liaisonEmployee.empName}}</van-col>
         </van-row>
         <van-row class="detailTr">
             <van-col span="10" class="detailTh">审批状态</van-col>
-            <van-col span="14" class="detailTd">{{detailData.processStatus}}</van-col>
-        </van-row>
-        <van-row class="detailTr">
-            <van-col span="10" class="detailTh">审核时限(天)</van-col>
-            <van-col span="14" class="detailTd">{{detailData.approvalTime}}</van-col>
+            <van-col span="14" class="detailTd">{{detailData.processStatus==0?'待审批':(detailData.processStatus==1?'审批中':(detailData.processStatus==2?'审批通过':'审批否决'))}}</van-col>
         </van-row>
         <van-row class="detailTr">
             <van-col span="10" class="detailTh">添加附件</van-col>
@@ -100,16 +96,23 @@ export default {
     data(){
         return {
             // accessory:'',
-            detailData:''
+            detailData:{
+                line:{},
+                seekOpinion:{},
+                problemStage:{},
+                findDepartment:{},
+                reportEmployee:{},
+                dutyDepartment:{},
+                liaisonEmployee:{}
+            }
         }
     },
     created(){
         console.log(this.$route.query.id);
-        this.$route.query.id=''
         feedbackDetail(this.$route.query.id).then(res=>{
             console.log(res)
-            if(res.data.code==200){
-                this.detailData=res.data.detail
+            if(res.data.code==1001){
+                this.detailData=res.data.data
             }else{
                 this.$toast.fail(res.data.message);
             }

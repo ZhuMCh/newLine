@@ -95,6 +95,8 @@ a{
   display:flex;
   align-items:center;
   justify-content: center;
+  max-height: 100px;
+  overflow: auto;
 }
 /* 详情表格 */
 .detailTr{

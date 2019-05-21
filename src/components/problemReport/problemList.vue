@@ -65,7 +65,7 @@
                                 <van-col class="td">{{item.dutyDepartment.deptName}}</van-col>
                                 <van-col class="td">{{item.reportEmployee.empName}}</van-col>
                                 <van-col class="td">{{new Date(item.reportDate).Format('yyyy-MM-dd hh:mm:ss')}}</van-col>
-                                <van-col class="td">{{item.processStatus}}</van-col>
+                                <van-col class="td">{{item.processStatus==0?'待审批':(item.processStatus==1?'审批中':(item.processStatus==2?'审批通过':'审批否决'))}}</van-col>
                             </van-row>
                         </router-link>
                     </van-col>
@@ -109,7 +109,6 @@ export default {
         },
         homeSubmitProblem(){//提交
             homeSubmitProblem(this.ids).then(res=>{
-                console.log(res)
                 if(res.data.code==200){
                     this.$toast.success('提交成功');
                 }else{
@@ -119,7 +118,6 @@ export default {
         },
         handleDelete(){//批量删除
             delProblem(this.ids).then(res=>{
-                console.log(res)
                 if(res.data.code==200){
                     this.$toast.success('删除成功');
                 }else{
@@ -137,7 +135,6 @@ export default {
             } else {
                 this.ids = []
             }
-            console.log(this.ids)
         },
         checkOne(id){//单选
             let idIndex = this.ids.indexOf(id)
@@ -146,7 +143,6 @@ export default {
             } else {//如果没有包含就添加
                 this.ids.push(id)
             }
-            console.log(this.ids)
         },
         loadMore() {//加载更多
             // 异步更新数据

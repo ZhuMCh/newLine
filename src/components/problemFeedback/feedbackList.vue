@@ -52,9 +52,9 @@
                         <van-col class="td">{{item.id}}</van-col>
                         <van-col class="td">{{item.address}}</van-col>
                         <van-col class="td">{{item.description}}</van-col>
-                        <van-col class="td">{{item.dutyDepartment}}</van-col>
-                        <van-col class="td">{{item.reportEmployee}}</van-col>
-                        <van-col class="td">{{item.reportDate}}</van-col>
+                        <van-col class="td">{{item.dutyDepartment.deptName}}</van-col>
+                        <van-col class="td">{{item.reportEmployee.empName}}</van-col>
+                        <van-col class="td">{{new Date(item.reportDate).Format('yyyy-MM-dd hh:mm:ss')}}</van-col>
                     </van-row>
                 </router-link>
             </van-list>

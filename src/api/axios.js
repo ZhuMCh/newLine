@@ -8,7 +8,7 @@ axios.defaults.baseURL ='/api'
 //POST传参序列化(添加请求拦截器)
 axios.interceptors.request.use((config) => {
     //在发送请求之前做某件事
-    // if(config.method  === 'get'){
+    // if(config.method  === 'post'){
     //     config.data = qs.stringify(config.data);
     // }
     config.data=config.data
