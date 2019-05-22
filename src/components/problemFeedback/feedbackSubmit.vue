@@ -11,7 +11,7 @@
         <van-row  class="detailTr">
             <van-col span="10" class="detailTh">跟踪日期</van-col>
             <van-col span="14" class="detailTd">
-                <van-field placeholder="2019-02-25" v-model="feedbackTime"/>
+                <van-field readonly v-model="feedbackTime"/>
             </van-col>
         </van-row>
         <van-row  class="detailTr">
@@ -49,7 +49,7 @@ export default {
     data(){
         return {
             problemId:'',
-            feedbackTime:'',
+            feedbackTime:new Date().Format('yyyy-MM-dd hh:mm:ss'),
             failPath:'',
             recordDesc:'',
         }

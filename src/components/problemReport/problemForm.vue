@@ -194,7 +194,6 @@ export default {
         if(this.$route.query.id!=undefined){// 查看详情
             this.isAdd=false;
             seeDetail(this.$route.query.id).then(res=>{
-                console.log(res)
                 if(res.data.code==1000){
                     var detailData=res.data.data.problem;
                     this.problemNum=detailData.serialNumber;

@@ -108,6 +108,7 @@ export default {
             })
         },
         homeSubmit(){//提交
+        console.log(this.ids)
             homeSubmitProblem(this.ids).then(res=>{
                 if(res.data.code==200){
                     this.$toast.success('提交成功');
