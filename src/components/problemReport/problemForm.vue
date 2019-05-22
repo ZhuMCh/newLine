@@ -11,7 +11,7 @@
         <van-row  class="detailTr">
             <van-col span="10" class="detailTh">线路</van-col>
             <van-col span="14" class="detailTd">
-                <van-field v-model="line"/>
+                <van-field v-model="line" @click="clickFunc('线路',lineList,1)"/>
             </van-col>
         </van-row>
         <van-row  class="detailTr">
@@ -134,6 +134,10 @@
     <van-popup v-model="endTimePop" position="bottom" :overlay="true">
         <van-datetime-picker v-model="currentDate" type="date" @cancel="cancelPopup" @confirm="confirmPopup"/>
     </van-popup>
+    <!-- 选择器 -->
+    <van-popup v-model="eventPop" position="bottom" :overlay="true">
+        <van-picker show-toolbar :title="titleVal" :columns="dataList" value-key='name' @cancel="onCancel" @confirm="onConfirm"/>
+    </van-popup>
     
     <div class="btnBox">
         <van-row gutter="20">
@@ -165,6 +169,10 @@ export default {
             currentDate: new Date(),
             findTimePop:false,
             endTimePop:false,
+            eventPop:false,
+            dataList:[],
+            titleVal:'',
+            lineList:[{name:'1号线',id:'1'},{name:'2号线',id:'2'},{name:'3号线',id:'3'},{name:'4号线',id:'4'}],
             isAdd:false,
 
             problemNum:'',//问题流水号
@@ -355,6 +363,27 @@ export default {
                 this.endTime='';
             }
         },
+        clickFunc(popTitle,dataList,idx){//点击弹出选择器
+            this.eventPop=true;
+            this.titleVal=popTitle;
+            this.dataList=dataList;
+            this.idx=idx;
+        },
+        onConfirm(value, index){//选择器确认按钮事件
+            this.eventPop=false;
+            switch(this.idx){
+                case 1:{
+                    this.line=value.name;
+                } break;
+            }
+        },
+        onCancel(){//选择器取消按钮事件
+            this.eventPop=false;
+            // switch(this.idx){
+            //     case 1:{this.line=''} break;
+            // }
+            
+        }
 
     }
 }
