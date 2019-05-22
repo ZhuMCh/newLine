@@ -11,7 +11,6 @@ axios.interceptors.request.use((config) => {
     // if(config.method  === 'post'){
     //     config.data = qs.stringify(config.data);
     // }
-    config.data=config.data
     return config;
 },(error) =>{
     console.log('错误的传参')

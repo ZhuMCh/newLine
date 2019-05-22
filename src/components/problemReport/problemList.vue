@@ -30,7 +30,7 @@
                 </router-link>      
             </van-col>
             <van-col span="6">
-                <van-button size="small" @click="homeSubmitProblem">提交</van-button>        
+                <van-button size="small" @click="homeSubmit">提交</van-button>        
             </van-col>
             <van-col span="6">
                 <van-button size="small" @click="handleDelete">删除</van-button>        
@@ -107,7 +107,7 @@ export default {
                 }
             })
         },
-        homeSubmitProblem(){//提交
+        homeSubmit(){//提交
             homeSubmitProblem(this.ids).then(res=>{
                 if(res.data.code==200){
                     this.$toast.success('提交成功');

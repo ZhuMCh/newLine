@@ -5,127 +5,121 @@
         <van-row class="detailTr">
             <van-col span="10" class="detailTh">问题流水号</van-col>
             <van-col span="14" class="detailTd">
-                <van-field value="problemNum" v-model="problemNum"/>
+                <van-field v-model="problemNum"/>
             </van-col>
         </van-row>
         <van-row  class="detailTr">
             <van-col span="10" class="detailTh">线路</van-col>
             <van-col span="14" class="detailTd">
-                <van-field value="line" v-model="line"/>
+                <van-field v-model="line"/>
             </van-col>
         </van-row>
         <van-row  class="detailTr">
             <van-col span="10" class="detailTh">发现阶段</van-col>
             <van-col span="14" class="detailTd">
-                <van-field value="problemStage" v-model="problemStage"/>
+                <van-field v-model="problemStage"/>
             </van-col>
         </van-row>
         <van-row  class="detailTr">
             <van-col span="10" class="detailTh">文档名称</van-col>
             <van-col span="14" class="detailTd">
-                <van-field value="documentName" v-model="documentName" />
+                <van-field v-model="documentName" />
             </van-col>
         </van-row>
         <van-row  class="detailTr">
             <van-col span="10" class="detailTh">文件名称/问题部位</van-col>
             <van-col span="14" class="detailTd">
-                <van-field value="fileName" v-model="fileName" />
+                <van-field v-model="fileName" />
             </van-col>
         </van-row>
         <van-row  class="detailTr">
             <van-col span="10" class="detailTh">源文件内容/问题描述</van-col>
             <van-col span="14" class="detailTd">
-                <van-field value="fileContent" v-model="fileContent"/>
+                <van-field v-model="fileContent"/>
             </van-col>
         </van-row>
         <van-row  class="detailTr">
             <van-col span="10" class="detailTh">问题地点</van-col>
             <van-col span="14" class="detailTd">
-                <van-field value="problemAddr" v-model="problemAddr"/>
+                <van-field v-model="problemAddr"/>
             </van-col>
         </van-row>
         <van-row  class="detailTr">
             <van-col span="10" class="detailTh">等级</van-col>
             <van-col span="14" class="detailTd">
-                <van-field value="rank" v-model="rank"/>
+                <van-field v-model="rank"/>
             </van-col>
         </van-row>
         <van-row  class="detailTr">
             <van-col span="10" class="detailTh">问题影响</van-col>
             <van-col span="14" class="detailTd">
-                <van-field value="problemEffeck" v-model="problemEffeck"/>
+                <van-field v-model="problemEffeck"/>
             </van-col>
         </van-row>
         <van-row  class="detailTr">
             <van-col span="10" class="detailTh">运营整改意见</van-col>
             <van-col span="14" class="detailTd">
-                <van-field value="idea" v-model="idea"/>
+                <van-field v-model="idea"/>
             </van-col>
         </van-row>
         <van-row class="detailTr">
             <van-col span="10" class="detailTh">发现部门</van-col>
             <van-col span="14" class="detailTd">
-                <van-field value="findDept" v-model="findDept"/>
+                <van-field v-model="findDept"/>
             </van-col>
         </van-row>
         <van-row  class="detailTr">
             <van-col span="10" class="detailTh">发现人</van-col>
             <van-col span="14" class="detailTd">
-                <van-field value="findPerson" v-model="findPerson"/>
+                <van-field v-model="findPerson"/>
             </van-col>
         </van-row>
         <van-row  class="detailTr">
             <van-col span="10" class="detailTh">发现时间</van-col>
             <van-col span="14" class="detailTd">
-                <van-field placeholder="选择时间" value="findTime" v-model="findTime" readonly="readonly" icon="notes-o" @click="findTimePop = true;"/>
+                <van-field placeholder="选择时间" v-model="findTime" readonly="readonly" icon="notes-o" @click="findTimePop = true;"/>
             </van-col>
         </van-row>
         <van-row  class="detailTr">
             <van-col span="10" class="detailTh">提报人</van-col>
             <van-col span="14" class="detailTd">
-                <van-field value="reportPerson" v-model="reportPerson"/>
+                <van-field v-model="reportPerson"/>
             </van-col>
         </van-row>
         <van-row  class="detailTr">
             <van-col span="10" class="detailTh">提报日期</van-col>
             <van-col span="14" class="detailTd">
-                <van-field placeholder="2019-02-25" readonly value="reportTime" v-model="reportTime"/>
+                <van-field placeholder="2019-02-25" readonly v-model="reportTime"/>
             </van-col>
         </van-row>
         <van-row  class="detailTr">
             <van-col span="10" class="detailTh">需要整改完成时限</van-col>
             <van-col span="14" class="detailTd">
-                <van-field placeholder="选择时间" value="endTime" v-model="endTime" readonly icon="notes-o" @click="endTimePop = true;"/>
+                <van-field placeholder="选择时间" v-model="endTime" readonly icon="notes-o" @click="endTimePop = true;"/>
             </van-col>
         </van-row>
         <van-row  class="detailTr">
             <van-col span="10" class="detailTh">责任部门</van-col>
             <van-col span="14" class="detailTd">
-                <van-field value="dutyDept" v-model="dutyDept"/>
+                <van-field v-model="dutyDept"/>
             </van-col>
         </van-row>
         <van-row  class="detailTr">
             <van-col span="10" class="detailTh">联络员</van-col>
             <van-col span="14" class="detailTd">
-                <van-field value="liaisonPerson" v-model="liaisonPerson"/>
+                <van-field v-model="liaisonPerson"/>
             </van-col>
         </van-row>
         <van-row  class="detailTr">
             <van-col span="10" class="detailTh">审批状态</van-col>
             <van-col span="14" class="detailTd">
-                <van-field value="approveStatus" v-model="approveStatus"/>
-            </van-col>
-        </van-row>
-        <van-row  class="detailTr">
-            <van-col span="10" class="detailTh">审核时限(天)</van-col>
-            <van-col span="14" class="detailTd">
-                <van-field value="approveTime" v-model="approveTime"/>
+                <van-field v-model="approveStatus"/>
             </van-col>
         </van-row>
         <van-row  class="detailTr">
             <van-col span="10" class="detailTh">添加附件</van-col>
             <van-col span="14" class="detailTd uploaderBox">
-                <img :src="accessory" alt="">
+                <img :src="item" alt="" v-for="(item,index) in accessory" :key="index">
                 <van-uploader :after-read="onRead" class="uploader">
                     <van-icon name="plus" class="addIcon"/>
                 </van-uploader>
@@ -143,11 +137,14 @@
     
     <div class="btnBox">
         <van-row gutter="20">
-            <van-col span="8">
-                <van-button size="large" @click="addSubmitProblemFunc">提交</van-button>        
+            <van-col span="8" v-if="isAdd">
+                <van-button size="large" @click="addProblemFunc">添加</van-button>        
+            </van-col>
+            <van-col span="8" v-else>
+                <van-button size="large" @click="homeSubmit">提交</van-button>        
             </van-col>
             <van-col span="8" v-if="isAdd">
-                <van-button size="large" @click="addProblemFunc">保存</van-button>     
+                <van-button size="large" @click="addSubmitProblemFunc">保存</van-button>     
             </van-col>
             <van-col span="8" v-else>
                 <van-button size="large" @click="updataProblemFunc">修改</van-button>     
@@ -161,7 +158,7 @@
 </div>
 </template>
 <script>
-import { seeDetail,addProblem,addSubmitProblem,updateProblem } from '@/api/http'
+import { seeDetail,addProblem,addSubmitProblem,updateProblem,homeSubmitProblem } from '@/api/http'
 export default {
     data(){
         return {
@@ -189,38 +186,37 @@ export default {
             dutyDept:'',//责任部门
             liaisonPerson:'',//联络员
             approveStatus:'',//审批状态
-            approveTime:'',//审批时限
-            accessory:'',//附件
+            accessory:[],//附件
         }
     },
     created(){
         console.log(this.$route.query.id)
         if(this.$route.query.id!=undefined){// 查看详情
             this.isAdd=false;
-            this.$route.query.id=''//测试用
             seeDetail(this.$route.query.id).then(res=>{
-                if(res.data.code==200){
-                    this.problemNum=res.data.detail.problemNum;
-                    this.line=res.data.detail.line;
-                    this.problemStage=res.data.detail.problemStage
-                    this.documentName=res.data.detail.documentName
-                    this.fileName=res.data.detail.fileName
-                    this.fileContent=res.data.detail.fileContent
-                    this.problemAddr=res.data.detail.problemAddr
-                    this.rank=res.data.detail.rank
-                    this.problemEffeck=res.data.detail.problemEffeck
-                    this.idea=res.data.detail.idea
-                    this.findDept=res.data.detail.findDept
-                    this.findPerson=res.data.detail.findPerson
-                    this.findTime=res.data.detail.findTime
-                    this.reportPerson=res.data.detail.reportPerson
-                    this.reportTime=res.data.detail.reportTime
-                    this.endTime=res.data.detail.endTime
-                    this.dutyDept=res.data.detail.dutyDept
-                    this.liaisonPerson=res.data.detail.liaisonPerson
-                    this.approveStatus=res.data.detail.approveStatus
-                    this.approveTime=res.data.detail.approveTime
-                    this.accessory=res.data.detail.accessory
+                console.log(res)
+                if(res.data.code==1000){
+                    var detailData=res.data.data.problem;
+                    this.problemNum=detailData.serialNumber;
+                    this.line=detailData.line.name;
+                    this.problemStage=detailData.problemStage.name
+                    this.documentName=detailData.seekOpinion?detailData.seekOpinion.fileName:''
+                    this.fileName=detailData.name
+                    this.fileContent=detailData.description
+                    this.problemAddr=detailData.address
+                    this.rank=detailData.rank
+                    this.problemEffeck=detailData.effect
+                    this.idea=detailData.changeOpinion
+                    this.findDept=detailData.findDepartment.deptName
+                    this.findPerson=detailData.findEmployee
+                    this.findTime=new Date(detailData.findTime).Format('yyyy-MM-dd hh:mm:ss')
+                    this.reportPerson=detailData.reportEmployee.empName
+                    this.reportTime=new Date(detailData.reportDate).Format('yyyy-MM-dd hh:mm:ss')
+                    this.endTime=new Date(detailData.endTime).Format('yyyy-MM-dd hh:mm:ss')
+                    this.dutyDept=detailData.dutyDepartment.deptName
+                    this.liaisonPerson=detailData.liaisonEmployee.empName
+                    this.approveStatus=detailData.processStatus==0?'待审批':(detailData.processStatus==1?'审批中':(detailData.processStatus==2?'审批通过':'审批否决'))
+                    this.accessory=res.data.data.problemAttachments
                 }else{
                     this.$toast.fail(res.data.message); 
                 }
@@ -231,7 +227,7 @@ export default {
         
     },
     methods: {
-        addProblemFunc(){//新增问题-保存
+        addProblemFunc(){//新增问题
             addProblem(
                 this.problemNum,
                 this.line,
@@ -252,17 +248,17 @@ export default {
                 this.dutyDept,
                 this.liaisonPerson,
                 this.approveStatus,
-                this.approveTime,
                 this.accessory
             ).then(res=>{
+                console.log("新增:",res)
                 if(res.data.code==200){
-                    this.$toast.success('保存成功');
+                    this.$toast.success('添加成功');
                 }else{
                     this.$toast.fail(res.data.message);
                 }
             })
         },
-        addSubmitProblemFunc(){//提交
+        addSubmitProblemFunc(){//保存
             addSubmitProblem(
                 this.problemNum,
                 this.line,
@@ -283,11 +279,11 @@ export default {
                 this.dutyDept,
                 this.liaisonPerson,
                 this.approveStatus,
-                this.approveTime,
                 this.accessory
             ).then(res=>{
+                console.log("保存:",res)
                 if(res.data.code==200){
-                    this.$toast.success('提交成功');
+                    this.$toast.success('保存成功');
                 }else{
                    this.$toast.fail(res.data.message); 
                 }
@@ -316,11 +312,23 @@ export default {
                 this.dutyDept,
                 this.liaisonPerson,
                 this.approveStatus,
-                this.approveTime,
                 this.accessory
             ).then(res=>{
+                console.log("修改",res)
                 if(res.data.code==200){
                     this.$toast.success('修改成功');
+                }else{
+                    this.$toast.fail(res.data.message);
+                }
+            })
+        },
+        homeSubmit(){//提交
+            var idArr=[this.$route.query.id];
+            console.log(idArr)
+            homeSubmitProblem(idArr).then(res=>{
+                console.log("提交",res)
+                if(res.data.code==200){
+                    this.$toast.success('提交成功');
                 }else{
                     this.$toast.fail(res.data.message);
                 }
