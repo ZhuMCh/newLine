@@ -11,13 +11,13 @@
         <van-row  class="detailTr">
             <van-col span="10" class="detailTh">线路</van-col>
             <van-col span="14" class="detailTd">
-                <van-field v-model="line" @click="clickFunc('线路',lineList,1)"/>
+                <van-field v-model="line" readonly @click="clickFunc('线路',lineList,1)"/>
             </van-col>
         </van-row>
         <van-row  class="detailTr">
             <van-col span="10" class="detailTh">发现阶段</van-col>
             <van-col span="14" class="detailTd">
-                <van-field v-model="problemStage"/>
+                <van-field v-model="problemStage" readonly  @click="clickFunc('发现阶段',findStageList,2)"/>
             </van-col>
         </van-row>
         <van-row  class="detailTr">
@@ -162,7 +162,7 @@
 </div>
 </template>
 <script>
-import { seeDetail,addProblem,addSubmitProblem,updateProblem,homeSubmitProblem } from '@/api/http'
+import { seeDetail,addProblem,addSubmitProblem,updateProblem,homeSubmitProblem,getLine,getFind,getRootDept,getDeptById,getLiaison } from '@/api/http'
 export default {
     data(){
         return {
@@ -172,12 +172,15 @@ export default {
             eventPop:false,
             dataList:[],
             titleVal:'',
-            lineList:[{name:'1号线',id:'1'},{name:'2号线',id:'2'},{name:'3号线',id:'3'},{name:'4号线',id:'4'}],
+            lineList:[],//线路字典
+            findStageList:[],//发现阶段字典
             isAdd:false,
 
             problemNum:'',//问题流水号
             line:'',//线路
+            lineId:'',
             problemStage:'',//发现阶段
+            stageId:'',
             documentName:'',//文档名称
             fileName:'',//文件名称
             fileContent:'',//文件内容
@@ -206,7 +209,9 @@ export default {
                     var detailData=res.data.data.problem;
                     this.problemNum=detailData.serialNumber;
                     this.line=detailData.line.name;
-                    this.problemStage=detailData.problemStage.name
+                    this.lineId=detailData.line.code;
+                    this.problemStage=detailData.problemStage.name;
+                    this.stageId=detailData.problemStage.code;
                     this.documentName=detailData.seekOpinion?detailData.seekOpinion.fileName:''
                     this.fileName=detailData.name
                     this.fileContent=detailData.description
@@ -223,7 +228,7 @@ export default {
                     this.dutyDept=detailData.dutyDepartment.deptName
                     this.liaisonPerson=detailData.liaisonEmployee.empName
                     this.approveStatus=detailData.processStatus==0?'待审批':(detailData.processStatus==1?'审批中':(detailData.processStatus==2?'审批通过':'审批否决'))
-                    this.accessory=res.data.data.problemAttachments
+                    this.accessory=res.data.data.problemAttachments;
                 }else{
                     this.$toast.fail(res.data.message); 
                 }
@@ -231,7 +236,19 @@ export default {
         }else{//新增
             this.isAdd=true
         }
-        
+        getLine().then(res=>{//获取线路
+            res.data.code==200?this.lineList=res.data.data:this.$toast.fail(res.data.message)
+        })
+        getFind().then(res=>{//获取发现阶段
+            res.data.code==200?this.findStageList=res.data.data:this.$toast.fail(res.data.message);
+        })
+        getRootDept().then(res=>{console.log(res)})
+        // getDeptById().then(res=>{//获取部门
+        //     res.data.code==200?console.log(res):this.$toast.fail(res.data.message);
+        // })
+        // getLiaison().thensoe(res=>{//获取联络人
+        //     res.data.code==200?console.log(res):this.$toast.fail(res.data.message);
+        // })
     },
     methods: {
         addProblemFunc(){//新增问题
@@ -374,7 +391,12 @@ export default {
             switch(this.idx){
                 case 1:{
                     this.line=value.name;
+                    this.lineId=value.code
                 } break;
+                case 2:{
+                    this.problemStage=value.name;
+                    this.stageId=value.code;
+                }
             }
         },
         onCancel(){//选择器取消按钮事件

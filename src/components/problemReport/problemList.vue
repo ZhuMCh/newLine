@@ -98,8 +98,8 @@ export default {
     },
     methods:{
         getProblemListData(){//问题列表
-            problemList(this.pageNo,this.pageSize,this.problemDesc,this.line,this.dutyDept).then(res=>{
-                if(res.data.code==0){
+            problemList(this.pageNo,this.pageSize,this.problemDesc,this.line,this.dutyDept,0).then(res=>{
+                if(res.data.code==200){
                     this.problemList=res.data.data.content;
                     this.totalRows=res.data.data.totalPages;
                 }else{
