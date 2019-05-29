@@ -25,55 +25,49 @@ export function seeDetail(id){
 export function delProblem(ids){
     return http.fetchGet('/newline/mobile/delProblem',{ids})
 }
-// 问题提报-新增
-export function addProblem(serialNumber,line,problemStage,seekOpinion,name,description,address,rank,effect,changeOpinion,findDepartment,findEmployee,findTime,reportEmployee,reportDate,endTime,dutyDepartment,liaisonEmployee,processStatus,file){
+// 问题提报-保存(新增)
+export function addProblem(lineId,problemStageId,seekOpinionId,name,description,address,rank,effect,changeOpinion,findDepartmentId,findEmployee,findTime,reportEmployeeId,reportDate,endTime,dutyDepartmentId,liaisonEmployeeId){
     return http.fetchPost('/newline/mobile/addProblem',{
-        serialNumber,
-        line,
-        problemStage,
-        seekOpinion,
+        lineId,
+        problemStageId,
+        seekOpinionId,
         name,
         description,
         address,
         rank,
         effect,
         changeOpinion,
-        findDepartment,
+        findDepartmentId,
         findEmployee,
         findTime,
-        reportEmployee,
+        reportEmployeeId,
         reportDate,
         endTime,
-        dutyDepartment,
-        liaisonEmployee,
-        processStatus,
-        file
+        dutyDepartmentId,
+        liaisonEmployeeId
     })
 }
 //问题提报-修改
-export function updateProblem(id,serialNumber,line,problemStage,seekOpinion,name,description,address,rank,effect,changeOpinion,findDepartment,findEmployee,findTime,reportEmployee,reportDate,endTime,dutyDepartment,liaisonEmployee,processStatus,file){
+export function updateProblem(problemId,lineId,problemStageId,seekOpinionId,name,description,address,rank,effect,changeOpinion,findDepartmentId,findEmployee,findTime,reportEmployeeId,reportDate,endTime,dutyDepartmentId,liaisonEmployeeId){
     return http.fetchPost('/newline/mobile/updateProblem',{
-        id,
-        serialNumber,
-        line,
-        problemStage,
-        seekOpinion,
+        problemId,
+        lineId,
+        problemStageId,
+        seekOpinionId,
         name,
         description,
         address,
         rank,
         effect,
         changeOpinion,
-        findDepartment,
+        findDepartmentId,
         findEmployee,
         findTime,
-        reportEmployee,
+        reportEmployeeId,
         reportDate,
         endTime,
-        dutyDepartment,
-        liaisonEmployee,
-        processStatus,
-        file
+        dutyDepartmentId,
+        liaisonEmployeeId
     })
 }
 //问题提报-提交
@@ -82,28 +76,25 @@ export function homeSubmitProblem(ids){
 }
 
 //问题提报-保存提交
-export function addSubmitProblem(serialNumber,line,problemStage,seekOpinion,name,description,address,rank,effect,changeOpinion,findDepartment,findEmployee,findTime,reportEmployee,reportDate,endTime,dutyDepartment,liaisonEmployee,processStatus,file){
+export function addSubmitProblem(lineId,problemStageId,seekOpinionId,name,description,address,rank,effect,changeOpinion,findDepartmentId,findEmployee,findTime,reportEmployeeId,reportDate,endTime,dutyDepartmentId,liaisonEmployeeId){
     return http.fetchPost('/newline/mobile/addProblemSubmit',{
-        serialNumber,
-        line,
-        problemStage,
-        seekOpinion,
+        lineId,
+        problemStageId,
+        seekOpinionId,
         name,
         description,
         address,
         rank,
         effect,
         changeOpinion,
-        findDepartment,
+        findDepartmentId,
         findEmployee,
         findTime,
-        reportEmployee,
+        reportEmployeeId,
         reportDate,
         endTime,
-        dutyDepartment,
-        liaisonEmployee,
-        processStatus,
-        file
+        dutyDepartmentId,
+        liaisonEmployeeId
     })
 }
 
@@ -173,7 +164,7 @@ export function getRootDept(){
     return http.fetchGet('/newline/mobile/RootDepartsByComp?compNo=06')
 }
 //获取某个部门下级部门
-export function getNextDept(){
+export function getNextDept(deptId){
     return http.fetchGet('/newline/mobile/Children',{deptId})
 }
 //获取某个部门

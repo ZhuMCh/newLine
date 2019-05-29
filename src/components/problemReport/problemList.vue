@@ -29,9 +29,9 @@
                     <van-button size="small">新增</van-button>  
                 </router-link>      
             </van-col>
-            <van-col span="6">
+            <!-- <van-col span="6">
                 <van-button size="small" @click="homeSubmit">提交</van-button>        
-            </van-col>
+            </van-col> -->
             <van-col span="6">
                 <van-button size="small" @click="handleDelete">删除</van-button>        
             </van-col>

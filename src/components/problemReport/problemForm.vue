@@ -5,25 +5,25 @@
         <van-row class="detailTr">
             <van-col span="10" class="detailTh">问题流水号</van-col>
             <van-col span="14" class="detailTd">
-                <van-field v-model="problemNum"/>
+                <van-field v-model="problemNum" readonly placeholder="系统自动生成"/>
             </van-col>
         </van-row>
         <van-row  class="detailTr">
             <van-col span="10" class="detailTh">线路</van-col>
             <van-col span="14" class="detailTd">
-                <van-field v-model="line" readonly @click="clickFunc('线路',lineList,1)"/>
+                <van-field v-model="line" readonly @click="clickFunc('线路',lineList,1)" placeholder="请选择线路"/>
             </van-col>
         </van-row>
         <van-row  class="detailTr">
             <van-col span="10" class="detailTh">发现阶段</van-col>
             <van-col span="14" class="detailTd">
-                <van-field v-model="problemStage" readonly  @click="clickFunc('发现阶段',findStageList,2)"/>
+                <van-field v-model="problemStage" readonly  @click="clickFunc('发现阶段',findStageList,2)" placeholder="请选择阶段"/>
             </van-col>
         </van-row>
         <van-row  class="detailTr">
-            <van-col span="10" class="detailTh">文档名称</van-col>
+            <van-col span="10" class="detailTh">任务名称</van-col>
             <van-col span="14" class="detailTd">
-                <van-field v-model="documentName" />
+                <van-field v-model="taskName" readonly />
             </van-col>
         </van-row>
         <van-row  class="detailTr">
@@ -65,7 +65,7 @@
         <van-row class="detailTr">
             <van-col span="10" class="detailTh">发现部门</van-col>
             <van-col span="14" class="detailTd">
-                <van-field v-model="findDept"/>
+                <van-field readonly v-model="findDept"/>
             </van-col>
         </van-row>
         <van-row  class="detailTr">
@@ -83,13 +83,13 @@
         <van-row  class="detailTr">
             <van-col span="10" class="detailTh">提报人</van-col>
             <van-col span="14" class="detailTd">
-                <van-field v-model="reportPerson"/>
+                <van-field v-model="reportPerson" readonly/>
             </van-col>
         </van-row>
         <van-row  class="detailTr">
             <van-col span="10" class="detailTh">提报日期</van-col>
             <van-col span="14" class="detailTd">
-                <van-field placeholder="2019-02-25" readonly v-model="reportTime"/>
+                <van-field readonly v-model="reportTime"/>
             </van-col>
         </van-row>
         <van-row  class="detailTr">
@@ -101,19 +101,19 @@
         <van-row  class="detailTr">
             <van-col span="10" class="detailTh">责任部门</van-col>
             <van-col span="14" class="detailTd">
-                <van-field v-model="dutyDept"/>
+                <van-field v-model="dutyDept" readonly :disabled="disabled"  @click="clickFunc('1',deptList,3)" placeholder="请选择部门"/>
             </van-col>
         </van-row>
         <van-row  class="detailTr">
             <van-col span="10" class="detailTh">联络员</van-col>
             <van-col span="14" class="detailTd">
-                <van-field v-model="liaisonPerson"/>
+                <van-field v-model="liaisonPerson" readonly :disabled="disabled"/>
             </van-col>
         </van-row>
         <van-row  class="detailTr">
             <van-col span="10" class="detailTh">审批状态</van-col>
             <van-col span="14" class="detailTd">
-                <van-field v-model="approveStatus"/>
+                <van-field v-model="approveStatus" readonly/>
             </van-col>
         </van-row>
         <van-row  class="detailTr">
@@ -138,17 +138,20 @@
     <van-popup v-model="eventPop" position="bottom" :overlay="true">
         <van-picker show-toolbar :title="titleVal" :columns="dataList" value-key='name' @cancel="onCancel" @confirm="onConfirm"/>
     </van-popup>
-    
+    <!-- 部门选择器 -->
+    <van-popup v-model="deptPop" position="bottom" :overlay="true">
+        <van-picker show-toolbar title="责任部门" :columns="deptList" value-key='deptName' @cancel="onCancel" @confirm="onConfirm"/>
+    </van-popup>
     <div class="btnBox">
         <van-row gutter="20">
-            <van-col span="8" v-if="isAdd">
+            <!-- <van-col span="8" v-if="isAdd">
                 <van-button size="large" @click="addProblemFunc">添加</van-button>        
-            </van-col>
-            <van-col span="8" v-else>
+            </van-col> -->
+            <!-- <van-col span="8" v-else>
                 <van-button size="large" @click="homeSubmit">提交</van-button>        
-            </van-col>
+            </van-col> -->
             <van-col span="8" v-if="isAdd">
-                <van-button size="large" @click="addSubmitProblemFunc">保存</van-button>     
+                <van-button size="large" @click="addProblemFunc">保存</van-button>     
             </van-col>
             <van-col span="8" v-else>
                 <van-button size="large" @click="updataProblemFunc">修改</van-button>     
@@ -162,7 +165,7 @@
 </div>
 </template>
 <script>
-import { seeDetail,addProblem,addSubmitProblem,updateProblem,homeSubmitProblem,getLine,getFind,getRootDept,getDeptById,getLiaison } from '@/api/http'
+import { seeDetail,addProblem,addSubmitProblem,updateProblem,homeSubmitProblem,getLine,getFind,getRootDept,getDeptById,getLiaison,getUserInfo,getNextDept,getTaskName } from '@/api/http'
 export default {
     data(){
         return {
@@ -170,18 +173,21 @@ export default {
             findTimePop:false,
             endTimePop:false,
             eventPop:false,
+            deptPop:false,
             dataList:[],
             titleVal:'',
             lineList:[],//线路字典
             findStageList:[],//发现阶段字典
+            deptList:[],
             isAdd:false,
+            disabled:false,
 
             problemNum:'',//问题流水号
             line:'',//线路
             lineId:'',
             problemStage:'',//发现阶段
             stageId:'',
-            documentName:'',//文档名称
+            taskName:'',//文档名称
             fileName:'',//文件名称
             fileContent:'',//文件内容
             problemAddr:'',//问题地点
@@ -189,19 +195,22 @@ export default {
             problemEffeck:'',//问题影响
             idea:'',//整改意见
             findDept:'',//发现部门
+            findDeptId:'',
             findPerson:'',//发现人
             findTime:'',//发现时间
             reportPerson:'',//提报人
-            reportTime:'',//提报日期
+            reportPersonId:'',
+            reportTime:new Date().Format('yyyy-MM-dd'),//提报日期
             endTime:'',//需要整改完成时间
             dutyDept:'',//责任部门
+            dutyDeptId:'',
             liaisonPerson:'',//联络员
+            liaisonId:'',
             approveStatus:'',//审批状态
             accessory:[],//附件
         }
     },
     created(){
-        console.log(this.$route.query.id)
         if(this.$route.query.id!=undefined){// 查看详情
             this.isAdd=false;
             seeDetail(this.$route.query.id).then(res=>{
@@ -209,24 +218,28 @@ export default {
                     var detailData=res.data.data.problem;
                     this.problemNum=detailData.serialNumber;
                     this.line=detailData.line.name;
-                    this.lineId=detailData.line.code;
+                    this.lineId=detailData.line.id;
                     this.problemStage=detailData.problemStage.name;
-                    this.stageId=detailData.problemStage.code;
-                    this.documentName=detailData.seekOpinion?detailData.seekOpinion.fileName:''
-                    this.fileName=detailData.name
-                    this.fileContent=detailData.description
-                    this.problemAddr=detailData.address
-                    this.rank=detailData.rank
-                    this.problemEffeck=detailData.effect
-                    this.idea=detailData.changeOpinion
-                    this.findDept=detailData.findDepartment.deptName
-                    this.findPerson=detailData.findEmployee
+                    this.stageId=detailData.problemStage.id;
+                    this.getTeskNameFunc(detailData.line.id,detailData.problemStage.id);
+                    this.fileName=detailData.name;
+                    this.fileContent=detailData.description;
+                    this.problemAddr=detailData.address;
+                    this.rank=detailData.rank;
+                    this.problemEffeck=detailData.effect;
+                    this.idea=detailData.changeOpinion;
+                    this.findDept=detailData.findDepartment.deptName;
+                    this.findDeptId=detailData.findDepartment.deptId;
+                    this.findPerson=detailData.findEmployee;
                     this.findTime=new Date(detailData.findTime).Format('yyyy-MM-dd hh:mm:ss')
-                    this.reportPerson=detailData.reportEmployee.empName
+                    this.reportPerson=detailData.reportEmployee.empName;
+                    this.reportPersonId=detailData.reportEmployee.empId;
                     this.reportTime=new Date(detailData.reportDate).Format('yyyy-MM-dd hh:mm:ss')
                     this.endTime=new Date(detailData.endTime).Format('yyyy-MM-dd hh:mm:ss')
-                    this.dutyDept=detailData.dutyDepartment.deptName
-                    this.liaisonPerson=detailData.liaisonEmployee.empName
+                    this.dutyDept=detailData.dutyDepartment.deptName;
+                    this.dutyDeptId=detailData.dutyDepartment.deptId;
+                    this.liaisonPerson=detailData.liaisonEmployee.empName;
+                    this.liaisonId=detailData.liaisonEmployee.empId;
                     this.approveStatus=detailData.processStatus==0?'待审批':(detailData.processStatus==1?'审批中':(detailData.processStatus==2?'审批通过':'审批否决'))
                     this.accessory=res.data.data.problemAttachments;
                 }else{
@@ -242,68 +255,103 @@ export default {
         getFind().then(res=>{//获取发现阶段
             res.data.code==200?this.findStageList=res.data.data:this.$toast.fail(res.data.message);
         })
-        getRootDept().then(res=>{console.log(res)})
-        // getDeptById().then(res=>{//获取部门
-        //     res.data.code==200?console.log(res):this.$toast.fail(res.data.message);
-        // })
-        // getLiaison().thensoe(res=>{//获取联络人
-        //     res.data.code==200?console.log(res):this.$toast.fail(res.data.message);
-        // })
+        getUserInfo().then(res=>{//获取登录信息
+            console.log("登录人信息",res)
+            if(res.data.code==200){
+                this.findDept=res.data.data[0].deptName;
+                this.findDeptId=res.data.data[0].deptId;
+                this.reportPerson=res.data.data[0].userName
+                this.reportPersonId=res.data.data[0].id
+            }
+        })
+        // 获取部门
+        getRootDept().then(res=>{
+            if(res.data.code==200){
+                var oneDept=res.data.data
+                for(var i=0;i<oneDept.length;i++){
+                    if(oneDept[i].deptName!="西海岸运营中心"){
+                        this.deptList.push(oneDept[i])
+                    }else{  
+                        getNextDept(oneDept[i].deptId).then(resp=>{
+                            if(resp.data.code==200){
+                                for(var j=0;j<resp.data.data.length;j++){
+                                    this.deptList.push(resp.data.data[j])
+                                }
+                            }
+                        }) 
+                    }
+                }
+            }
+        })
     },
     methods: {
-        addProblemFunc(){//新增问题
+        //获取任务名称
+        getTeskNameFunc(lineId,stageId,status){
+            getTaskName(lineId,stageId).then(res=>{
+                if(res.data.code==200){
+                    console.log(res)
+                    this.taskName=res.data.data[0].fileName;
+                    this.taskNameId=res.data.data[0].id;
+                    if(status=='SJLL'){
+                        this.disabled=true;
+                        this.deptName=res.data.data[0].createEmp.department.parent?res.data.data[0].createEmp.department.parent.deptName:res.data.data[0].createEmp.department.deptName;
+                        this.deptNameId=res.data.data[0].createEmp.department.parent?res.data.data[0].createEmp.department.parent.deptId:res.data.data[0].createEmp.department.deptId;
+                        this.liaisonPerson=res.data.data[0].empName;
+                        this.liaisonId=res.data.data[0].empId;
+                    }
+                }
+            })
+        },
+
+        addProblemFunc(){//保存(新增)问题
             addProblem(
-                this.problemNum,
-                this.line,
-                this.problemStage,
-                this.documentName,
+                this.lineId,
+                this.stageId,
+                this.taskNameId,
                 this.fileName,
                 this.fileContent,
                 this.problemAddr,
                 this.rank,
                 this.problemEffeck,
                 this.idea,
-                this.findDept,
+                this.findDeptId,
                 this.findPerson,
                 this.findTime,
-                this.reportPerson,
+                this.reportPersonId,
                 this.reportTime,
                 this.endTime,
-                this.dutyDept,
-                this.liaisonPerson,
-                this.approveStatus,
-                this.accessory
+                this.dutyDeptId,
+                this.liaisonId
             ).then(res=>{
-                console.log("新增:",res)
                 if(res.data.code==200){
-                    this.$toast.success('添加成功');
+                    this.$toast.success(res.data.message);
+                    setTimeout(()=>{
+                        this.$router.go(-1)
+                    },1500)
                 }else{
                     this.$toast.fail(res.data.message);
                 }
             })
         },
-        addSubmitProblemFunc(){//保存
+        addSubmitProblemFunc(){//提交
             addSubmitProblem(
-                this.problemNum,
-                this.line,
-                this.problemStage,
-                this.documentName,
+                this.lineId,
+                this.stageId,
+                this.taskNameId,
                 this.fileName,
                 this.fileContent,
                 this.problemAddr,
                 this.rank,
                 this.problemEffeck,
                 this.idea,
-                this.findDept,
+                this.findDeptId,
                 this.findPerson,
                 this.findTime,
-                this.reportPerson,
+                this.reportPersonId,
                 this.reportTime,
                 this.endTime,
-                this.dutyDept,
-                this.liaisonPerson,
-                this.approveStatus,
-                this.accessory
+                this.dutyDeptId,
+                this.liaisonId
             ).then(res=>{
                 console.log("保存:",res)
                 if(res.data.code==200){
@@ -312,35 +360,34 @@ export default {
                    this.$toast.fail(res.data.message); 
                 }
             })
-
         },
         updataProblemFunc(){//修改
             updateProblem(
                 this.$route.query.id,
-                this.problemNum,
-                this.line,
-                this.problemStage,
-                this.documentName,
+                this.lineId,
+                this.stageId,
+                this.taskNameId,
                 this.fileName,
                 this.fileContent,
                 this.problemAddr,
                 this.rank,
                 this.problemEffeck,
                 this.idea,
-                this.findDept,
+                this.findDeptId,
                 this.findPerson,
                 this.findTime,
-                this.reportPerson,
+                this.reportPersonId,
                 this.reportTime,
                 this.endTime,
-                this.dutyDept,
-                this.liaisonPerson,
-                this.approveStatus,
-                this.accessory
+                this.dutyDeptId,
+                this.liaisonId
             ).then(res=>{
                 console.log("修改",res)
                 if(res.data.code==200){
-                    this.$toast.success('修改成功');
+                    this.$toast.success(res.data.message);
+                    setTimeout(()=>{
+                        this.$router.go(-1)
+                    },1500)
                 }else{
                     this.$toast.fail(res.data.message);
                 }
@@ -381,30 +428,58 @@ export default {
             }
         },
         clickFunc(popTitle,dataList,idx){//点击弹出选择器
-            this.eventPop=true;
-            this.titleVal=popTitle;
-            this.dataList=dataList;
             this.idx=idx;
+            if(idx==3){
+                this.deptPop=true;
+            }else{
+                this.eventPop=true;
+                this.titleVal=popTitle;
+                this.dataList=dataList;
+            }
+            if(idx==2){
+                if(this.line==''){
+                    this.eventPop=false;
+                    this.$toast.fail("请先选择线路");
+                } 
+            }  
         },
         onConfirm(value, index){//选择器确认按钮事件
+            console.log(value);
             this.eventPop=false;
+            this.deptPop=false;
             switch(this.idx){
                 case 1:{
                     this.line=value.name;
-                    this.lineId=value.code
+                    this.lineId=value.id
                 } break;
                 case 2:{
                     this.problemStage=value.name;
-                    this.stageId=value.code;
-                }
+                    this.stageId=value.id;
+                    if(value.processName=='GK'){
+                        this.getTeskNameFunc(this.lineId,value.id)
+                    }else if(value.processName=='ZB'){
+                        this.taskName=null;
+                        this.taskNameId=null;
+                    }else{
+                        this.getTeskNameFunc(this.lineId,value.id)
+                    }
+                } break;
+                case 3:{
+                    this.dutyDept=value.deptName;
+                    this.dutyDeptId=value.deptId;
+                    getLiaison(this.lineId,value.deptId).then(res=>{
+                        console.log(res)
+                        if(res.data.code==200){
+                            this.liaisonPerson=res.data.data?res.data.data.emp.empName:null;
+                            this.liaisonId=res.data.data?res.data.data.emp.empId:null;
+                        }
+                    })
+                } break;
             }
         },
         onCancel(){//选择器取消按钮事件
             this.eventPop=false;
-            // switch(this.idx){
-            //     case 1:{this.line=''} break;
-            // }
-            
+            this.deptPop=false;
         }
 
     }

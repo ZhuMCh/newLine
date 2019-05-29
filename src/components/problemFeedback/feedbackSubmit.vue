@@ -33,7 +33,7 @@
     <div class="btnBox">
         <van-row gutter="20">
             <van-col span="8">
-                <van-button size="large" @click="feedbackSubmitFunc">提交</van-button>        
+                <van-button size="large" @click="feedbackSubmitFunc">保存</van-button>        
             </van-col>
             <van-col span="8" offset="8">
                 <van-button size="large" @click="()=>{this.$router.go(-1)}">取消</van-button>        
@@ -74,6 +74,9 @@ export default {
                 console.log(res);
                 if(res.data.code==200){
                     this.$toast.success('提交成功');
+                    setTimeout(()=>{
+                        this.$router.go(-1)
+                    },1500)
                 }else{
                     this.$toast.fail(res.data.message);
                 }
