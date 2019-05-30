@@ -26,7 +26,7 @@ export function delProblem(ids){
     return http.fetchGet('/newline/mobile/delProblem',{ids})
 }
 // 问题提报-保存(新增)
-export function addProblem(lineId,problemStageId,seekOpinionId,name,description,address,rank,effect,changeOpinion,findDepartmentId,findEmployee,findTime,reportEmployeeId,reportDate,endTime,dutyDepartmentId,liaisonEmployeeId){
+export function addProblem(lineId,problemStageId,seekOpinionId,name,description,address,rank,effect,changeOpinion,findDepartmentId,findEmployee,findTime,reportEmployeeId,reportDate,endTime,dutyDepartmentId,liaisonEmployeeId,majorId){
     return http.fetchPost('/newline/mobile/addProblem',{
         lineId,
         problemStageId,
@@ -44,11 +44,12 @@ export function addProblem(lineId,problemStageId,seekOpinionId,name,description,
         reportDate,
         endTime,
         dutyDepartmentId,
-        liaisonEmployeeId
+        liaisonEmployeeId,
+        majorId
     })
 }
 //问题提报-修改
-export function updateProblem(problemId,lineId,problemStageId,seekOpinionId,name,description,address,rank,effect,changeOpinion,findDepartmentId,findEmployee,findTime,reportEmployeeId,reportDate,endTime,dutyDepartmentId,liaisonEmployeeId){
+export function updateProblem(problemId,lineId,problemStageId,seekOpinionId,name,description,address,rank,effect,changeOpinion,findDepartmentId,findEmployee,findTime,reportEmployeeId,reportDate,endTime,dutyDepartmentId,liaisonEmployeeId,majorId){
     return http.fetchPost('/newline/mobile/updateProblem',{
         problemId,
         lineId,
@@ -67,7 +68,8 @@ export function updateProblem(problemId,lineId,problemStageId,seekOpinionId,name
         reportDate,
         endTime,
         dutyDepartmentId,
-        liaisonEmployeeId
+        liaisonEmployeeId,
+        majorId
     })
 }
 //问题提报-提交
@@ -136,8 +138,8 @@ export function getFind(psId){
     return http.fetchPost('/newline/mobile/getProblemStage',{psId})
 }
 //获取字典数据
-export function getDic(dictCode,typeCode){
-    return http.fetchGet('/newline/mobile/getDic',{dictCode,typeCode})
+export function getDic(typeCode,dictCode){
+    return http.fetchGet('/newline/mobile/getDic',{typeCode,dictCode})
 }
 //获取用户信息
 export function getUserInfo(){
