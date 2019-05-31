@@ -143,7 +143,7 @@ export function getDic(typeCode,dictCode){
 }
 //获取用户信息
 export function getUserInfo(){
-    return http.fetchPost('/newline/mobile/getLoginManData')
+    return http.fetchPost('/newline/mobile/getUserData')
 }
 //获取任务名称
 export function getTaskName(lineId,problemStageId){

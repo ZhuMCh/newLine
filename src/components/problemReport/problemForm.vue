@@ -271,6 +271,14 @@ export default {
             })
         }else{//新增
             this.isAdd=true
+            getUserInfo().then(res=>{//获取登录信息
+                if(res.data.code==200&&res.data.data.length>0){
+                    this.findDept=res.data.data[0].deptName;
+                    this.findDeptId=res.data.data[0].deptId;
+                    this.reportPerson=res.data.data[0].userName
+                    this.reportPersonId=res.data.data[0].id
+                }
+            })
         }
         getLine().then(res=>{//获取线路
             res.data.code==200?this.lineList=res.data.data:this.$toast.fail(res.data.message)
@@ -278,14 +286,7 @@ export default {
         getFind().then(res=>{//获取发现阶段
             res.data.code==200?this.findStageList=res.data.data:this.$toast.fail(res.data.message);
         })
-        getUserInfo().then(res=>{//获取登录信息
-            if(res.data.code==200){
-                this.findDept=res.data.data[0].deptName;
-                this.findDeptId=res.data.data[0].deptId;
-                this.reportPerson=res.data.data[0].userName
-                this.reportPersonId=res.data.data[0].id
-            }
-        })
+        
         this.getRankAndEffect('WTDJ',null,0)//问题等级
         this.getRankAndEffect('WTYX',null,1)//问题影响
         // 获取责任部门
