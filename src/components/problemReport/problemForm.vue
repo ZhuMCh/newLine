@@ -192,7 +192,7 @@ export default {
             disabled:false,
             majorShow:false,
             taskStatus:'',
-            canSubmit:fasle,
+            canSubmit:false,
 
             problemNum:'',//问题流水号
             line:'',//线路

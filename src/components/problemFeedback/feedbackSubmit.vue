@@ -5,7 +5,7 @@
         <van-row class="detailTr">
             <van-col span="10" class="detailTh">问题编号</van-col>
             <van-col span="14" class="detailTd">
-                <van-field placeholder="WT20190225001" v-model="problemId"/>
+                <van-field placeholder="WT20190225001" readonly v-model="problemNum"/>
             </van-col>
         </van-row>
         <van-row  class="detailTr">
@@ -15,12 +15,10 @@
             </van-col>
         </van-row>
         <van-row  class="detailTr">
-            <van-col span="10" class="detailTh">资料附件</van-col>
-            <van-col span="14" class="detailTd uploaderBox">
-                <img :src="failPath" alt="">
-                <van-uploader :after-read="onRead" class="uploader">
-                    <van-icon name="plus" class="addIcon"/>
-                </van-uploader>
+            <van-col span="24" class="detailTd uploaderBox">
+                <van-panel title="资料附件">
+                    <div class="upload"><input type="file" value="" @change="uploadFile"></div>
+                </van-panel>  
             </van-col>
         </van-row>
         <van-row  class="detailTr">
@@ -40,7 +38,6 @@
             </van-col>
         </van-row>
     </div>
-    
 </div>
 </template>
 <script>
@@ -48,21 +45,20 @@ import { feedbackSubmitDetail,feedbackSubmit } from '@/api/http'
 export default {
     data(){
         return {
-            problemId:'',
+            currentDate: new Date(),
+            timeProp:false,
+            problemNum:'',
             feedbackTime:new Date().Format('yyyy-MM-dd hh:mm:ss'),
-            failPath:'',
+            filePath:null,
             recordDesc:'',
         }
     },
     created(){
         // 详情
-        feedbackSubmitDetail('').then(res=>{
+        feedbackSubmitDetail(this.$route.query.id).then(res=>{
             console.log(res)
-            if(res.data.code==200){
-                this.problemId=res.data.detail.problemId;
-                this.feedbackTime=res.data.detail.date;
-                this.failPath=res.data.detail.docAttachmentName;
-                this.recordDesc=res.data.detail.recordDescription;
+            if(res.data.code==1000){
+                this.problemNum=res.data.data[0].problemId.problemCode;
             }else{
                 this.$toast.fail(res.data.message);
             }
@@ -70,7 +66,7 @@ export default {
     },
     methods: {
         feedbackSubmitFunc(){//反馈
-            feedbackSubmit(this.problemId,this.failPath,this.recordDesc).then(res=>{
+            feedbackSubmit({id:this.$route.query.id},this.filePath,this.recordDesc).then(res=>{
                 console.log(res);
                 if(res.data.code==200){
                     this.$toast.success('提交成功');
@@ -82,10 +78,12 @@ export default {
                 }
             })
         },
-        onRead(file) {
-            console.log(file)
-            this.failPath=file.content
-        }
+        uploadFile(file){
+            this.filePath=file.target.files[0]
+            console.log(file.target.files[0])
+            // let formData = new FormData();
+            // formData.append('file', file.target.files[0]);
+        },
     }
 }
 </script>
@@ -99,26 +97,32 @@ export default {
 .uploaderBox{
     padding: 5px 10px;
 }
-.uploaderBox img{
-    width: 80px;
-    height: 80px;
-    vertical-align: middle;
-}
-.uploaderBox .uploader{
-    background-color: #F6F6F6;
-    width: 50px;
-    height: 50px;
-    vertical-align: middle;
-}
-.uploaderBox .uploader .addIcon{
-    font-size: 30px;
-    line-height: 50px;
-    color: #C4C5C7;
-}
+
 .btnBox{
     padding: 0 10px 20px;
 }
 .btnBox .van-button{
     background-color: #1bbc9a;
+}
+</style>
+<style>
+.uploaderBox .van-panel{
+    width:100%;
+}
+.uploaderBox .van-panel__header{
+    width:100%;
+    text-align:left;
+    color:#1bbc9a;
+    padding:0 0 5px 35px;
+}
+.uploaderBox .van-cell:not(:last-child)::after{
+    left:0;
+}
+.uploaderBox [class*=van-hairline]::after{
+    border:none;
+}
+.uploaderBox .upload{
+    width:100%;
+    padding:20px 0;
 }
 </style>
