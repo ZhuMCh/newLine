@@ -9,14 +9,14 @@
             </van-col>
             <van-col span="3" class="inputLabel">线路</van-col>
             <van-col span="8">
-                <van-field clearable class="inputBox" v-model="line"/>
+                <van-field clearable class="inputBox" readonly v-model="line" @click="clickFunc(0)"/>
             </van-col>
         </van-row>
         <br>
         <van-row gutter="10">
             <van-col span="5" class="inputLabel">责任部门</van-col>
             <van-col span="8">
-                <van-field clearable class="inputBox" v-model="dutyDept"/>
+                <van-field clearable class="inputBox" readonly v-model="dutyDept" @click="clickFunc(1)"/>
             </van-col>
         </van-row>
         <br>
@@ -73,19 +73,35 @@
             </van-list>
         </div>
     </div>
-    
+    <!-- 线路选择器 -->
+    <van-popup v-model="linePop" position="bottom" :overlay="true">
+        <van-picker show-toolbar title="线路" :columns="lineList" value-key='name' @cancel="onCancel" @confirm="onConfirm"/>
+    </van-popup>
+    <!-- 部门选择器 -->
+    <van-popup v-model="deptPop" position="bottom" :overlay="true">
+        <van-picker show-toolbar title="责任部门" :columns="deptList" value-key='deptName' @cancel="onCancel" @confirm="onConfirm"/>
+    </van-popup>
 </div>
 </template>
 <script>
-import { problemList,homeSubmitProblem,delProblem } from '@/api/http'
+import { problemList,homeSubmitProblem,delProblem,getLine,getRootDept,getNextDept } from '@/api/http'
 export default {
     data(){
         return {
+            idx:0,
+            linePop:false,
+            deptPop:false,
+            deptList:[],//部门字典
+            lineList:[],//线路字典
+
             pageNo:1,
             pageSize:10,
             problemDesc:'',
             line:'',
+            lineId:'',
             dutyDept:'',
+            dutyDeptId:'',
+
             ids:[],
             problemList:[],
             loading: false,
@@ -95,10 +111,32 @@ export default {
     },
     created(){
         this.getProblemListData();
+        getLine().then(res=>{//获取线路
+            res.data.code==200?this.lineList=res.data.data:this.$toast.fail(res.data.message)
+        })
+        // 获取责任部门
+        getRootDept().then(res=>{
+            if(res.data.code==200){
+                var oneDept=res.data.data
+                for(var i=0;i<oneDept.length;i++){
+                    if(oneDept[i].deptName!="西海岸运营中心"){
+                        this.deptList.push(oneDept[i])
+                    }else{  
+                        getNextDept(oneDept[i].deptId).then(resp=>{
+                            if(resp.data.code==200){
+                                for(var j=0;j<resp.data.data.length;j++){
+                                    this.deptList.push(resp.data.data[j])
+                                }
+                            }
+                        }) 
+                    }
+                }
+            }
+        })
     },
     methods:{
         getProblemListData(){//问题列表
-            problemList(this.pageNo,this.pageSize,this.problemDesc,this.line,this.dutyDept,0).then(res=>{
+            problemList(this.pageNo,this.pageSize,this.problemDesc,this.lineId,this.dutyDeptId,0).then(res=>{
                 if(res.data.code==200){
                     this.problemList=res.data.data.content;
                     this.totalRows=res.data.data.totalPages;
@@ -145,7 +183,41 @@ export default {
                 this.ids.push(id)
             }
         },
-        loadMore() {//加载更多
+        //点击弹出选择器
+        clickFunc(idx){
+            this.idx=idx;
+            if(idx==0){
+                this.linePop=true
+            }else{
+                this.deptPop=true
+            }
+        },
+        // 选择器确认事件
+        onConfirm(value, index){
+            this.linePop=false
+            this.deptPop=false
+            if(this.idx==0){
+                this.line=value.name;
+                this.lineId=value.id
+            }else{
+                this.dutyDept=value.deptName;
+                this.dutyDeptId=value.deptId;
+            }
+        },
+        // 选择器取消事件
+        onCancel(){
+            this.linePop=false
+            this.deptPop=false
+            if(this.idx==0){
+                this.line=null;
+                this.lineId=null
+            }else{
+                this.dutyDept='';
+                this.dutyDeptId='';
+            }
+        },
+        //加载更多
+        loadMore() {
             // 异步更新数据
             setTimeout(() => {
                 // 加载状态结束

@@ -9,6 +9,8 @@ import ProblemForm from '@/components/problemReport/problemForm'
 import ProblemFeedback from '@/components/problemFeedback/feedbackList'
 import ProblemFeedbackDetail from '@/components/problemFeedback/feedbackDetail'
 import ProblemFeedbackSubmit from '@/components/problemFeedback/feedbackSubmit'
+import SeeProblem from '@/components/seeProblem/problemList'
+import ProblemDetail from '@/components/seeProblem/problemDetail'
 
 
 Vue.use(Router)
@@ -50,6 +52,14 @@ export default new Router({
     {//问题反馈
       path: '/problemFeedback/feedbackSubmit',
       component: ProblemFeedbackSubmit
+    },
+    {//问题信息查看列表
+      path: '/problemList',
+      component: SeeProblem
+    },
+    {//问题信息查看列表
+      path: '/problemList/detail',
+      component: ProblemDetail
     }
   ]
 })

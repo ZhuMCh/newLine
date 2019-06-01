@@ -1,6 +1,6 @@
 <template>
 <div>
-    <van-nav-bar title="问题跟踪反馈" left-text="返回" left-arrow @click-left="()=>{this.$router.go(-1)}" />
+    <van-nav-bar title="问题信息查看" left-text="返回" left-arrow @click-left="()=>{this.$router.go(-1)}" />
     <div class="container">
         <van-row gutter="10">
             <van-col span="5" class="inputLabel">问题描述</van-col>
@@ -18,53 +18,41 @@
             <van-col span="8">
                 <van-field clearable class="inputBox"  readonly v-model="dutyDept" @click="clickFunc(1)"/>
             </van-col>
+            <van-col span="4" class="inputLabel">发现人</van-col>
+            <van-col span="7">
+                <van-field clearable class="inputBox" v-model="findPerson"/>
+            </van-col>
         </van-row>
         <br>
-        <van-row gutter="20" type="flex" justify="center">
-            <van-col span="6">
-                <van-button size="small" @click="getFeedbackListData">查询</van-button>        
-            </van-col>
-            <van-col span="6">
-                <router-link :to="{path:'/problemFeedback/feedbackSubmit',query:{id:ids[0]}}">
-                    <van-button size="small">反馈</van-button>
-                </router-link>         
+        <van-row gutter="32">
+            <van-col span="6" offset="18">
+                <van-button size="small" @click="getProblemListData">查询</van-button>        
             </van-col>
         </van-row>
         <br>
         <div class="table">
             <van-row class="tr">
-                <van-col class="selectAll"><input type="checkbox" :checked="feedbackList.length===ids.length&&ids.length" @click="checkAll"></van-col>
-                <van-col style="flex:5;">
-                    <van-row class="tr" style="border-bottom:none;border-right:none;">
-                        <van-col class="th">问题编号</van-col>
-                        <van-col class="th">问题地点</van-col>
-                        <van-col class="th">问题描述</van-col>
-                        <van-col class="th">责任部门</van-col>
-                        <van-col class="th">提报人</van-col>
-                        <van-col class="th">提报日期</van-col>
-                    </van-row>
-                </van-col>
+                <van-col class="th">问题编号</van-col>
+                <van-col class="th">问题地点</van-col>
+                <van-col class="th">问题描述</van-col>
+                <van-col class="th">责任部门</van-col>
+                <van-col class="th">提报人</van-col>
+                <van-col class="th">提报日期</van-col>
             </van-row>
-            <van-row class="tr" v-if="feedbackList.length==0">
+            <van-row class="tr" v-if="problemList.length==0">
                 <van-col class="td">暂无数据</van-col>
             </van-row>
             <van-list v-model="loading" :finished="finished" finished-text="没有更多了" @load="loadMore" :offset="5">
-                <van-row class="tr" v-for="(item,index) in feedbackList" :key="index">
-                    <van-col class="selectOne"><input type="checkbox" :checked="ids.indexOf(item.id)>=0" @click="checkOne(item.id)"></van-col>
-                    <van-col style="flex:5;">
-                        <router-link :to="{path:'/problemFeedback/feedbackDetail',query:{id:item.id}}">
-                            <van-row class="tr" style="border-bottom:none;border-right:none;">
-                                <van-col class="td">{{item.id}}</van-col>
-                                <van-col class="td">{{item.address}}</van-col>
-                                <van-col class="td">{{item.description}}</van-col>
-                                <van-col class="td">{{item.dutyDepartment.deptName}}</van-col>
-                                <van-col class="td">{{item.reportEmployee.empName}}</van-col>
-                                <van-col class="td">{{new Date(item.reportDate).Format('yyyy-MM-dd hh:mm:ss')}}</van-col>
-                            </van-row>
-                        </router-link>
-                    </van-col>
-                </van-row>
-
+                <router-link :to="{path:'/problemList/detail',query:{id:item.id}}" v-for="(item,index) in problemList" :key="index">
+                    <van-row class="tr">
+                        <van-col class="td">{{item.id}}</van-col>
+                        <van-col class="td">{{item.address}}</van-col>
+                        <van-col class="td">{{item.description}}</van-col>
+                        <van-col class="td">{{item.dutyDepartment.deptName}}</van-col>
+                        <van-col class="td">{{item.reportEmployee.empName}}</van-col>
+                        <van-col class="td">{{new Date(item.reportDate).Format('yyyy-MM-dd hh:mm:ss')}}</van-col>
+                    </van-row>
+                </router-link>
             </van-list>
         </div>
     </div>
@@ -97,10 +85,8 @@ export default {
             lineId:'',
             dutyDept:'',
             dutyDeptId:'',
-            // lineId:'',
-            // deptName:'',
-            feedbackList:[],
-            ids:[],
+            findPerson:'',
+            problemList:[],
 
             loading: false,
             finished: false,
@@ -108,7 +94,7 @@ export default {
         }
     },
     created(){
-        this.getFeedbackListData();
+        this.getProblemListData();
         getLine().then(res=>{//获取线路
             res.data.code==200?this.lineList=res.data.data:this.$toast.fail(res.data.message)
         })
@@ -133,35 +119,16 @@ export default {
         })
     },
     methods:{
-        getFeedbackListData(){//获取问题反馈列表数据
+        getProblemListData(){//获取问题反馈列表数据
             feedbackList(this.pageNo,this.pageSize,this.type,this.description,this.lineId,this.dutyDeptId).then(res=>{
                 console.log(res)
                 if(res.data.code==0){
-                    this.feedbackList=res.data.data.content;
+                    this.problemList=res.data.data.content;
                     this.totalRows=res.data.data.totalPages;
                 }else{
                     this.$toast.fail(res.data.message);
                 }
             })
-        },
-        checkAll(e){//全选
-            this.isCheckedAll = e.target.checked;
-            if (this.isCheckedAll) {//全选时
-                this.ids = []
-                this.feedbackList.forEach(item => {
-                    this.ids.push(item.id)
-                })
-            } else {
-                this.ids = []
-            }
-        },
-        checkOne(id){//单选
-            let idIndex = this.ids.indexOf(id)
-            if (idIndex >= 0) {//如果已经包含就去除
-                this.ids.splice(idIndex, 1)
-            } else {//如果没有包含就添加
-                this.ids.push(id)
-            }
         },
         //点击弹出选择器
         clickFunc(idx){
@@ -206,7 +173,7 @@ export default {
                     this.finished = true;
                 }else{
                     this.pageSize+=10;
-                    this.getFeedbackListData()
+                    this.getProblemListData()
                 }
             }, 2000);
         },
