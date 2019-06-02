@@ -80,12 +80,12 @@ export default {
             pageNo:1,
             pageSize:10,
             type:1,//1,2
-            description:'',
-            line:'',
-            lineId:'',
-            dutyDept:'',
-            dutyDeptId:'',
-            findPerson:'',
+            description:null,
+            line:null,
+            // lineId:'',
+            dutyDept:null,
+            // dutyDeptId:'',
+            findPerson:null,
             problemList:[],
 
             loading: false,
@@ -117,6 +117,7 @@ export default {
         //         }
         //     }
         // })
+        
     },
     methods:{
         getProblemListData(){//获取问题反馈列表数据
@@ -124,7 +125,8 @@ export default {
                 console.log(res)
                 if(res.data.code==200){
                     this.problemList=res.data.data.list;
-                    this.totalRows=res.data.data.totalPages;
+                    this.totalRows=res.data.data.totalCount;
+                    console.log(this.totalRows)
                 }else{
                     this.$toast.fail(res.data.message);
                 }
@@ -165,6 +167,7 @@ export default {
         // },
         loadMore() {//加载更多
             // 异步更新数据
+            console.log("loadMore",this.totalRows,this.pageSize)
             setTimeout(() => {
                 // 加载状态结束
                 this.loading = false;
@@ -172,6 +175,7 @@ export default {
                     // 数据全部加载完成
                     this.finished = true;
                 }else{
+                    console.log(123)
                     this.pageSize+=10;
                     this.getProblemListData()
                 }

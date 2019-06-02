@@ -129,7 +129,7 @@ export function feedbackDetail(id){
 }
 // 问题信息查看-列表
 export function seeProblemList(page,rows,quesDescription,line,dutyDept,findEmp){
-    return http.fetchPost('/newline/mobile/problemCheck',{page,rows,quesDescription,line,dutyDept,findEmp})
+    return http.fetchGet('/newline/mobile/problemCheck',{page,rows,quesDescription,line,dutyDept,findEmp})
 }
 //问题信息查看-详情
 export function problemDetail(id){

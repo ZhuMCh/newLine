@@ -9,7 +9,7 @@
             </van-col>
             <van-col span="3" class="inputLabel">线路</van-col>
             <van-col span="8">
-                <van-field clearable class="inputBox" v-model="line"/>
+                <van-field clearable class="inputBox" readonly v-model="line" @click="clickFunc(0)"/>
             </van-col>
         </van-row>
         <br>
@@ -69,9 +69,9 @@
         </div>
     </div>
     <!-- 线路选择器 -->
-    <!-- <van-popup v-model="linePop" position="bottom" :overlay="true">
+    <van-popup v-model="linePop" position="bottom" :overlay="true">
         <van-picker show-toolbar title="线路" :columns="lineList" value-key='name' @cancel="onCancel" @confirm="onConfirm"/>
-    </van-popup> -->
+    </van-popup>
     <!-- 部门选择器 -->
     <!-- <van-popup v-model="deptPop" position="bottom" :overlay="true">
         <van-picker show-toolbar title="责任部门" :columns="deptList" value-key='deptName' @cancel="onCancel" @confirm="onConfirm"/>
@@ -83,11 +83,11 @@ import { feedbackList,getLine,getRootDept,getNextDept } from '@/api/http'
 export default {
     data(){
         return {
-            // idx:0,
-            // linePop:false,
+            idx:0,
+            linePop:false,
             // deptPop:false,
             // deptList:[],//部门字典
-            // lineList:[],//线路字典
+            lineList:[],//线路字典
 
             pageNo:1,
             pageSize:10,
@@ -109,9 +109,9 @@ export default {
     },
     created(){
         this.getFeedbackListData();
-        // getLine().then(res=>{//获取线路
-        //     res.data.code==200?this.lineList=res.data.data:this.$toast.fail(res.data.message)
-        // })
+        getLine().then(res=>{//获取线路
+            res.data.code==200?this.lineList=res.data.data:this.$toast.fail(res.data.message)
+        })
         // // 获取责任部门
         // getRootDept().then(res=>{
         //     if(res.data.code==200){
@@ -134,7 +134,7 @@ export default {
     },
     methods:{
         getFeedbackListData(){//获取问题反馈列表数据
-            feedbackList(this.pageNo,this.pageSize,this.type,this.description,this.line,this.dutyDept).then(res=>{
+            feedbackList(this.pageNo,this.pageSize,this.type,this.description,this.lineId,this.dutyDept).then(res=>{
                 console.log(res)
                 if(res.data.code==0){
                     this.feedbackList=res.data.data.content;
@@ -163,39 +163,39 @@ export default {
                 this.ids.push(id)
             }
         },
-        // //点击弹出选择器
-        // clickFunc(idx){
-        //     this.idx=idx;
-        //     if(idx==0){
-        //         this.linePop=true
-        //     }else{
-        //         this.deptPop=true
-        //     }
-        // },
-        // // 选择器确认事件
-        // onConfirm(value, index){
-        //     this.linePop=false
-        //     this.deptPop=false
-        //     if(this.idx==0){
-        //         this.line=value.name;
-        //         this.lineId=value.id
-        //     }else{
-        //         this.dutyDept=value.deptName;
-        //         this.dutyDeptId=value.deptId;
-        //     }
-        // },
-        // // 选择器取消事件
-        // onCancel(){
-        //     this.linePop=false
-        //     this.deptPop=false
-        //     if(this.idx==0){
-        //         this.line=null;
-        //         this.lineId=null
-        //     }else{
-        //         this.dutyDept='';
-        //         this.dutyDeptId='';
-        //     }
-        // },
+        //点击弹出选择器
+        clickFunc(idx){
+            this.idx=idx;
+            if(idx==0){
+                this.linePop=true
+            }else{
+                this.deptPop=true
+            }
+        },
+        // 选择器确认事件
+        onConfirm(value, index){
+            this.linePop=false
+            this.deptPop=false
+            if(this.idx==0){
+                this.line=value.name;
+                this.lineId=value.id
+            }else{
+                this.dutyDept=value.deptName;
+                this.dutyDeptId=value.deptId;
+            }
+        },
+        // 选择器取消事件
+        onCancel(){
+            this.linePop=false
+            this.deptPop=false
+            if(this.idx==0){
+                this.line=null;
+                this.lineId=null
+            }else{
+                this.dutyDept='';
+                this.dutyDeptId='';
+            }
+        },
         loadMore() {//加载更多
             // 异步更新数据
             setTimeout(() => {
