@@ -64,7 +64,7 @@
         </van-row>
         <van-row class="detailTr">
             <van-col span="10" class="detailTh">需要整改完成时限</van-col>
-            <van-col span="14" class="detailTd">{{new Date(detailData.endTime).Format('yyyy-MM-dd hh:mm:ss')}}</van-col>
+            <van-col span="14" class="detailTd">{{new Date(detailData.endTime).Format('yyyy-MM-dd')}}</van-col>
         </van-row>
         <van-row class="detailTr">
             <van-col span="10" class="detailTh">责任部门</van-col>
@@ -76,13 +76,13 @@
         </van-row>
         <van-row class="detailTr">
             <van-col span="10" class="detailTh">审批状态</van-col>
-            <van-col span="14" class="detailTd">{{detailData.processStatus==0?'待审批':(detailData.processStatus==1?'审批中':(detailData.processStatus==2?'审批通过':'审批否决'))}}</van-col>
+            <van-col span="14" class="detailTd">{{detailData.processStatus}}</van-col>
         </van-row>
     </div>
 </div>
 </template>
 <script>
-import { feedbackDetail } from '@/api/http'
+import { problemDetail } from '@/api/http'
 export default {
     data(){
         return {
@@ -99,9 +99,9 @@ export default {
     },
     created(){
         console.log(this.$route.query.id);
-        feedbackDetail(this.$route.query.id).then(res=>{
+        problemDetail(this.$route.query.id).then(res=>{
             console.log(res)
-            if(res.data.code==1001){
+            if(res.data.code==200){
                 this.detailData=res.data.data
             }else{
                 this.$toast.fail(res.data.message);

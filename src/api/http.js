@@ -127,6 +127,14 @@ export function feedbackSubmitDetail(id){
 export function feedbackDetail(id){
     return http.fetchGet('/newline/mobile/problemById',{id})
 }
+// 问题信息查看-列表
+export function seeProblemList(page,rows,quesDescription,line,dutyDept,findEmp){
+    return http.fetchPost('/newline/mobile/problemCheck',{page,rows,quesDescription,line,dutyDept,findEmp})
+}
+//问题信息查看-详情
+export function problemDetail(id){
+    return http.fetchGet('/newline/mobile/findOneProblem',{id})
+}
 
 // 字典
 //获取线路
