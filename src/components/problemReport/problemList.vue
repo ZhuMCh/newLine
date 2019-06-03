@@ -21,19 +21,19 @@
         </van-row>
         <br>
         <van-row gutter="20">
-            <van-col span="6">
-                <van-button size="small" @click="getProblemListData">查询</van-button>        
-            </van-col>
-            <van-col span="6">
+            <!-- <van-col span="6">
+                <van-button size="small" @click="homeSubmit">提交</van-button>        
+            </van-col> -->
+            <van-col span="6" offset="6">
                 <router-link to="/problemReport/problemForm">
                     <van-button size="small">新增</van-button>  
                 </router-link>      
             </van-col>
-            <!-- <van-col span="6">
-                <van-button size="small" @click="homeSubmit">提交</van-button>        
-            </van-col> -->
             <van-col span="6">
                 <van-button size="small" @click="handleDelete">删除</van-button>        
+            </van-col>
+            <van-col span="6">
+                <van-button size="small" @click="getProblemListData">查询</van-button>        
             </van-col>
         </van-row>
         <br>

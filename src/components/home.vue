@@ -19,7 +19,7 @@
             </van-col>
             <van-col span="8">
                 <router-link to="/problemList" class="linkTo">
-                    <div class="linkPic"><img src="@/assets/images/problemR.png" alt=""></div>
+                    <div class="linkPic"><img src="@/assets/images/seeProblem.png" alt=""></div>
                     <p>问题信息查看</p>
                 </router-link>
             </van-col>
@@ -65,7 +65,6 @@ export default {
 .linkTo .linkPic img{
     width: 100%;
     height: 100%;
-    border-radius: 50%;
 }
 </style>
 

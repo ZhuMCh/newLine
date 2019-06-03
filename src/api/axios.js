@@ -57,7 +57,22 @@ export function fetchGet(url, param) {
             })
     })
 }
+//返回一个Promise(发送post请求上传文件)
+export function fetchPostFile(url, params) {
+    return new Promise((resolve, reject) => {
+        axios.post(url, params,{headers:{'Content-Type':'multipart/form-data','charset':'UTF-8'}})
+            .then(response => {
+                resolve(response);
+            }, err => {
+                reject(err);
+            })
+            .catch((error) => {
+                reject(error)
+            })
+    })
+}
 export default {
     fetchPost,
     fetchGet,
+    fetchPostFile
 }

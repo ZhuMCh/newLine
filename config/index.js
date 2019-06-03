@@ -12,7 +12,7 @@ module.exports = {
     assetsPublicPath: '/',
     proxyTable: {
       '/api': {
-        target: 'http://wx.qd-metro.com:10019',//http://newline.free.idcfengye.com
+        target: 'http://wx.qd-metro.com:10019',//
         changeOrigin: true,
         pathRewrite: {
           '^/api':''

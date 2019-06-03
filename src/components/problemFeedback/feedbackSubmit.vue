@@ -41,7 +41,7 @@
 </div>
 </template>
 <script>
-import { feedbackSubmitDetail,feedbackSubmit } from '@/api/http'
+import { feedbackSubmitDetail,feedbackSubmit,reportUpload } from '@/api/http'
 export default {
     data(){
         return {
@@ -49,8 +49,8 @@ export default {
             timeProp:false,
             problemNum:'',
             feedbackTime:new Date().Format('yyyy-MM-dd hh:mm:ss'),
-            filePath:null,
             recordDesc:'',
+            fileArr:[],//附件
         }
     },
     created(){
@@ -66,7 +66,7 @@ export default {
     },
     methods: {
         feedbackSubmitFunc(){//反馈
-            feedbackSubmit({id:this.$route.query.id},this.filePath,this.recordDesc).then(res=>{
+            feedbackSubmit({id:this.$route.query.id},this.fileArr,this.recordDesc).then(res=>{
                 console.log(res);
                 if(res.data.code==200){
                     this.$toast.success('提交成功');
@@ -79,10 +79,12 @@ export default {
             })
         },
         uploadFile(file){
-            this.filePath=file.target.files[0]
-            console.log(file.target.files[0])
-            // let formData = new FormData();
-            // formData.append('file', file.target.files[0]);
+            for(var key in file.target.files){
+                reportUpload(file.target.files[key]).then(res=>{
+                    console.log(res)
+                    this.fileArr.push(res.data.obj)
+                })
+            }  
         },
     }
 }

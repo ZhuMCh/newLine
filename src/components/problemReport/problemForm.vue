@@ -123,12 +123,10 @@
             </van-col>
         </van-row>
         <van-row  class="detailTr">
-            <van-col span="10" class="detailTh">添加附件</van-col>
-            <van-col span="14" class="detailTd uploaderBox">
-                <img :src="item" alt="" v-for="(item,index) in accessory" :key="index">
-                <van-uploader :after-read="onRead" class="uploader">
-                    <van-icon name="plus" class="addIcon"/>
-                </van-uploader>
+            <van-col span="24" class="detailTd uploaderBox">
+                <van-panel title="资料附件">
+                    <div class="upload"><input type="file" multiple value="" @change="uploadFile"></div>
+                </van-panel>  
             </van-col>
         </van-row>
     </div>
@@ -162,7 +160,7 @@
             <van-col span="8" v-else>
                 <van-button size="large" @click="updataProblemFunc" :disabled="canSubmit">修改</van-button>     
             </van-col>
-            <van-col span="8">
+            <van-col span="8" offset="8">
                 <van-button size="large" @click="()=>{this.$router.go(-1)}">取消</van-button>        
             </van-col>
         </van-row>
@@ -171,7 +169,7 @@
 </div>
 </template>
 <script>
-import { seeDetail,addProblem,addSubmitProblem,updateProblem,homeSubmitProblem,getLine,getFind,getRootDept,getDeptById,getLiaison,getUserInfo,getNextDept,getTaskName,getDic,getMajor } from '@/api/http'
+import { seeDetail,addProblem,addSubmitProblem,updateProblem,homeSubmitProblem,getLine,getFind,getRootDept,getDeptById,getLiaison,getUserInfo,getNextDept,getTaskName,getDic,getMajor,reportUpload } from '@/api/http'
 export default {
     data(){
         return {
@@ -224,10 +222,11 @@ export default {
             major:'',//专业
             majorId:'',
             approveStatus:'',//审批状态
-            accessory:[],//附件
+            fileArr:[],//附件
         }
     },
     created(){
+        
         if(this.$route.query.id!=undefined){// 查看详情
             this.isAdd=false;
             seeDetail(this.$route.query.id).then(res=>{
@@ -387,6 +386,7 @@ export default {
         },
 
         addProblemFunc(){//保存(新增)问题
+            console.log(this.fileArr)
             if(this.lineId==''||this.stageId==''||this.taskNameId==''||this.fileContent==''||this.problemAddr==''||this.rankId==''||this.effectId==''||this.idea==''||this.findPerson==''||this.endTime==''||this.dutyDeptId==''){
                 this.$toast.fail(信息不完整无法提交);
             }else{
@@ -409,7 +409,8 @@ export default {
                     this.endTime,
                     this.dutyDeptId,
                     this.liaisonId,
-                    this.majorId
+                    this.majorId,
+                    this.fileArr
                 ).then(res=>{
                     if(res.data.code==200){
                         this.$toast.success(res.data.message);
@@ -496,9 +497,13 @@ export default {
                 }
             })
         },
-        onRead(file) {//上传附件
-            console.log(file)
-            this.accessory=file.content
+        uploadFile(file){
+            for(var key in file.target.files){
+                reportUpload(file.target.files[key]).then(res=>{
+                    console.log(res)
+                    this.fileArr.push(res.data.obj)
+                })
+            }  
         },
         confirmPopup(time){//确认时间
             if(this.findTimePop==true){//发现时间
@@ -609,7 +614,7 @@ export default {
 .uploaderBox{
     padding: 5px 10px;
 }
-.uploaderBox img{
+/* .uploaderBox img{
     width: 80px;
     height: 80px;
     vertical-align: middle;
@@ -624,11 +629,32 @@ export default {
     font-size: 30px;
     line-height: 50px;
     color: #C4C5C7;
-}
+} */
 .btnBox{
     padding: 0 10px 20px;
 }
 .btnBox .van-button{
     background-color: #1bbc9a;
+}
+</style>
+<style>
+.uploaderBox .van-panel{
+    width:100%;
+}
+.uploaderBox .van-panel__header{
+    width:100%;
+    text-align:left;
+    color:#1bbc9a;
+    padding:0 0 5px 35px;
+}
+.uploaderBox .van-cell:not(:last-child)::after{
+    left:0;
+}
+.uploaderBox [class*=van-hairline]::after{
+    border:none;
+}
+.uploaderBox .upload{
+    width:100%;
+    padding:20px 0;
 }
 </style>

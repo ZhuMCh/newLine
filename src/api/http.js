@@ -26,7 +26,7 @@ export function delProblem(ids){
     return http.fetchGet('/newline/mobile/delProblem',{ids})
 }
 // 问题提报-保存(新增)
-export function addProblem(lineId,problemStageId,seekOpinionId,name,description,address,rank,effect,changeOpinion,findDepartmentId,findEmployee,findTime,reportEmployeeId,reportDate,endTime,dutyDepartmentId,liaisonEmployeeId,majorId){
+export function addProblem(lineId,problemStageId,seekOpinionId,name,description,address,rank,effect,changeOpinion,findDepartmentId,findEmployee,findTime,reportEmployeeId,reportDate,endTime,dutyDepartmentId,liaisonEmployeeId,majorId,file){
     return http.fetchPost('/newline/mobile/addProblem',{
         lineId,
         problemStageId,
@@ -45,7 +45,8 @@ export function addProblem(lineId,problemStageId,seekOpinionId,name,description,
         endTime,
         dutyDepartmentId,
         liaisonEmployeeId,
-        majorId
+        majorId,
+        file
     })
 }
 //问题提报-修改
@@ -71,6 +72,12 @@ export function updateProblem(problemId,lineId,problemStageId,seekOpinionId,name
         liaisonEmployeeId,
         majorId
     })
+}
+//文件上传
+export function reportUpload(file){
+    let formData=new FormData();
+    formData.append('file',file);
+    return http.fetchPostFile('/newline/file/uploadfile/10000',formData)
 }
 //问题提报-提交
 export function homeSubmitProblem(ids){

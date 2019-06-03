@@ -50,6 +50,7 @@ a{
   border-radius: 3px;
   border:1px solid #c8c8c8;
   height: 34px;
+  line-height: 30px;
   padding: 5px;
 }
 .inputLabel{
