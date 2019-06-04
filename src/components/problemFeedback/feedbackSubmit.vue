@@ -56,8 +56,7 @@ export default {
     created(){
         // 详情
         feedbackSubmitDetail(this.$route.query.id).then(res=>{
-            console.log(res)
-            if(res.data.code==1000){
+            if(res.data.code==200){
                 this.problemNum=res.data.data[0].problemId.problemCode;
             }else{
                 this.$toast.fail(res.data.message);

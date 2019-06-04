@@ -136,7 +136,7 @@ export default {
         getFeedbackListData(){//获取问题反馈列表数据
             feedbackList(this.pageNo,this.pageSize,this.type,this.description,this.lineId,this.dutyDept).then(res=>{
                 console.log(res)
-                if(res.data.code==0){
+                if(res.data.code==200){
                     this.feedbackList=res.data.data.content;
                     this.totalRows=res.data.data.totalPages;
                 }else{

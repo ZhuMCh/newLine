@@ -82,9 +82,6 @@
             <van-col span="10" class="detailTh">添加附件</van-col>
             <van-col span="14" class="detailTd uploaderBox">
                 <img :src="detailData.problemAttachments" alt="">
-                <!-- <van-uploader :after-read="onRead" class="uploader">
-                    <van-icon name="plus" class="addIcon"/>
-                </van-uploader> -->
             </van-col>
         </van-row>
     </div>
@@ -116,13 +113,10 @@ export default {
             }else{
                 this.$toast.fail(res.data.message);
             }
-       })
+        })
     },
     methods:{
-        // onRead(file) {//上传附件
-        //     console.log(file)
-        //     this.accessory=file.content
-        // },
+        
     }
 }
 </script>
