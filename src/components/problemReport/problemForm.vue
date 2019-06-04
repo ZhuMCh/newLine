@@ -501,7 +501,7 @@ export default {
             for(var key in file.target.files){
                 reportUpload(file.target.files[key]).then(res=>{
                     console.log(res)
-                    this.fileArr.push(res.data.obj)
+                    this.fileArr.push({name:res.data.obj.fileName,path:res.data.obj.path})
                 })
             }  
         },

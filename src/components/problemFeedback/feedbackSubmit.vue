@@ -5,7 +5,7 @@
         <van-row class="detailTr">
             <van-col span="10" class="detailTh">问题编号</van-col>
             <van-col span="14" class="detailTd">
-                <van-field placeholder="WT20190225001" readonly v-model="problemNum"/>
+                <van-field readonly v-model="problemNum"/>
             </van-col>
         </van-row>
         <van-row  class="detailTr">
@@ -17,7 +17,7 @@
         <van-row  class="detailTr">
             <van-col span="24" class="detailTd uploaderBox">
                 <van-panel title="资料附件">
-                    <div class="upload"><input type="file" value="" @change="uploadFile"></div>
+                    <div class="upload"><input type="file" multiple value="" @change="uploadFile"></div>
                 </van-panel>  
             </van-col>
         </van-row>
@@ -81,7 +81,7 @@ export default {
             for(var key in file.target.files){
                 reportUpload(file.target.files[key]).then(res=>{
                     console.log(res)
-                    this.fileArr.push(res.data.obj)
+                    this.fileArr.push({name:res.data.obj.fileName,path:res.data.obj.path})
                 })
             }  
         },

@@ -73,14 +73,6 @@
             </van-list>
         </div>
     </div>
-    <!-- 线路选择器 -->
-    <!-- <van-popup v-model="linePop" position="bottom" :overlay="true">
-        <van-picker show-toolbar title="线路" :columns="lineList" value-key='name' @cancel="onCancel" @confirm="onConfirm"/>
-    </van-popup> -->
-    <!-- 部门选择器 -->
-    <!-- <van-popup v-model="deptPop" position="bottom" :overlay="true">
-        <van-picker show-toolbar title="责任部门" :columns="deptList" value-key='deptName' @cancel="onCancel" @confirm="onConfirm"/>
-    </van-popup> -->
 </div>
 </template>
 <script>
@@ -88,12 +80,6 @@ import { problemList,homeSubmitProblem,delProblem,getLine,getRootDept,getNextDep
 export default {
     data(){
         return {
-            // idx:0,
-            // linePop:false,
-            // deptPop:false,
-            // deptList:[],//部门字典
-            // lineList:[],//线路字典
-
             pageNo:1,
             pageSize:10,
             problemDesc:'',
@@ -111,28 +97,6 @@ export default {
     },
     created(){
         this.getProblemListData();
-        // getLine().then(res=>{//获取线路
-        //     res.data.code==200?this.lineList=res.data.data:this.$toast.fail(res.data.message)
-        // })
-        // // 获取责任部门
-        // getRootDept().then(res=>{
-        //     if(res.data.code==200){
-        //         var oneDept=res.data.data
-        //         for(var i=0;i<oneDept.length;i++){
-        //             if(oneDept[i].deptName!="西海岸运营中心"){
-        //                 this.deptList.push(oneDept[i])
-        //             }else{  
-        //                 getNextDept(oneDept[i].deptId).then(resp=>{
-        //                     if(resp.data.code==200){
-        //                         for(var j=0;j<resp.data.data.length;j++){
-        //                             this.deptList.push(resp.data.data[j])
-        //                         }
-        //                     }
-        //                 }) 
-        //             }
-        //         }
-        //     }
-        // })
     },
     methods:{
         getProblemListData(){//问题列表
@@ -146,7 +110,7 @@ export default {
             })
         },
         homeSubmit(){//提交
-        console.log(this.ids)
+            console.log(this.ids)
             homeSubmitProblem(this.ids).then(res=>{
                 if(res.data.code==200){
                     this.$toast.success('提交成功');
@@ -183,39 +147,6 @@ export default {
                 this.ids.push(id)
             }
         },
-        // //点击弹出选择器
-        // clickFunc(idx){
-        //     this.idx=idx;
-        //     if(idx==0){
-        //         this.linePop=true
-        //     }else{
-        //         this.deptPop=true
-        //     }
-        // },
-        // // 选择器确认事件
-        // onConfirm(value, index){
-        //     this.linePop=false
-        //     this.deptPop=false
-        //     if(this.idx==0){
-        //         this.line=value.name;
-        //         this.lineId=value.id
-        //     }else{
-        //         this.dutyDept=value.deptName;
-        //         this.dutyDeptId=value.deptId;
-        //     }
-        // },
-        // // 选择器取消事件
-        // onCancel(){
-        //     this.linePop=false
-        //     this.deptPop=false
-        //     if(this.idx==0){
-        //         this.line=null;
-        //         this.lineId=null
-        //     }else{
-        //         this.dutyDept='';
-        //         this.dutyDeptId='';
-        //     }
-        // },
         //加载更多
         loadMore() {
             // 异步更新数据
