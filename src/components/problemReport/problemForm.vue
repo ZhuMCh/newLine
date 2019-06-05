@@ -126,6 +126,8 @@
             <van-col span="24" class="detailTd uploaderBox">
                 <van-panel title="资料附件">
                     <div class="upload">
+                        <img :src="item" alt="" v-for="(item,index) in filePreview" :key="index">
+                        <img :src="item.path" alt="" v-for="(item,index) in filePath" :key="index">
                         <input type="file" ref="pathClear" multiple value="" @change="uploadFile">
                         <van-icon name="close" size="24px" style="vertical-align:middle;" @click="clearFile" v-if="fileArr.length>0"/>
                     </div>
@@ -183,6 +185,7 @@ export default {
             deptPop:false,
             dataList:[],
             titleVal:'',
+            idx:1,
             lineList:[],//线路字典
             findStageList:[],//发现阶段字典
             deptList:[],//部门字典
@@ -226,6 +229,8 @@ export default {
             majorId:'',
             approveStatus:'',//审批状态
             fileArr:[],//附件
+            filePath:[],//详情回显文件接收
+            filePreview:[],//文件上传预览
         }
     },
     created(){
@@ -234,7 +239,8 @@ export default {
             this.isAdd=false;
             seeDetail(this.$route.query.id).then(res=>{
                 console.log("详情",res.data.data)
-                if(res.data.code==1000){
+                if(res.data.code==200){
+                    this.filePath=res.data.data.problemAttachments;
                     var detailData=res.data.data.problem;
                     this.problemNum=detailData.serialNumber;
                     this.line=detailData.line.name;
@@ -315,11 +321,13 @@ export default {
         //获取任务名称
         getTeskNameFunc(lineId,stageId,status){
             getTaskName(lineId,stageId).then(res=>{
-                if(res.data.code==200){
+                console.log(res)
+                if(res.data.code==200&&res.data.data){
                     if(res.data.data.length>0){
                         this.taskName=res.data.data[0].fileName;
                         this.taskNameId=res.data.data[0].id;
                         if(status=='SJLL'){
+                            console.log(1)
                             this.disabled=true;
                             this.majorShow=true;
                             this.dutyDept=res.data.data[0].createEmp.department.parent?res.data.data[0].createEmp.department.parent.deptName:res.data.data[0].createEmp.department.deptName;
@@ -490,7 +498,6 @@ export default {
         },
         homeSubmit(){//提交
             var idArr=[this.$route.query.id];
-            console.log(idArr)
             homeSubmitProblem(idArr).then(res=>{
                 console.log("提交",res)
                 if(res.data.code==200){
@@ -501,12 +508,49 @@ export default {
             })
         },
         uploadFile(file){
-            for(var key in file.target.files){
-                reportUpload(file.target.files[key]).then(res=>{
-                    console.log(res)
-                    this.fileArr.push({name:res.data.obj.fileName,path:res.data.obj.path})
+            for(var i=0;i<file.target.files.length;i++){
+                reportUpload(file.target.files[i]).then(res=>{
+                    if(res.data.obj){
+                        this.fileArr.push({name:res.data.obj.fileName,path:res.data.obj.path});
+                    }else{
+                        this.$toast.fail(res.data.msg)
+                        this.$refs. pathClear.value ='';
+                        this.fileArr=[];
+                        this.filePreview=[];
+                    }   
                 })
-            }  
+
+                var fileObj = file.target.files[i];
+                var type = fileObj.type.split('/')[0];
+                if ( type === 'image' ){
+                    //将图片img转化为base64
+                    var reader = new FileReader();
+                    reader.readAsDataURL(fileObj);
+                    var that = this;
+                    reader.onloadend = function () {
+                        var dataURL = reader.result;
+                        var blob = that.dataURItoBlob(dataURL);
+                        that.filePreview.push(dataURL)
+                    };
+                }
+            }
+        },
+        clearFile(){
+            this.$refs. pathClear.value ='';
+            this.fileArr=[];
+            this.filePreview=[];
+        },
+        dataURItoBlob (dataURI) {
+            // base64 解码
+            let byteString = window.atob(dataURI.split(',')[1]);
+            let mimeString = dataURI.split(',')[0].split(':')[1].split(';')[0];
+            let T = mimeString.split('/')[1];
+            let ab = new ArrayBuffer(byteString.length);
+            let ia = new Uint8Array(ab);
+            for (let i = 0; i < byteString.length; i++) {
+                ia[i] = byteString.charCodeAt(i);
+            }
+            return new Blob([ab], {type: mimeString});
         },
         
         confirmPopup(time){//确认时间
@@ -527,22 +571,22 @@ export default {
                 this.endTime='';
             }
         },
-        clickFunc(popTitle,dataList,idx){//点击弹出选择器
-            this.idx=idx;
-            if(idx==5){
+        clickFunc(popTitle,dataList,idxs){//点击弹出选择器
+            this.idx=idxs;
+            if(idxs==5){
                 this.deptPop=true;
             }else{
                 this.eventPop=true;
                 this.titleVal=popTitle;
                 this.dataList=dataList;
             }
-            if(idx==2){
+            if(idxs==2){
                 if(this.line==''){
                     this.eventPop=false;
                     this.$toast.fail("请先选择线路");
                 } 
             }
-            if(idx==6){
+            if(idxs==6){
                 if(this.dutyDeptId==''){
                     this.eventPop=false;
                     this.$toast.fail("请先选择责任部门");
@@ -579,7 +623,7 @@ export default {
                 case 4:{
                     this.problemEffeck=value.name;
                     this.effectId=value.code;
-                }
+                } break;
                 case 5:{
                     this.dutyDept=value.deptName;
                     this.dutyDeptId=value.deptId;
@@ -618,22 +662,11 @@ export default {
 .uploaderBox{
     padding: 5px 10px;
 }
-/* .uploaderBox img{
-    width: 80px;
-    height: 80px;
-    vertical-align: middle;
+.upload img{
+    width: 90px;
+    height: 90px;
+    margin:10px;
 }
-.uploaderBox .uploader{
-    background-color: #F6F6F6;
-    width: 50px;
-    height: 50px;
-    vertical-align: middle;
-}
-.uploaderBox .uploader .addIcon{
-    font-size: 30px;
-    line-height: 50px;
-    color: #C4C5C7;
-} */
 .btnBox{
     padding: 0 10px 20px;
 }

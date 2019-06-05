@@ -59,6 +59,7 @@ export default {
     created(){
         // 详情
         feedbackSubmitDetail(this.$route.query.id).then(res=>{
+            console.log(res)
             if(res.data.code==200){
                 this.problemNum=res.data.data[0].problemId.problemCode;
             }else{
@@ -69,25 +70,28 @@ export default {
     methods: {
         feedbackSubmitFunc(){//反馈
             feedbackSubmit({id:this.$route.query.id},this.fileArr,this.recordDesc).then(res=>{
-                // console.log(res);
-                // if(res.data.code==200){
-                //     this.$toast.success('提交成功');
-                this.$toast.fail(res.data.message);
-                setTimeout(()=>{
-                    this.$router.go(-1)
-                },1500)
-                // }else{
-                //     this.$toast.fail(res.data.message);
-                // }
+                if(res.data.code==200){
+                    this.$toast.success(res.data.message);
+                    setTimeout(()=>{
+                        this.$router.go(-1)
+                    },1500)
+                }else{
+                    this.$toast.fail(res.data.message);
+                }
             })
         },
         uploadFile(file){
-            for(var key in file.target.files){
-                reportUpload(file.target.files[key]).then(res=>{
-                    console.log(res)
-                    this.fileArr.push({name:res.data.obj.fileName,path:res.data.obj.path})
+            for(var i=0;i<file.target.files.length;i++){
+                reportUpload(file.target.files[i]).then(res=>{
+                    if(res.data.obj){
+                        this.fileArr.push({name:res.data.obj.fileName,path:res.data.obj.path});
+                    }else{
+                        this.$toast.fail(res.data.msg)
+                        this.$refs. pathClear.value ='';
+                        this.fileArr=[]
+                    }   
                 })
-            }  
+            }
         },
         clearFile(){
             this.$refs. pathClear.value ='';

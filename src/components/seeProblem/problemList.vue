@@ -45,7 +45,7 @@
             <van-list v-model="loading" :finished="finished" finished-text="没有更多了" @load="loadMore" :offset="5">
                 <router-link :to="{path:'/problemList/detail',query:{id:item.id}}" v-for="(item,index) in problemList" :key="index">
                     <van-row class="tr">
-                        <van-col class="td">{{item.problemCod}}</van-col>
+                        <van-col class="td">{{item.problemCode}}</van-col>
                         <van-col class="td">{{item.address}}</van-col>
                         <van-col class="td">{{item.description}}</van-col>
                         <van-col class="td">{{item.dutyDepartment.deptName}}</van-col>
@@ -95,7 +95,6 @@ export default {
         },
         loadMore() {//加载更多
             // 异步更新数据
-            console.log("loadMore",this.totalRows,this.pageSize)
             setTimeout(() => {
                 // 加载状态结束
                 this.loading = false;
@@ -103,7 +102,6 @@ export default {
                     // 数据全部加载完成
                     this.finished = true;
                 }else{
-                    console.log(123)
                     this.pageSize+=10;
                     this.getProblemListData()
                 }
