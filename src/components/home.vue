@@ -8,7 +8,7 @@
             <van-col span="8">
                 <router-link to="/problemReport" class="linkTo">
                     <div class="linkPic"><img src="@/assets/images/problemR.png" alt=""></div>
-                    <p>问题提报</p>
+                    <p>问题填写</p>
                 </router-link>
             </van-col>
             <van-col span="8">

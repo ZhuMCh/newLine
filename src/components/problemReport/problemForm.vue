@@ -1,6 +1,6 @@
 <template>
 <div>
-    <van-nav-bar title="问题提报" left-text="返回" left-arrow @click-left="()=>{this.$router.go(-1)}" />
+    <van-nav-bar title="问题填写" left-text="返回" left-arrow @click-left="()=>{this.$router.go(-1)}" />
     <div class="container">
         <van-row class="detailTr">
             <van-col span="10" class="detailTh">问题流水号</van-col>
@@ -125,7 +125,10 @@
         <van-row  class="detailTr">
             <van-col span="24" class="detailTd uploaderBox">
                 <van-panel title="资料附件">
-                    <div class="upload"><input type="file" multiple value="" @change="uploadFile"></div>
+                    <div class="upload">
+                        <input type="file" ref="pathClear" multiple value="" @change="uploadFile">
+                        <van-icon name="close" size="24px" style="vertical-align:middle;" @click="clearFile" v-if="fileArr.length>0"/>
+                    </div>
                 </van-panel>  
             </van-col>
         </van-row>
@@ -238,31 +241,31 @@ export default {
                     this.lineId=detailData.line.id;
                     this.problemStage=detailData.problemStage.name;
                     this.stageId=detailData.problemStage.id;
-                    this.taskName=detailData.seekOpinion.fileName
-                    this.taskNameId=detailData.seekOpinion.id
+                    this.taskName=detailData.seekOpinion?detailData.seekOpinion.fileName:'';
+                    this.taskNameId=detailData.seekOpinion?detailData.seekOpinion.id:'';
                     this.fileName=detailData.name;
                     this.fileContent=detailData.description;
                     this.problemAddr=detailData.address;
 
-                    this.getRankAndEffect('WTDJ',detailData.rank,2)
-                    this.getRankAndEffect('WTYX',detailData.effect,3)
+                    this.getRankAndEffect('WTDJ',detailData.rank,2);
+                    this.getRankAndEffect('WTYX',detailData.effect,3);
 
                     this.idea=detailData.changeOpinion;
                     this.findDept=detailData.findDepartment.deptName;
                     this.findDeptId=detailData.findDepartment.deptId;
                     this.findPerson=detailData.findEmployee;
-                    this.findTime=new Date(detailData.findTime).Format('yyyy-MM-dd hh:mm:ss')
+                    this.findTime=new Date(detailData.findTime).Format('yyyy-MM-dd hh:mm:ss');
                     this.reportPerson=detailData.reportEmployee.empName;
                     this.reportPersonId=detailData.reportEmployee.empId;
-                    this.reportTime=new Date(detailData.reportDate).Format('yyyy-MM-dd hh:mm:ss')
-                    this.endTime=new Date(detailData.endTime).Format('yyyy-MM-dd')
+                    this.reportTime=new Date(detailData.reportDate).Format('yyyy-MM-dd hh:mm:ss');
+                    this.endTime=new Date(detailData.endTime).Format('yyyy-MM-dd');
                     this.dutyDept=detailData.dutyDepartment.deptName;
                     this.dutyDeptId=detailData.dutyDepartment.deptId;
                     this.liaisonPerson=detailData.liaisonEmployee.empName;
                     this.liaisonId=detailData.liaisonEmployee.empId;
                     this.major=detailData.major?detailData.major.name:'';
                     this.majorId=detailData.major?detailData.major.id:'';
-                    this.approveStatus=detailData.processStatus==0?'待审批':(detailData.processStatus==1?'审批中':(detailData.processStatus==2?'审批通过':'审批否决'))
+                    this.approveStatus=detailData.processStatus==0?'待提交':(detailData.processStatus==1?'审批中':(detailData.processStatus==2?'审批完成':'审批否决'))
                     this.accessory=res.data.data.problemAttachments;
                 }else{
                     this.$toast.fail(res.data.message); 
@@ -274,8 +277,8 @@ export default {
                 if(res.data.code==200&&res.data.data.length>0){
                     this.findDept=res.data.data[0].deptName;
                     this.findDeptId=res.data.data[0].deptId;
-                    this.reportPerson=res.data.data[0].userName
-                    this.reportPersonId=res.data.data[0].id
+                    this.reportPerson=res.data.data[0].userName;
+                    this.reportPersonId=res.data.data[0].id;
                 }
             })
         }
@@ -434,7 +437,7 @@ export default {
                 this.fileName,
                 this.fileContent,
                 this.problemAddr,
-                this.rank,
+                this.rankId,
                 this.problemEffeck,
                 this.idea,
                 this.findDeptId,
@@ -466,7 +469,7 @@ export default {
                 this.fileName,
                 this.fileContent,
                 this.problemAddr,
-                this.rank,
+                this.rankId,
                 this.problemEffeck,
                 this.idea,
                 this.findDeptId,
@@ -505,6 +508,7 @@ export default {
                 })
             }  
         },
+        
         confirmPopup(time){//确认时间
             if(this.findTimePop==true){//发现时间
                 this.findTime=new Date(time).Format('yyyy-MM-dd hh:mm');

@@ -17,8 +17,11 @@
         <van-row  class="detailTr">
             <van-col span="24" class="detailTd uploaderBox">
                 <van-panel title="资料附件">
-                    <div class="upload"><input type="file" multiple value="" @change="uploadFile"></div>
-                </van-panel>  
+                    <div class="upload">
+                        <input ref="pathClear" type="file" multiple value="" @change="uploadFile">
+                        <van-icon name="close" size="24px" style="vertical-align:middle;" @click="clearFile" v-if="fileArr.length>0"/>
+                    </div>
+                </van-panel>
             </van-col>
         </van-row>
         <van-row  class="detailTr">
@@ -66,15 +69,16 @@ export default {
     methods: {
         feedbackSubmitFunc(){//反馈
             feedbackSubmit({id:this.$route.query.id},this.fileArr,this.recordDesc).then(res=>{
-                console.log(res);
-                if(res.data.code==200){
-                    this.$toast.success('提交成功');
-                    setTimeout(()=>{
-                        this.$router.go(-1)
-                    },1500)
-                }else{
-                    this.$toast.fail(res.data.message);
-                }
+                // console.log(res);
+                // if(res.data.code==200){
+                //     this.$toast.success('提交成功');
+                this.$toast.fail(res.data.message);
+                setTimeout(()=>{
+                    this.$router.go(-1)
+                },1500)
+                // }else{
+                //     this.$toast.fail(res.data.message);
+                // }
             })
         },
         uploadFile(file){
@@ -85,6 +89,10 @@ export default {
                 })
             }  
         },
+        clearFile(){
+            this.$refs. pathClear.value ='';
+            this.fileArr=[]
+        }
     }
 }
 </script>

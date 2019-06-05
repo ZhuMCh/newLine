@@ -52,7 +52,7 @@
         </van-row>
         <van-row class="detailTr">
             <van-col span="10" class="detailTh">发现时间</van-col>
-            <van-col span="14" class="detailTd">{{new Date(detailData.findTime).Format('yyyy-MM-dd hh:mm:ss')}}</van-col>
+            <van-col span="14" class="detailTd">{{detailData.findTime}}</van-col>
         </van-row>
         <van-row class="detailTr">
             <van-col span="10" class="detailTh">提报人</van-col>
@@ -60,11 +60,11 @@
         </van-row>
         <van-row class="detailTr">
             <van-col span="10" class="detailTh">提报日期</van-col>
-            <van-col span="14" class="detailTd">{{new Date(detailData.reportDate).Format('yyyy-MM-dd hh:mm:ss')}}</van-col>
+            <van-col span="14" class="detailTd">{{detailData.reportDate}}</van-col>
         </van-row>
         <van-row class="detailTr">
             <van-col span="10" class="detailTh">需要整改完成时限</van-col>
-            <van-col span="14" class="detailTd">{{new Date(detailData.endTime).Format('yyyy-MM-dd')}}</van-col>
+            <van-col span="14" class="detailTd">{{detailData.endTime}}</van-col>
         </van-row>
         <van-row class="detailTr">
             <van-col span="10" class="detailTh">责任部门</van-col>

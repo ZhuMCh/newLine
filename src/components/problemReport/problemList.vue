@@ -1,6 +1,6 @@
 <template>
 <div>
-    <van-nav-bar title="问题提报" left-text="返回" left-arrow @click-left="()=>{this.$router.go(-1)}" />
+    <van-nav-bar title="问题填写" left-text="返回" left-arrow @click-left="()=>{this.$router.go(-1)}" />
     <div class="container">
         <van-row gutter="10">
             <van-col span="5" class="inputLabel">问题描述</van-col>
@@ -24,14 +24,14 @@
             <!-- <van-col span="6">
                 <van-button size="small" @click="homeSubmit">提交</van-button>        
             </van-col> -->
-            <van-col span="6" offset="6">
+            <van-col span="6" offset="12">
                 <router-link to="/problemReport/problemForm">
                     <van-button size="small">新增</van-button>  
                 </router-link>      
             </van-col>
-            <van-col span="6">
+            <!-- <van-col span="6">
                 <van-button size="small" @click="handleDelete">删除</van-button>        
-            </van-col>
+            </van-col> -->
             <van-col span="6">
                 <van-button size="small" @click="getProblemListData">查询</van-button>        
             </van-col>
@@ -65,7 +65,7 @@
                                 <van-col class="td">{{item.dutyDepartment.deptName}}</van-col>
                                 <van-col class="td">{{item.reportEmployee.empName}}</van-col>
                                 <van-col class="td">{{new Date(item.reportDate).Format('yyyy-MM-dd hh:mm:ss')}}</van-col>
-                                <van-col class="td">{{item.processStatus==0?'待审批':(item.processStatus==1?'审批中':(item.processStatus==2?'审批通过':'审批否决'))}}</van-col>
+                                <van-col class="td">{{item.processStatus==0?'待提交':(item.processStatus==1?'审批中':(item.processStatus==2?'审批完成':'审批否决'))}}</van-col>
                             </van-row>
                         </router-link>
                     </van-col>

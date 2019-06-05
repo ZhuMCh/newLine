@@ -20,18 +20,18 @@
             </van-col>
         </van-row>
         <br>
-        <van-row gutter="20" type="flex" justify="center">
-            <van-col span="6">
-                <van-button size="small" @click="getFeedbackListData">查询</van-button>        
-            </van-col>
-            <van-col span="6">
+        <van-row gutter="20">
+            <van-col span="6" offset="12">
                 <van-button size="small" @click="gotoFeedBack">反馈</van-button>
             </van-col>
+            <van-col span="6">
+                <van-button size="small" @click="getFeedbackListData">查询</van-button>        
+            </van-col>  
         </van-row>
         <br>
         <div class="table">
             <van-row class="tr">
-                <van-col class="selectAll"><input type="checkbox" :checked="feedbackList.length===ids.length&&ids.length" @click="checkAll"></van-col>
+                <van-col class="selectAll"><input type="checkbox" disabled :checked="feedbackList.length===ids.length&&ids.length" @click="checkAll"></van-col>
                 <van-col style="flex:5;">
                     <van-row class="tr" style="border-bottom:none;border-right:none;">
                         <van-col class="th">问题编号</van-col>
@@ -52,7 +52,7 @@
                     <van-col style="flex:5;">
                         <router-link :to="{path:'/problemFeedback/feedbackDetail',query:{id:item.id}}">
                             <van-row class="tr" style="border-bottom:none;border-right:none;">
-                                <van-col class="td">{{item.id}}</van-col>
+                                <van-col class="td">{{item.problemCode}}</van-col>
                                 <van-col class="td">{{item.address}}</van-col>
                                 <van-col class="td">{{item.description}}</van-col>
                                 <van-col class="td">{{item.dutyDepartment.deptName}}</van-col>
@@ -136,7 +136,7 @@ export default {
             if(this.ids.length==0){
                 this.$toast.fail("请选择一条数据");
             }else{
-                this.$router.push({path:'/problemFeedback/feedbackSubmit',query:{id:ids[0]}})
+                this.$router.push({path:'/problemFeedback/feedbackSubmit',query:{id:this.ids[0]}})
             }
         },
         //点击弹出选择器
