@@ -18,9 +18,18 @@
             <van-col span="24" class="detailTd uploaderBox">
                 <van-panel title="资料附件">
                     <div class="upload">
-                        <img :src="item" alt="" v-for="(item,index) in filePreview" :key="index">
-                        <input ref="pathClear" type="file" multiple value="" @change="uploadFile">
-                        <van-icon name="close" size="24px" style="vertical-align:middle;" @click="clearFile" v-if="fileArr.length>0"/>
+                        <span v-for="(item,index) in filePreview" :key="index">
+                            <div class="preview" v-if="item.type==1">
+                                <img :src="item.url" alt="">
+                                <van-icon name="close" class="delBtn" size="18px" @click="clearFile(index)"/>
+                            </div>
+                            <div class="preview docFile" v-else>
+                                <span>{{item.url}}</span>
+                                <van-icon name="close" class="delBtn" size="18px" @click="clearFile(index)"/>
+                            </div>
+                        </span>
+                        <van-button class="addFile" @click="handleUpload"><van-icon name="plus" size="24px"/></van-button>
+                        <input type="file" id="upload" ref="pathClear" value="" style="display:none;" @change="uploadFile">
                     </div>
                 </van-panel>
             </van-col>
@@ -55,7 +64,7 @@ export default {
             feedbackTime:new Date().Format('yyyy-MM-dd hh:mm:ss'),
             recordDesc:'',
             fileArr:[],//附件
-            filePreview:[]
+            filePreview:[]//上传文件预览
         }
     },
     created(){
@@ -82,38 +91,41 @@ export default {
                 }
             })
         },
-        uploadFile(file){
-            for(var i=0;i<file.target.files.length;i++){
-                reportUpload(file.target.files[i]).then(res=>{
-                    if(res.data.obj){
-                        this.fileArr.push({name:res.data.obj.fileName,path:res.data.obj.path});
-                    }else{
-                        this.$toast.fail(res.data.msg)
-                        this.$refs. pathClear.value ='';
-                        this.fileArr=[];
-                        this.filePreview=[];
-                    }   
-                })
-
-                var fileObj = file.target.files[i];
-                var type = fileObj.type.split('/')[0];
-                if ( type === 'image' ){
-                    //将图片img转化为base64
-                    var reader = new FileReader();
-                    reader.readAsDataURL(fileObj);
-                    var that = this;
-                    reader.onloadend = function () {
-                        var dataURL = reader.result;
-                        var blob = that.dataURItoBlob(dataURL);
-                        that.filePreview.push(dataURL)
-                    };
-                }
+        // 文件上传
+        handleUpload(){
+            document.getElementById('upload').click()
+        },
+        uploadFile(file){//附件上传
+            reportUpload(file.target.files[0]).then(res=>{
+                if(res.data.obj){
+                    this.fileArr.push({name:res.data.obj.fileName,path:res.data.obj.path});
+                }else{
+                    this.$toast.fail(res.data.msg)
+                    this.$refs. pathClear.value ='';
+                    this.fileArr=[];
+                    this.filePreview=[];
+                }   
+            })
+            var that = this;
+            var fileObj = file.target.files[0];
+            var type = fileObj.type.split('/')[0];
+            if ( type === 'image' ){
+                //将图片img转化为base64
+                var reader = new FileReader();
+                reader.readAsDataURL(fileObj);
+                
+                reader.onloadend = function () {
+                    var dataURL = reader.result;
+                    var blob = that.dataURItoBlob(dataURL);
+                    that.filePreview.push({type:1,url:dataURL})
+                };
+            }else{
+                that.filePreview.push({type:2,url:fileObj.name})
             }
         },
-        clearFile(){
-            this.$refs. pathClear.value ='';
-            this.fileArr=[];
-            this.filePreview=[];
+        clearFile(index){//清除上传
+            this.fileArr.splice(index,1);
+            this.filePreview.splice(index,1);
         },
         dataURItoBlob (dataURI) {
             // base64 解码
@@ -137,20 +149,57 @@ export default {
 .detailTh{
     color: #1bbc9a;
 }
-.uploaderBox{
-    padding: 5px 10px;
-}
-.upload img{
-    width: 90px;
-    height: 90px;
-    margin:10px;
-}
-
 .btnBox{
     padding: 0 10px 20px;
 }
 .btnBox .van-button{
     background-color: #1bbc9a;
+}
+.uploaderBox{
+    padding: 5px 10px;
+}
+.uploaderBox .upload{
+    width:100%;
+    min-height: 100px;
+    position: relative;
+    padding-top:10px;
+    padding-right: 40px;
+}
+.addFile{
+    width: 30px;
+    height: 30px;
+    padding: 0;
+    background: #E6E6E6 !important;
+    border: none !important;
+    color: #999 !important;
+    position: absolute;
+    bottom: 0;
+    right: 0;
+}
+.preview{
+    display: inline-block;
+    position: relative;
+    margin: 10px 10px 0 0; 
+}
+.preview img{
+    width: 80px;
+    height: 80px;
+}
+.preview .delBtn{
+    position: absolute;
+    top: -8px;
+    right: -8px;
+    color: #999;
+}
+.docFile{
+    padding-right: 20px;
+}
+.docFile .delBtn{
+    top: 0;
+    right: 0;
+}
+.docFile a{
+    color: #1bbc9a;
 }
 </style>
 <style>
@@ -168,9 +217,5 @@ export default {
 }
 .uploaderBox [class*=van-hairline]::after{
     border:none;
-}
-.uploaderBox .upload{
-    width:100%;
-    padding:20px 0;
 }
 </style>

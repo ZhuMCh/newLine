@@ -50,7 +50,7 @@ export function addProblem(lineId,problemStageId,seekOpinionId,name,description,
     })
 }
 //问题提报-修改
-export function updateProblem(problemId,lineId,problemStageId,seekOpinionId,name,description,address,rank,effect,changeOpinion,findDepartmentId,findEmployee,findTime,reportEmployeeId,reportDate,endTime,dutyDepartmentId,liaisonEmployeeId,majorId){
+export function updateProblem(problemId,lineId,problemStageId,seekOpinionId,name,description,address,rank,effect,changeOpinion,findDepartmentId,findEmployee,findTime,reportEmployeeId,reportDate,endTime,dutyDepartmentId,liaisonEmployeeId,majorId,file){
     return http.fetchPost('/newline/mobile/updateProblem',{
         problemId,
         lineId,
@@ -70,7 +70,8 @@ export function updateProblem(problemId,lineId,problemStageId,seekOpinionId,name
         endTime,
         dutyDepartmentId,
         liaisonEmployeeId,
-        majorId
+        majorId,
+        file
     })
 }
 //文件上传

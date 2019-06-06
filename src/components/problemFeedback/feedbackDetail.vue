@@ -52,7 +52,7 @@
         </van-row>
         <van-row class="detailTr">
             <van-col span="10" class="detailTh">发现时间</van-col>
-            <van-col span="14" class="detailTd">{{new Date(detailData.findTime).Format('yyyy-MM-dd hh:mm:ss')}}</van-col>
+            <van-col span="14" class="detailTd">{{detailData.findTime}}</van-col>
         </van-row>
         <van-row class="detailTr">
             <van-col span="10" class="detailTh">提报人</van-col>
@@ -60,11 +60,11 @@
         </van-row>
         <van-row class="detailTr">
             <van-col span="10" class="detailTh">提报日期</van-col>
-            <van-col span="14" class="detailTd">{{new Date(detailData.reportDate).Format('yyyy-MM-dd hh:mm:ss')}}</van-col>
+            <van-col span="14" class="detailTd">{{detailData.reportDate}}</van-col>
         </van-row>
         <van-row class="detailTr">
             <van-col span="10" class="detailTh">需要整改完成时限</van-col>
-            <van-col span="14" class="detailTd">{{new Date(detailData.endTime).Format('yyyy-MM-dd hh:mm:ss')}}</van-col>
+            <van-col span="14" class="detailTd">{{detailData.endTime}}</van-col>
         </van-row>
         <van-row class="detailTr">
             <van-col span="10" class="detailTh">责任部门</van-col>
@@ -81,7 +81,14 @@
         <van-row class="detailTr">
             <van-col span="10" class="detailTh">添加附件</van-col>
             <van-col span="14" class="detailTd uploaderBox">
-                <img :src="detailData.problemAttachments" alt="">
+                <span v-for="(item,index) in fileBack" :key="index">
+                    <div class="preview" v-if="item.type==1">
+                        <img :src="item.url" alt="">
+                    </div>
+                    <div class="preview docFile" v-else>
+                        <a :href="item.url">{{item.name}}</a>
+                    </div>
+                </span>
             </van-col>
         </van-row>
     </div>
@@ -101,15 +108,24 @@ export default {
                 reportEmployee:{},
                 dutyDepartment:{},
                 liaisonEmployee:{}
-            }
+            },
+            fileBack:[]
         }
     },
     created(){
         console.log(this.$route.query.id);
         feedbackDetail(this.$route.query.id).then(res=>{
             console.log(res)
-            if(res.data.code==200){
-                this.detailData=res.data.data
+            if(res.data.code==1001){
+                this.detailData=res.data.data.problemResult
+                var fileData=res.data.data.problemAttachments;
+                for(var i=0;i<fileData.length;i++){
+                    if(fileData[i].path.substring(fileData[i].path.lastIndexOf(".")+1,fileData[i].path.length).toLowerCase()=='jpg'||fileData[i].path.substring(fileData[i].path.lastIndexOf(".")+1,fileData[i].path.length).toLowerCase()=='png'){
+                        this.fileBack.push({type:1,url:res.data.data.problemAttachments[i].path,name:res.data.data.problemAttachments[i].name})
+                    }else{
+                        this.fileBack.push({type:2,url:res.data.data.problemAttachments[i].path,name:res.data.data.problemAttachments[i].name})
+                    }  
+                }
             }else{
                 this.$toast.fail(res.data.message);
             }
@@ -124,20 +140,15 @@ export default {
 .uploaderBox{
     padding: 5px 10px;
 }
-.uploaderBox img{
+.preview{
+    display: inline-block;
+    margin: 10px 10px 0 0; 
+}
+.preview img{
     width: 80px;
     height: 80px;
-    vertical-align: middle;
 }
-.uploaderBox .uploader{
-    background-color: #F6F6F6;
-    width: 50px;
-    height: 50px;
-    vertical-align: middle;
-}
-.uploaderBox .uploader .addIcon{
-    font-size: 30px;
-    line-height: 50px;
-    color: #C4C5C7;
+.docFile a{
+    color: #1bbc9a;
 }
 </style>
