@@ -4,7 +4,7 @@
     <div class="container">
         <van-row class="detailTr">
             <van-col span="10" class="detailTh">问题编号</van-col>
-            <van-col span="14" class="detailTd">{{detailData.serialNumber}}</van-col>
+            <van-col span="14" class="detailTd">{{detailData.problemCode}}</van-col>
         </van-row>
         <van-row class="detailTr">
             <van-col span="10" class="detailTh">线路</van-col>
