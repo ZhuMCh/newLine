@@ -18,6 +18,7 @@
             <van-col span="24" class="detailTd uploaderBox">
                 <van-panel title="资料附件">
                     <div class="upload">
+                        <img :src="item" alt="" v-for="(item,index) in filePreview" :key="index">
                         <input ref="pathClear" type="file" multiple value="" @change="uploadFile">
                         <van-icon name="close" size="24px" style="vertical-align:middle;" @click="clearFile" v-if="fileArr.length>0"/>
                     </div>
@@ -54,6 +55,7 @@ export default {
             feedbackTime:new Date().Format('yyyy-MM-dd hh:mm:ss'),
             recordDesc:'',
             fileArr:[],//附件
+            filePreview:[]
         }
     },
     created(){
@@ -88,15 +90,43 @@ export default {
                     }else{
                         this.$toast.fail(res.data.msg)
                         this.$refs. pathClear.value ='';
-                        this.fileArr=[]
+                        this.fileArr=[];
+                        this.filePreview=[];
                     }   
                 })
+
+                var fileObj = file.target.files[i];
+                var type = fileObj.type.split('/')[0];
+                if ( type === 'image' ){
+                    //将图片img转化为base64
+                    var reader = new FileReader();
+                    reader.readAsDataURL(fileObj);
+                    var that = this;
+                    reader.onloadend = function () {
+                        var dataURL = reader.result;
+                        var blob = that.dataURItoBlob(dataURL);
+                        that.filePreview.push(dataURL)
+                    };
+                }
             }
         },
         clearFile(){
             this.$refs. pathClear.value ='';
-            this.fileArr=[]
-        }
+            this.fileArr=[];
+            this.filePreview=[];
+        },
+        dataURItoBlob (dataURI) {
+            // base64 解码
+            let byteString = window.atob(dataURI.split(',')[1]);
+            let mimeString = dataURI.split(',')[0].split(':')[1].split(';')[0];
+            let T = mimeString.split('/')[1];
+            let ab = new ArrayBuffer(byteString.length);
+            let ia = new Uint8Array(ab);
+            for (let i = 0; i < byteString.length; i++) {
+                ia[i] = byteString.charCodeAt(i);
+            }
+            return new Blob([ab], {type: mimeString});
+        },
     }
 }
 </script>
@@ -109,6 +139,11 @@ export default {
 }
 .uploaderBox{
     padding: 5px 10px;
+}
+.upload img{
+    width: 90px;
+    height: 90px;
+    margin:10px;
 }
 
 .btnBox{

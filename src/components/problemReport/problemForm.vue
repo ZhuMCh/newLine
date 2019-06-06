@@ -327,7 +327,6 @@ export default {
                         this.taskName=res.data.data[0].fileName;
                         this.taskNameId=res.data.data[0].id;
                         if(status=='SJLL'){
-                            console.log(1)
                             this.disabled=true;
                             this.majorShow=true;
                             this.dutyDept=res.data.data[0].createEmp.department.parent?res.data.data[0].createEmp.department.parent.deptName:res.data.data[0].createEmp.department.deptName;
@@ -446,7 +445,7 @@ export default {
                 this.fileContent,
                 this.problemAddr,
                 this.rankId,
-                this.problemEffeck,
+                this.effectId,
                 this.idea,
                 this.findDeptId,
                 this.findPerson,
@@ -456,7 +455,8 @@ export default {
                 this.endTime,
                 this.dutyDeptId,
                 this.liaisonId,
-                this.majorId
+                this.majorId,
+                this.fileArr
             ).then(res=>{
                 if(res.data.code==200){
                     this.$toast.success(res.data.message);
