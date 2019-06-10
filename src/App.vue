@@ -29,13 +29,13 @@ export default {
 }
 .van-field__control{font-size:16px !important;}
 .van-nav-bar .van-icon, .van-nav-bar__text, .van-tab--active{
-  color: #1bbc9a;
+  color: #1bbc9a !important;
 }
 .van-nav-bar{
-  background-color: #F2F2F2;
+  background-color: #F2F2F2 !important;
 }
 .loginBox .van-field__label{
-    color: #1bbc9a;
+    color: #1bbc9a !important;
 }
 a{
   color: #000;
@@ -50,8 +50,8 @@ a{
   border-radius: 3px;
   border:1px solid #c8c8c8;
   height: 34px;
-  line-height: 30px;
-  padding: 5px;
+  line-height: 30px !important;
+  padding: 5px !important;
 }
 .inputLabel{
   color: #1bbc9a;

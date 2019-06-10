@@ -9,7 +9,7 @@
             </van-col>
             <van-col span="3" class="inputLabel">线路</van-col>
             <van-col span="8">
-                <van-field clearable class="inputBox" v-model="line"/>
+                <van-field clearable class="inputBox" readonly v-model="line" @click="clickFunc"/>
             </van-col>
         </van-row>
         <br>
@@ -56,6 +56,10 @@
             </van-list>
         </div>
     </div>
+    <!-- 线路选择器 -->
+    <van-popup v-model="linePop" position="bottom" :overlay="true">
+        <van-picker show-toolbar title="线路" :columns="lineList" value-key='name' @cancel="onCancel" @confirm="onConfirm"/>
+    </van-popup>
 </div>
 </template>
 <script>
@@ -63,6 +67,9 @@ import { seeProblemList,getLine,getRootDept,getNextDept } from '@/api/http'
 export default {
     data(){
         return {
+            linePop:false,
+            lineList:[],//线路字典
+
             pageNo:1,
             pageSize:10,
             type:1,//1,2
@@ -79,6 +86,9 @@ export default {
     },
     created(){
         this.getProblemListData();
+        getLine().then(res=>{//获取线路
+            res.data.code==200?this.lineList=res.data.data:this.$toast.fail(res.data.message)
+        })
     },
     methods:{
         getProblemListData(){//获取问题反馈列表数据
@@ -92,6 +102,20 @@ export default {
                     this.$toast.fail(res.data.message);
                 }
             })
+        },
+        //点击弹出选择器
+        clickFunc(){
+            this.linePop=true   
+        },
+        // 选择器确认事件
+        onConfirm(value, index){
+            this.linePop=false;
+            this.line=value.name;
+        },
+        // 选择器取消事件
+        onCancel(){
+            this.linePop=false;
+            this.line=null;
         },
         loadMore() {//加载更多
             // 异步更新数据
